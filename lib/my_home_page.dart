@@ -18,48 +18,99 @@ class MyHomePage extends StatelessWidget {
       onPressed: () => {},//_msg.value = '你按下手機按鈕',
     );
 
-    final menu = PopupMenuButton(
-      itemBuilder: (context) {
-        return <PopupMenuEntry>[
-          const PopupMenuItem(
-            child: Text('第一項', style: TextStyle(fontSize: 20),
+    var intro_text = Center(
+      child:Text(
+        "簡介",
+        style:TextStyle(fontSize:15,
+                        color:Colors.blue,
+                        fontWeight:FontWeight.bold),
+      ),
+    
+    );
+
+    final intro1 = Container(
+        color: Colors.amberAccent,
+        alignment: Alignment.center,
+        child:  DecoratedBox(
+            decoration: BoxDecoration(
+                //gradient: LinearGradient(colors:[Colors.red,Colors.orange[700]]), //背景渐变
+                borderRadius: BorderRadius.circular(3.0), //3像素圆角
+                boxShadow: [ //阴影
+                  BoxShadow(
+                      color:Colors.black54,
+                      offset: Offset(2.0,2.0),
+                      blurRadius: 4.0
+                  )
+                ]
             ),
-            value: 1,
-          ),
-          const PopupMenuDivider(),
-          const PopupMenuItem(
-            child: Text('第二項', style: TextStyle(fontSize: 20),),
-            value: 2,
-          ),
-        ];
-      },
-      onSelected: (value) {
-        switch (value) {
-          case 1:
-            //_msg.value = '第一項';
-            break;
-          case 2:
-            //_msg.value = '第二項';
-            break;
-        }
-      }
-    );   
+            child: Padding(padding: EdgeInsets.symmetric(horizontal: 80.0, vertical: 18.0),
+              child: Text("Login", style: TextStyle(color: Colors.white),),
+            )
+        )
+      );
+
+    final intro = Container(
+        alignment: Alignment.center,
+        height: 25.0,
+        width:70,
+        
+        margin: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+           borderRadius: BorderRadius.all(Radius.circular(30)),
+            color: Colors.white,
+            border: Border.all(width: 5, color: Colors.blue),
+            /*boxShadow: <BoxShadow>[
+              BoxShadow(
+                  color: Colors.grey, offset: Offset.fromDirection(1, 20)),
+            ]*/
+            ),
+        child: Text(
+          '簡介',
+          style: TextStyle(fontSize: 15.0,color:Colors.blue),
+        ),
+
+    );
+ 
+    var logo = Image.asset(
+      'assets/logo.png',
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    );
+
+    final text1 = const Text('定錨產業筆記',
+      style:TextStyle(fontSize:10,
+                      color:Colors.orange,
+      ),
+      textAlign:TextAlign.left,
+      
+    );
+    final text2 = const Text('科技產業趨勢領航者',
+      style:TextStyle(fontSize:10,
+                      color:Colors.black,
+      ),
+      textAlign:TextAlign.left,
+      
+    );
+
     final appBar = AppBar(
-      title: const Text('AppBar範例'),
+      title:  Container(
+        child:Column(
+          children:<Widget>[text1,text2],
+        ),
+        alignment:Alignment.topLeft,
+      ),
       leading: InkWell(
-        child: const Icon(Icons.menu),
+        child: logo,
         onTap: () => {},//_msg.value = '你按下選單按鈕',
       ),
       automaticallyImplyLeading: false,
-      actions: <Widget>[btn, menu],
+      actions: <Widget>[intro],
+      backgroundColor:Colors.white,
     );
-    final btn1 = ElevatedButton(
-      child: const Text('確定'),
-      onPressed: () => _backToHomePage(context),
-    );
-
    
-    webview = WebView(
+    var webview = WebView(
       initialUrl :'https://investanchors.com/',
       javascriptMode:JavascriptMode.unrestricted,
     );
