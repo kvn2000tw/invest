@@ -1,22 +1,47 @@
 import 'package:flutter/material.dart';
- import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
  
 import 'data.dart';
 
 class MyHomePage extends StatelessWidget {
 
-  final _drink = ['紅茶', '泡沫綠茶'];
-  final ValueNotifier<int?> _selectedItem = ValueNotifier(Data.drinkItem);
+  // BottomNavigationBar顯示的圖示和文字
+  static  var _naviItemIcon = [
+    Image.asset(
+      'assets/mail.png',
+    ),
+    Image.asset(
+      'assets/chart.png',
+    ),
+    Image.asset(
+      'assets/tune.png',
+    ),
+    Image.asset(
+      'assets/folder.png',
+    ),    
+  ];
+  static const _naviItemText = [
+    '電子報',
+    '財務指標',
+    '量化篩選',
+    '產業資料庫'
+  ];
+
+  // 記錄BottomNavigationBar被點選的按鈕
+  final ValueNotifier<int> _selectedNaviItem = ValueNotifier(0);
+
 
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
+    print('build');
     final btn = IconButton(
       icon: const Icon(Icons.phone_android, color: Colors.white,),
       color: Colors.blue,
       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
       onPressed: () => {},//_msg.value = '你按下手機按鈕',
     );
+
 
     var intro_text = Center(
       child:Text(
@@ -59,10 +84,7 @@ class MyHomePage extends StatelessWidget {
            borderRadius: BorderRadius.all(Radius.circular(30)),
             color: Colors.white,
             border: Border.all(width: 5, color: Colors.blue),
-            /*boxShadow: <BoxShadow>[
-              BoxShadow(
-                  color: Colors.grey, offset: Offset.fromDirection(1, 20)),
-            ]*/
+          
             ),
         child: Text(
           '簡介',
@@ -70,7 +92,57 @@ class MyHomePage extends StatelessWidget {
         ),
 
     );
- 
+    final read_all = Container(
+        alignment: Alignment.center,
+        height: 25.0,
+        width:120,
+        
+        margin: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+           borderRadius: BorderRadius.all(Radius.circular(30)),
+            color: Colors.white,
+            border: Border.all(width: 5, color: Colors.blue),
+          
+            ),
+        child: Text(
+          '全部已讀',
+          style: TextStyle(fontSize: 15.0,color:Colors.blue),
+        ),
+
+    );
+
+    final login = Container(
+        alignment: Alignment.center,
+        height: 25.0,
+        width:120,
+        
+        margin: EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+           borderRadius: BorderRadius.all(Radius.circular(30)),
+            color: Colors.white,
+            border: Border.all(width: 5, color: Colors.blue),
+          
+            ),
+        child: Text(
+          '登入/註冊',
+          style: TextStyle(fontSize: 15.0,color:Colors.blue),
+        ),
+
+    );
+
+     var notify = Image.asset(
+      'assets/notifications.png',
+    );
+
+
+    var navigate_before = Image.asset(
+      'assets/navigate_before.png',
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    );
+
     var logo = Image.asset(
       'assets/logo.png',
       fit: BoxFit.cover,
@@ -109,55 +181,104 @@ class MyHomePage extends StatelessWidget {
         onTap: () => {},//_msg.value = '你按下選單按鈕',
       ),
       automaticallyImplyLeading: false,
-      actions: <Widget>[intro],
+      //actions: <Widget>[intro],
+      //actions: <Widget>[notify],
+      //actions: <Widget>[read_all],
+      actions: <Widget>[login],
+
       backgroundColor:Colors.white,
     );
    
     var webview = WebView(
       initialUrl :'https://investanchors.com/',
       javascriptMode:JavascriptMode.unrestricted,
+      navigationDelegate: (request) {
+        print(request.url);
+        return NavigationDecision.navigate; // Default decision
+      },
     );
+    // 建立App的操作畫面
+    final tabBarView = TabBarView(
+        children: [
+          webview
+        ],
+    );
+
     // 結合AppBar和App操作畫面
-    final page = Scaffold(
+    final page1 = Scaffold(
       appBar: appBar,
       body: webview,
     );
-
+/*
     var willPopScope = WillPopScope(
       onWillPop: () => _backToHomePage(context),
       child: page,
+    );
+*/
+ 
+    // 結合AppBar和App操作畫面
+
+    ValueListenableBuilder<int> bottomNavigationBar;
+
+        bottomNavigationBar = ValueListenableBuilder<int>(
+          builder: _bottomNavigationBarBuilder,
+          valueListenable: _selectedNaviItem,
+        );
+
+    
+    final page = DefaultTabController(
+      length: tabBarView.children.length,
+      child: Scaffold(
+        appBar: appBar,
+        body: tabBarView,
+      
+        bottomNavigationBar: bottomNavigationBar,
+        
+      ),
     );
 
     return page;
   }
 
-  Widget _drinkOptionBuilder(BuildContext context, int? selectedItem, Widget? child) {
-    var radioItems = <RadioListTile>[];
+  _backToHomePage(BuildContext context) {
+   
+  }
 
-    // 把選項加入radioItems
-    for (var i = 0; i < _drink.length; i++) {
-      radioItems.add(
-          RadioListTile(
-            value: i,
-            groupValue: selectedItem,
-            title: Text(_drink[i], style: const TextStyle(fontSize: 20),),
-            onChanged: (value) => _selectedItem.value = value,
-          )
-      );
-    }
+  // 這個方法負責建立BottomNavigationBar
+  Widget _bottomNavigationBarBuilder(BuildContext context, int selectedButton, Widget? child) {
+    final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
-    final wid = Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: radioItems,
+    if(_selectedNaviItem.value < 0)
+    {
+    return SizedBox(
+      height: 0.0,//_bottomNavBarHeight,
+      child: null,
     );
 
-    return wid;
+    }
+    for (var i = 0; i < _naviItemIcon.length; i++) {
+      bottomNaviBarItems.add(
+        BottomNavigationBarItem(
+          icon: _naviItemIcon[i],
+          label: _naviItemText[i]),
+  
+        );
+    }
+
+    final widget = BottomNavigationBar(
+    
+      items: bottomNaviBarItems,
+      showUnselectedLabels:true,
+      showSelectedLabels:true,
+      currentIndex: _selectedNaviItem.value,
+      selectedLabelStyle: TextStyle(fontSize: 10),
+      selectedItemColor: Colors.red,
+      unselectedLabelStyle: TextStyle(fontSize: 10),
+      unselectedItemColor: Colors.black,
+      onTap: (index) => _selectedNaviItem.value = index,
+    );
+
+    return widget;
   }
 
-  _backToHomePage(BuildContext context) {
-    Data.drinkItem = _selectedItem.value;
-    String? drink = Data.drinkItem != null ?
-    _drink[Data.drinkItem!] : null;
-    Navigator.pop(context, drink);
-  }
 }
