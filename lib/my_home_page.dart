@@ -80,7 +80,7 @@ class MyHomePage extends StatelessWidget {
     );
 
     final text1 = const Text('定錨產業筆記',
-      style:TextStyle(fontSize:10,
+      style:TextStyle(fontSize:20,
                       color:Colors.orange,
       ),
       textAlign:TextAlign.left,
@@ -95,12 +95,15 @@ class MyHomePage extends StatelessWidget {
     );
 
     final appBar = AppBar(
+      
       title:  Container(
         child:Column(
           children:<Widget>[text1,text2],
+          mainAxisAlignment:MainAxisAlignment.start,
         ),
         alignment:Alignment.topLeft,
       ),
+      centerTitle:false,
       leading: InkWell(
         child: logo,
         onTap: () => {},//_msg.value = '你按下選單按鈕',
