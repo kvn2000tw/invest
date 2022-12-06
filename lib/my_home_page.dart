@@ -7,23 +7,36 @@ import 'data.dart';
 
 class MyHomePage extends StatelessWidget {
 
-
+  WebViewController? _controller;
   // 記錄BottomNavigationBar被點選的按鈕
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
   static  var _naviItemIcon = [
     Image.asset(
-      'assets/mail.png',
+      'assets/email_b.png',
     ),
     Image.asset(
-      'assets/chart.png',
+      'assets/chart_b.png',
     ),
     Image.asset(
-      'assets/tune.png',
+      'assets/tune_b.png',
     ),
     Image.asset(
-      'assets/folder.png',
+      'assets/folder_b.png',
     ),    
+
+    Image.asset(
+      'assets/email_y.png',
+    ),
+    Image.asset(
+      'assets/chart_y.png',
+    ),
+    Image.asset(
+      'assets/tune_y.png',
+    ),
+    Image.asset(
+      'assets/folder_y.png',
+    ),        
   ];
   static const _naviItemText = [
     '電子報',
@@ -73,6 +86,17 @@ class MyHomePage extends StatelessWidget {
       //MyAppBar.selectedNaviItem.value = 'login';
     }
   }
+
+  JavascriptChannel _extractDataJSChannel(BuildContext context) {
+    return JavascriptChannel(
+          name: 'Flutter',
+          onMessageReceived: (JavascriptMessage message) {
+                String pageBody = message.message;
+                print('page body: $pageBody');
+          },
+       );
+    }
+
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
@@ -84,19 +108,36 @@ class MyHomePage extends StatelessWidget {
       onPressed: () => {},//_msg.value = '你按下手機按鈕',
     );
 
-
-
     final appBar = MyAppBar();
    
     var webview = WebView(
       initialUrl :'https://investanchors.com/',
       javascriptMode:JavascriptMode.unrestricted,
+
       navigationDelegate: (request) {
         print(request.url);
         process_url(request.url);
       
         return NavigationDecision.navigate; // Default decision
       },
+      onWebViewCreated: (WebViewController webViewController) {
+        // Get reference to WebView controller to access it globally
+        _controller = webViewController;
+      },
+      javascriptChannels: <JavascriptChannel>[
+        // Set Javascript Channel to WebView
+        _extractDataJSChannel(context),
+        ].toSet(),
+      onPageStarted: (String url) {
+        print('Page started loading: $url');
+      },
+      onPageFinished: (String url) {
+        print('Page finished loading: $url');
+        // In the final result page we check the url to make sure  it is the last page.
+        if (url.compareTo('https://investanchors.com/') == 0) {
+          _controller!.evaluateJavascript("(function(){Flutter.postMessage(window.document.body.outerHTML)})();");
+        }
+      },            
     );
     // 建立App的操作畫面
     final tabBarView = TabBarView(
@@ -157,10 +198,15 @@ class MyHomePage extends StatelessWidget {
     );
 
     }
-    for (var i = 0; i < _naviItemIcon.length; i++) {
+    for (var i = 0; i < 4; i++) {
+      var index = i;
+      if(_selectedNaviItem.value == i)
+      {
+        index = i+4;
+      }
       bottomNaviBarItems.add(
         BottomNavigationBarItem(
-          icon: _naviItemIcon[i],
+          icon: _naviItemIcon[index],
           label: _naviItemText[i]),
   
         );
@@ -172,12 +218,12 @@ class MyHomePage extends StatelessWidget {
     if(_selectedNaviItem.value >= 4)
     {
       currentIndex = 0;
-      selectedItemColor = Colors.black;
+      selectedItemColor = Color(0xFF0472bd);
     }
     else 
     {
       currentIndex = _selectedNaviItem.value;
-      selectedItemColor = Colors.red;
+      selectedItemColor = Color(0xFFe3b205);
     }
 
     final widget = BottomNavigationBar(
@@ -189,7 +235,7 @@ class MyHomePage extends StatelessWidget {
       selectedLabelStyle: TextStyle(fontSize: 10),
       selectedItemColor: selectedItemColor,
       unselectedLabelStyle: TextStyle(fontSize: 10),
-      unselectedItemColor: Colors.black,
+      unselectedItemColor: Color(0xFF0472bd),
       onTap: (index) => _selectedNaviItem.value = index,
     );
 
