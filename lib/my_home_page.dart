@@ -7,7 +7,7 @@ import 'data.dart';
 
 class MyHomePage extends StatelessWidget {
 
-  WebViewController? _controller;
+  late WebViewController _controller;
   // 記錄BottomNavigationBar被點選的按鈕
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
@@ -93,6 +93,16 @@ class MyHomePage extends StatelessWidget {
           onMessageReceived: (JavascriptMessage message) {
                 String pageBody = message.message;
                 print('page body: $pageBody');
+                if(pageBody.compareTo('login') == 0)
+                {
+                  MyAppBar.selectedNaviItem.value = 'login';
+                  _selectedNaviItem.value = 4;
+                }
+                else 
+                {
+                  MyAppBar.selectedNaviItem.value = 'logout';
+                  _selectedNaviItem.value = -1;
+                }
           },
        );
     }
@@ -112,11 +122,12 @@ class MyHomePage extends StatelessWidget {
    
     var webview = WebView(
       initialUrl :'https://investanchors.com/',
+      //initialUrl :'https://tw.yahoo.com/',
       javascriptMode:JavascriptMode.unrestricted,
 
       navigationDelegate: (request) {
-        print(request.url);
-        process_url(request.url);
+        //print(request.url);
+       
       
         return NavigationDecision.navigate; // Default decision
       },
@@ -133,9 +144,19 @@ class MyHomePage extends StatelessWidget {
       },
       onPageFinished: (String url) {
         print('Page finished loading: $url');
+         process_url(url);
         // In the final result page we check the url to make sure  it is the last page.
         if (url.compareTo('https://investanchors.com/') == 0) {
-          _controller!.evaluateJavascript("(function(){Flutter.postMessage(window.document.body.outerHTML)})();");
+        //if (url.compareTo('https://tw.yahoo.com/') == 0) {
+          _controller.evaluateJavascript(
+            """(function(){ 
+              var msg = window.document.body.outerHTML; 
+              var ret = 'logout'; 
+              if(msg.indexOf('會員登出') !== -1) 
+                ret = 'login'; 
+              Flutter.postMessage(ret)})();
+            """
+          );
         }
       },            
     );
