@@ -9,7 +9,7 @@ class MyHomePage extends StatelessWidget {
 
 
   // 記錄BottomNavigationBar被點選的按鈕
-  final ValueNotifier<int> _selectedNaviItem = ValueNotifier(0);
+  final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
   static  var _naviItemIcon = [
     Image.asset(
@@ -32,6 +32,47 @@ class MyHomePage extends StatelessWidget {
     '產業資料庫'
   ];
 
+  void process_url(String url)
+  {
+    if(url.contains('user/register/new'))
+    {
+      MyAppBar.selectedNaviItem.value = 'intro';
+    }else if(url.contains('user/vip_contents/investanchors_index'))
+    {
+      MyAppBar.selectedNaviItem.value = 'email';
+      _selectedNaviItem.value = 0;
+    }
+    
+    else if(url.contains('quantitative_analysis?coid'))
+    {
+      MyAppBar.selectedNaviItem.value = 'quantitative_analysis';
+      _selectedNaviItem.value = 1;
+    }
+    else if(url.contains('quantitative_analysis'))
+    {
+      MyAppBar.selectedNaviItem.value = 'quantitative_analysis';
+      _selectedNaviItem.value = 4;
+    }
+    else if(url.contains('screener'))
+    {
+      MyAppBar.selectedNaviItem.value = 'screener';
+      _selectedNaviItem.value = 2;
+    }
+    else if(url.contains('commodity_price'))
+    {
+      MyAppBar.selectedNaviItem.value = 'commodity_price';
+      _selectedNaviItem.value = 3;
+    }
+    else if(url.compareTo('https://investanchors.com/user') == 0)
+    {
+      MyAppBar.selectedNaviItem.value = 'user';
+      _selectedNaviItem.value = 4;
+    }
+    else 
+    {
+      //MyAppBar.selectedNaviItem.value = 'login';
+    }
+  }
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
@@ -52,6 +93,8 @@ class MyHomePage extends StatelessWidget {
       javascriptMode:JavascriptMode.unrestricted,
       navigationDelegate: (request) {
         print(request.url);
+        process_url(request.url);
+      
         return NavigationDecision.navigate; // Default decision
       },
     );
@@ -123,14 +166,28 @@ class MyHomePage extends StatelessWidget {
         );
     }
 
+    var currentIndex;
+    var selectedItemColor;
+
+    if(_selectedNaviItem.value >= 4)
+    {
+      currentIndex = 0;
+      selectedItemColor = Colors.black;
+    }
+    else 
+    {
+      currentIndex = _selectedNaviItem.value;
+      selectedItemColor = Colors.red;
+    }
+
     final widget = BottomNavigationBar(
     
       items: bottomNaviBarItems,
       showUnselectedLabels:true,
       showSelectedLabels:true,
-      currentIndex: _selectedNaviItem.value,
+      currentIndex: currentIndex,
       selectedLabelStyle: TextStyle(fontSize: 10),
-      selectedItemColor: Colors.red,
+      selectedItemColor: selectedItemColor,
       unselectedLabelStyle: TextStyle(fontSize: 10),
       unselectedItemColor: Colors.black,
       onTap: (index) => _selectedNaviItem.value = index,
