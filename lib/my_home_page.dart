@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'package:invest/my_app_bar.dart';
+//import 'package:webview_flutter/webview_flutter.dart';
+import 'my_app_bar.dart';
 
-import 'data.dart';
+import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
+import 'web_view.dart';
 
 class MyHomePage extends StatelessWidget {
 
   late WebViewController _controller;
-  // 記錄BottomNavigationBar被點選的按鈕
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
   static  var _naviItemIcon = [
@@ -44,7 +44,6 @@ class MyHomePage extends StatelessWidget {
     '量化篩選',
     '產業資料庫'
   ];
-
   void process_url(String url)
   {
     if(url.contains('user/register/new'))
@@ -110,27 +109,31 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
-    print('build');
-    final btn = IconButton(
-      icon: const Icon(Icons.phone_android, color: Colors.white,),
-      color: Colors.blue,
-      padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-      onPressed: () => {},//_msg.value = '你按下手機按鈕',
-    );
-
+    
+   
     final appBar = MyAppBar();
    
-    var webview = WebView(
+   
+    // 建立App的操作畫面
+  
+
+   
+/*
+    var willPopScope = WillPopScope(
+      onWillPop: () => _backToHomePage(context),
+      child: page,
+    );
+*/
+    
+    // 結合AppBar和App操作畫面
+ final tabBarView = TabBarView(
+        children: [
+          WebView(
       initialUrl :'https://investanchors.com/',
       //initialUrl :'https://tw.yahoo.com/',
       javascriptMode:JavascriptMode.unrestricted,
-
-      navigationDelegate: (request) {
-        //print(request.url);
-       
-      
-        return NavigationDecision.navigate; // Default decision
-      },
+     
+   
       onWebViewCreated: (WebViewController webViewController) {
         // Get reference to WebView controller to access it globally
         _controller = webViewController;
@@ -158,39 +161,22 @@ class MyHomePage extends StatelessWidget {
             """
           );
         }
-      },            
-    );
-    // 建立App的操作畫面
-    final tabBarView = TabBarView(
-        children: [
-          webview
+      },        
+          )
+          //Text('test'),
         ],
     );
-
-    // 結合AppBar和App操作畫面
-    final page1 = Scaffold(
-      appBar: appBar,
-      body: webview,
-    );
-/*
-    var willPopScope = WillPopScope(
-      onWillPop: () => _backToHomePage(context),
-      child: page,
-    );
-*/
- 
-    // 結合AppBar和App操作畫面
-
-    ValueListenableBuilder<int> bottomNavigationBar;
+    
+        ValueListenableBuilder<int> bottomNavigationBar;
 
         bottomNavigationBar = ValueListenableBuilder<int>(
           builder: _bottomNavigationBarBuilder,
           valueListenable: _selectedNaviItem,
         );
 
-    
-    final page = DefaultTabController(
-      length: tabBarView.children.length,
+
+      final page = DefaultTabController(
+      length: 1,
       child: Scaffold(
         appBar: appBar,
         body: tabBarView,
@@ -206,7 +192,6 @@ class MyHomePage extends StatelessWidget {
   _backToHomePage(BuildContext context) {
    
   }
-
   // 這個方法負責建立BottomNavigationBar
   Widget _bottomNavigationBarBuilder(BuildContext context, int selectedButton, Widget? child) {
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
