@@ -45,5 +45,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>App Uses Non-Exempt Encryption</key>
+	<false/>	
 </dict>
 </plist>
