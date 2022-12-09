@@ -125,62 +125,22 @@ class MyHomePage extends StatelessWidget {
       child: page,
     );
 */
-    
-    // 結合AppBar和App操作畫面
- final tabBarView = TabBarView(
-        children: [
-          WebView(
-      initialUrl :'https://investanchors.com/',
-      //initialUrl :'https://tw.yahoo.com/',
-      javascriptMode:JavascriptMode.unrestricted,
-     
-   
-      onWebViewCreated: (WebViewController webViewController) {
-        // Get reference to WebView controller to access it globally
-        _controller = webViewController;
-      },
-      javascriptChannels: <JavascriptChannel>[
-        // Set Javascript Channel to WebView
-        _extractDataJSChannel(context),
-        ].toSet(),
-      onPageStarted: (String url) {
-        print('Page started loading: $url');
-      },
-      onPageFinished: (String url) {
-        print('Page finished loading: $url');
-         process_url(url);
-        // In the final result page we check the url to make sure  it is the last page.
-        if (url.compareTo('https://investanchors.com/') == 0) {
-        //if (url.compareTo('https://tw.yahoo.com/') == 0) {
-          _controller.evaluateJavascript(
-            """(function(){ 
-              var msg = window.document.body.outerHTML; 
-              var ret = 'logout'; 
-              if(msg.indexOf('會員登出') !== -1) 
-                ret = 'login'; 
-              Flutter.postMessage(ret)})();
-            """
-          );
-        }
-      },        
-          )
-          //Text('test'),
-        ],
-    );
-    
-        ValueListenableBuilder<int> bottomNavigationBar;
+  
+      ValueListenableBuilder<int> bottomNavigationBar = ValueListenableBuilder<int>(
+        builder: _bottomNavigationBarBuilder,
+        valueListenable: _selectedNaviItem,
+      );
 
-        bottomNavigationBar = ValueListenableBuilder<int>(
-          builder: _bottomNavigationBarBuilder,
-          valueListenable: _selectedNaviItem,
-        );
-
-
+      ValueListenableBuilder<int> tabview = ValueListenableBuilder<int>(
+        builder: _tabviewBuilder,
+        valueListenable: _selectedNaviItem,
+      );
+      
       final page = DefaultTabController(
       length: 1,
       child: Scaffold(
         appBar: appBar,
-        body: tabBarView,
+        body: tabview,
       
         bottomNavigationBar: bottomNavigationBar,
         
@@ -247,6 +207,53 @@ class MyHomePage extends StatelessWidget {
     );
 
     return widget;
+  }
+  // 這個方法負責建立BottomNavigationBar
+  Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
+  
+    final webview = WebView(
+      initialUrl :'https://investanchors.com/',
+      //initialUrl :'https://tw.yahoo.com/',
+      javascriptMode:JavascriptMode.unrestricted,
+     
+      onWebViewCreated: (WebViewController webViewController) {
+        // Get reference to WebView controller to access it globally
+        _controller = webViewController;
+      },
+      javascriptChannels: <JavascriptChannel>[
+        // Set Javascript Channel to WebView
+        _extractDataJSChannel(context),
+        ].toSet(),
+      onPageStarted: (String url) {
+        print('Page started loading: $url');
+      },
+      onPageFinished: (String url) {
+        print('Page finished loading: $url');
+         process_url(url);
+        // In the final result page we check the url to make sure  it is the last page.
+        if (url.compareTo('https://investanchors.com/') == 0) {
+        //if (url.compareTo('https://tw.yahoo.com/') == 0) {
+          _controller.evaluateJavascript(
+            """(function(){ 
+              var msg = window.document.body.outerHTML; 
+              var ret = 'logout'; 
+              if(msg.indexOf('會員登出') !== -1) 
+                ret = 'login'; 
+              Flutter.postMessage(ret)})();
+            """
+          );
+        }
+      },        
+    );
+          
+      // 結合AppBar和App操作畫面
+    final tabBarView = TabBarView(
+        children: [
+          webview
+        ],
+    );
+
+    return tabBarView;
   }
 
 }

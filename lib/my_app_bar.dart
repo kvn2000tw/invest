@@ -59,7 +59,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
           
     ),
     child: Text(
-      '登入/註冊',
+      '登入',
       style: TextStyle(fontSize: 15.0,color:Colors.blue),
     ),
 
