@@ -111,20 +111,9 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // 建立AppBar
     
-   
     final appBar = MyAppBar();
    
-   
     // 建立App的操作畫面
-  
-
-   
-/*
-    var willPopScope = WillPopScope(
-      onWillPop: () => _backToHomePage(context),
-      child: page,
-    );
-*/
   
       ValueListenableBuilder<int> bottomNavigationBar = ValueListenableBuilder<int>(
         builder: _bottomNavigationBarBuilder,
@@ -157,7 +146,10 @@ class MyHomePage extends StatelessWidget {
   Widget _bottomNavigationBarBuilder(BuildContext context, int selectedButton, Widget? child) {
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
-    if(_selectedNaviItem.value < 0)
+    var select_item = _selectedNaviItem.value;
+    
+    //select_item = 0;
+    if(select_item < 0)
     {
     return SizedBox(
       height: 0.0,//_bottomNavBarHeight,
@@ -167,7 +159,7 @@ class MyHomePage extends StatelessWidget {
     }
     for (var i = 0; i < 4; i++) {
       var index = i;
-      if(_selectedNaviItem.value == i)
+      if(select_item == i)
       {
         index = i+4;
       }
@@ -182,19 +174,19 @@ class MyHomePage extends StatelessWidget {
     var currentIndex;
     var selectedItemColor;
 
-    if(_selectedNaviItem.value >= 4)
+    if(select_item >= 4)
     {
       currentIndex = 0;
       selectedItemColor = Color(0xFF0472bd);
     }
     else 
     {
-      currentIndex = _selectedNaviItem.value;
+      currentIndex = select_item;
       selectedItemColor = Color(0xFFe3b205);
     }
 
     final widget = BottomNavigationBar(
-    
+      type: BottomNavigationBarType.fixed,
       items: bottomNaviBarItems,
       showUnselectedLabels:true,
       showSelectedLabels:true,

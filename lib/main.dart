@@ -30,7 +30,7 @@ class Loading extends StatelessWidget {
 
   void gotonext(BuildContext context) async{
     await Future.delayed(const Duration(seconds:3));
-    printWithTimestamp('gotonext');
+    
     Navigator.pushNamed(context,"/");
 
   }
@@ -44,20 +44,34 @@ class Loading extends StatelessWidget {
     final appBar = AppBar(
       title: const Text('點餐'),
     );
-
-    var widget = Image.asset(
+ 
+   var img = Image.asset(
       'assets/invest.png',
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
       alignment: Alignment.center,
     );
+    var text = const Text(
+      'v1.0',
+      style:TextStyle(
+        color:Colors.white,
+        fontSize:25),
+    );
+    var appBody = Container(
+      child:Stack(
+        children:<Widget>[img,
+        Positioned(child:text,bottom:60)],
+        alignment:Alignment.center,
+      ),
+      alignment:Alignment.topCenter,
+    );
     // 結合AppBar和App操作畫面
     final appHomePage = Scaffold(
       appBar: null,
-      body: widget,
+      body: appBody,
     );
-    printWithTimestamp('gotonext1');
+   
     gotonext(context);
     return appHomePage;
   }

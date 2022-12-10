@@ -65,14 +65,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   );
 
-  var notify = Image.asset(
-    'assets/notifications.png',
+  var notify = Container(
+    child:Image.asset(
+      'assets/notifications.png',
+     
+    ),
+    margin:const EdgeInsets.fromLTRB(10,10,10,10),
   );
-
-  var person = Image.asset(
-    'assets/group_1.png',
+ 
+ var person = Container(
+    child:Image.asset(
+      'assets/group_1.png',
+     
+    ),
+    margin:const EdgeInsets.fromLTRB(10,10,10,10),
   );
-
   var navigate_before = Image.asset(
     'assets/navigate_before.png',
     fit: BoxFit.cover,
@@ -81,14 +88,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     alignment: Alignment.center,
   );
 
-  var logo = Image.asset(
-    'assets/logo.png',
-    fit: BoxFit.cover,
-    height: double.infinity,
-    width: double.infinity,
-    alignment: Alignment.center,
+  var logo = Container(
+    child:Image.asset(
+      'assets/logo.png',
+      fit: BoxFit.cover,
+      height: double.infinity,
+      width: double.infinity,
+      alignment: Alignment.center,
+    ),
+    margin:const EdgeInsets.fromLTRB(10,10,10,10),
   );
-
   final text1 = const Text('定錨產業筆記',
     style:TextStyle(fontSize:20,
       color:Colors.orange,
