@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'my_app_bar.dart';
-
+import 'dart:async';
 import 'package:webview_flutter/webview_flutter.dart';
 
 //import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
@@ -9,8 +9,11 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class MyHomePage extends StatelessWidget {
 
-  late WebViewController _controller;
+  //late WebViewController _controller;
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
+
+  final Completer<WebViewController> _controller =
+    Completer<WebViewController>();
 
   static  var _naviItemIcon = [
     Image.asset(
@@ -45,7 +48,7 @@ class MyHomePage extends StatelessWidget {
     '量化篩選',
     '產業資料庫'
   ];
-  void process_url(String url)
+  void process_url(String url) async
   {
     if(url.contains('user/register/new'))
     {
@@ -85,6 +88,38 @@ class MyHomePage extends StatelessWidget {
     {
       //MyAppBar.selectedNaviItem.value = 'login';
     }
+
+    if (url.compareTo('https://investanchors.com/') == 0) {
+      //if (url.compareTo('https://tw.yahoo.com/') == 0) {
+      final WebViewController controller = await _controller.future;
+    
+        final String result = await controller.evaluateJavascript(
+          """(function(){ 
+          var msg = window.document.body.outerHTML; 
+          var ret = 'logout'; 
+          if(msg.indexOf('會員登出') !== -1) 
+            ret = 'login'; 
+          Flutter.postMessage(ret)})();
+          """
+        );
+      }
+    else if (url.compareTo('https://investanchors.com/user/register/new') == 0) {
+      //if (url.compareTo('https://tw.yahoo.com/') == 0) {
+      return;
+      final WebViewController controller = await _controller.future;
+    
+        final String result = await controller.evaluateJavascript(
+          """(function(){ 
+          var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
+          document.getElementsByName("user[email]")[0].value = "playplus@com.tw";
+          document.getElementsByName("user[password]")[0].value = "p54178192";
+          var form = document.querySelector("form[action='/user/register']");
+          btn.click();
+          Flutter.postMessage('click')})();
+          """
+        );
+      }
+
   }
 
   JavascriptChannel _extractDataJSChannel(BuildContext context) {
@@ -205,13 +240,11 @@ class MyHomePage extends StatelessWidget {
   
     final webview = WebView(
       initialUrl :'https://investanchors.com/',
-      //initialUrl :'https://tw.yahoo.com/',
-      javascriptMode:JavascriptMode.unrestricted,
-     
-      onWebViewCreated: (WebViewController webViewController) {
-        // Get reference to WebView controller to access it globally
-        _controller = webViewController;
-      },
+      //initialUrl :'https://investanchors.com/user/register/new',
+      onWebViewCreated: (WebViewController controller) {
+        _controller.complete(controller);
+      },      
+      javascriptMode:JavascriptMode.unrestricted,    
       javascriptChannels: <JavascriptChannel>[
         // Set Javascript Channel to WebView
         _extractDataJSChannel(context),
@@ -223,18 +256,6 @@ class MyHomePage extends StatelessWidget {
         print('Page finished loading: $url');
          process_url(url);
         // In the final result page we check the url to make sure  it is the last page.
-        if (url.compareTo('https://investanchors.com/') == 0) {
-        //if (url.compareTo('https://tw.yahoo.com/') == 0) {
-          _controller.evaluateJavascript(
-            """(function(){ 
-              var msg = window.document.body.outerHTML; 
-              var ret = 'logout'; 
-              if(msg.indexOf('會員登出') !== -1) 
-                ret = 'login'; 
-              Flutter.postMessage(ret)})();
-            """
-          );
-        }
       },        
     );
           
