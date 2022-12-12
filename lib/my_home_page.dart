@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'my_app_bar.dart';
 import 'dart:async';
+
+import 'dart:convert';
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:http/http.dart' as http;
+
 import 'package:webview_flutter/webview_flutter.dart';
 
 //import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
@@ -15,7 +21,7 @@ class MyHomePage extends StatelessWidget {
   final Completer<WebViewController> _controller =
     Completer<WebViewController>();
 
-  static  var _naviItemIcon = [
+  static  final _naviItemIcon = [
     Image.asset(
       'assets/email_b.png',
     ),
@@ -93,55 +99,69 @@ class MyHomePage extends StatelessWidget {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       final WebViewController controller = await _controller.future;
     
-        final String result = await controller.evaluateJavascript(
-          """(function(){ 
-          var msg = window.document.body.outerHTML; 
-          var ret = 'logout'; 
-          if(msg.indexOf('會員登出') !== -1) 
-            ret = 'login'; 
-          Flutter.postMessage(ret)})();
-          """
-        );
+      final String result = await controller.runJavascriptReturningResult(
+        """
+        var msg = window.document.body.outerHTML; 
+        var ret = 'logout'; 
+        if(msg.indexOf('會員登出') !== -1) 
+          ret = 'login'; 
+        ret;
+        """
+      );
+       
+      print(result);
+      if(result.compareTo('login') == 0)
+      {
+        if(MyAppBar.selectedNaviItem.value.compareTo('login') != 0){
+          MyAppBar.selectedNaviItem.value = 'login';
+          _selectedNaviItem.value = 4;
+        }
       }
+      else 
+      {
+        if(MyAppBar.selectedNaviItem.value.compareTo('logout') != 0){
+          MyAppBar.selectedNaviItem.value = 'logout';
+          _selectedNaviItem.value = -1;
+        }
+      }
+    }
     else if (url.compareTo('https://investanchors.com/user/register/new') == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       return;
       final WebViewController controller = await _controller.future;
     
-        final String result = await controller.evaluateJavascript(
-          """(function(){ 
+        await controller.runJavascript(
+          """ 
           var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
           document.getElementsByName("user[email]")[0].value = "playplus@com.tw";
           document.getElementsByName("user[password]")[0].value = "p54178192";
           var form = document.querySelector("form[action='/user/register']");
           btn.click();
-          Flutter.postMessage('click')})();
           """
         );
       }
 
   }
-
-  JavascriptChannel _extractDataJSChannel(BuildContext context) {
-    return JavascriptChannel(
-          name: 'Flutter',
-          onMessageReceived: (JavascriptMessage message) {
-                String pageBody = message.message;
-                print('page body: $pageBody');
-                if(pageBody.compareTo('login') == 0)
-                {
-                  MyAppBar.selectedNaviItem.value = 'login';
-                  _selectedNaviItem.value = 4;
-                }
-                else 
-                {
-                  MyAppBar.selectedNaviItem.value = 'logout';
-                  _selectedNaviItem.value = -1;
-                }
-          },
-       );
+  void login()async{
+    var map = <String, String>{
+      'email' : 'playplus@com.tw',
+      'password'  : 'p54178192',
+  
+    };
+    final url = Uri.parse("https://investanchors.com:443/api/user_create");
+    final responseOfFuture = await http.post(url,
+     headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body:jsonEncode(map),
+    );
+    
+    if(responseOfFuture.statusCode == 200)
+    {
+      print(responseOfFuture.body);
+  
     }
-
+  }
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
@@ -171,17 +191,19 @@ class MyHomePage extends StatelessWidget {
       ),
     );
 
+    login();
     return page;
   }
 
   _backToHomePage(BuildContext context) {
    
   }
+ 
   // 這個方法負責建立BottomNavigationBar
   Widget _bottomNavigationBarBuilder(BuildContext context, int selectedButton, Widget? child) {
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
-    var select_item = _selectedNaviItem.value;
+    final select_item = _selectedNaviItem.value;
     
     //select_item = 0;
     if(select_item < 0)
@@ -235,6 +257,7 @@ class MyHomePage extends StatelessWidget {
 
     return widget;
   }
+
   // 這個方法負責建立BottomNavigationBar
   Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
   
@@ -243,18 +266,18 @@ class MyHomePage extends StatelessWidget {
       //initialUrl :'https://investanchors.com/user/register/new',
       onWebViewCreated: (WebViewController controller) {
         _controller.complete(controller);
-      },      
+        //load_req(controller);
+
+      },
       javascriptMode:JavascriptMode.unrestricted,    
-      javascriptChannels: <JavascriptChannel>[
-        // Set Javascript Channel to WebView
-        _extractDataJSChannel(context),
-        ].toSet(),
+     
       onPageStarted: (String url) {
         print('Page started loading: $url');
       },
       onPageFinished: (String url) {
         print('Page finished loading: $url');
          process_url(url);
+          
         // In the final result page we check the url to make sure  it is the last page.
       },        
     );

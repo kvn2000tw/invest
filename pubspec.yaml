@@ -31,7 +31,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  
+  http:
   webview_flutter: ^3.0.4
   webview_flutter_platform_interface: ^1.8.0
   webview_flutter_wkwebview:
