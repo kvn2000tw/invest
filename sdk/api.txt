@@ -2,3 +2,5 @@ https://investanchors.com/swagger/index.html
 
 測試用user token：1646288573345 
 playplus那格用： 54178192
+
+xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey XBY95C7CUN --apiIssuer 7458a0fb-7a2b-479d-9bc5-671a8d944f12
