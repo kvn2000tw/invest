@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 import 'dart:convert';
@@ -100,6 +102,69 @@ class Login extends StatelessWidget {
       children: <Widget>[passwd_title_icon, passwd_title_str],
     );
 
+    final remeber = Container(
+
+      width:200,
+      height:70,
+      child:CheckboxListTile(
+        title:Text('記住我',style:const TextStyle(fontSize:20)),
+        value:true,
+        controlAffinity:ListTileControlAffinity.leading,
+       
+        onChanged:(newValue){
+
+      },
+    ));
+    
+    final forgot = Text('忘記密碼？',style:const TextStyle(
+      color:Colors.blue,
+      fontSize:20
+      ));
+
+    final login_remeber = Container(
+      child:Row(
+        children:<Widget>[remeber,forgot],
+        mainAxisSize: MainAxisSize.min,
+      ),
+      margin:const EdgeInsets.all(10) 
+    );
+
+    final btn = Container(
+      child:ElevatedButton(
+        child:Text('登入'),
+        onPressed:(){}
+      )
+    );
+
+    final info1 = Text('還不是會員？',style:const TextStyle(
+      color:Colors.black,
+      fontSize:20
+      ));
+    final info2 = Text('前往官網註冊',style:const TextStyle(
+      color:Colors.blue,
+      fontSize:20
+      ));  
+    final info3 = Text('為何要成為定錨產業簍記的僲員',style:const TextStyle(
+      color:Colors.black,
+      fontSize:20
+      ));  
+
+    final info4 = Text('產業深度分析：讓您的投資更前瞻',style:const TextStyle(
+      color:Colors.black,
+      fontSize:16
+      ));  
+      
+    final info5 = Text('即時法說會簡評：讓您快速掌握公司經營動態！',style:const TextStyle(
+      color:Colors.black,
+      fontSize:16
+      ));  
+      
+    final info6 = Text('內容含金量No.1：有效提升投資成績！',style:const TextStyle(
+      color:Colors.black,
+      fontSize:16
+      ));  
+      
+      
     final appBody = Container(
       child: Column(
         children: <Widget>[
@@ -107,7 +172,13 @@ class Login extends StatelessWidget {
           email_title_area,
           email_input,
           passwd_title_area,
-          passwd_input
+          passwd_input,
+          login_remeber,
+          btn,
+          info1,
+          info2,
+          info3,info4,info5,info6
+
         ],
       ),
     );

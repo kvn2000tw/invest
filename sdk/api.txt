@@ -1,4 +1,4 @@
-https://investanchors.com/swagger/index.html
+https://investanchors.com/api
 
 測試用user token：1646288573345 
 playplus那格用： 54178192

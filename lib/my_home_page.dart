@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'my_app_bar.dart';
+import 'login.dart';
 import 'dart:async';
 
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
-import 'package:http/http.dart' as http;
+
 
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -142,26 +143,7 @@ class MyHomePage extends StatelessWidget {
       }
 
   }
-  void login()async{
-    var map = <String, String>{
-      'email' : 'playplus@com.tw',
-      'password'  : 'p54178192',
-  
-    };
-    final url = Uri.parse("https://investanchors.com:443/api/user_create");
-    final responseOfFuture = await http.post(url,
-     headers: <String, String>{
-      'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body:jsonEncode(map),
-    );
-    
-    if(responseOfFuture.statusCode == 200)
-    {
-      print(responseOfFuture.body);
-  
-    }
-  }
+ 
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
@@ -191,7 +173,6 @@ class MyHomePage extends StatelessWidget {
       ),
     );
 
-    login();
     return page;
   }
 
@@ -261,6 +242,9 @@ class MyHomePage extends StatelessWidget {
   // 這個方法負責建立BottomNavigationBar
   Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
   
+    final login_view = Login();
+
+    return login_view;
     final webview = WebView(
       initialUrl :'https://investanchors.com/',
       //initialUrl :'https://investanchors.com/user/register/new',
