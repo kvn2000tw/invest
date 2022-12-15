@@ -13,6 +13,7 @@ class CustomThemeState {
   final Color secondaryBackground = Colors.white;
   final Color customColor2 = Colors.white;
   final Color customColor4 = Colors.blue;
+  final Color secondaryColor = Colors.blue;
 
 
   late CustomTextStyle bodyText1;

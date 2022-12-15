@@ -5,11 +5,11 @@ import 'dart:async';
 
 import 'data.dart';
 
-//import 'package:webview_flutter/webview_flutter.dart';
+import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
+//import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
-import 'web_view.dart';
+//import 'web_view.dart';
 
 class MyHomePage extends StatelessWidget {
 
