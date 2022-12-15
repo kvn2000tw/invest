@@ -8,21 +8,35 @@ import 'package:http/http.dart' as http;
 import 'custom/custom_theme.dart';
 import 'custom/custom_button.dart';
 import 'custom/custom_button_options.dart';
+//import 'package:google_fonts/google_fonts.dart';
 //import 'custom/custom_widget.dart';
 //import 'custom/custom_theme_state.dart';
+import 'data.dart';
 
 class Login extends StatelessWidget {
-  TextEditingController? textController1 = TextEditingController();
-  TextEditingController? textController2 = TextEditingController();
 
-  bool? checkboxValue;
 
-  void login() async {
+  final ValueNotifier<bool> _remeber = ValueNotifier(Data.remeber.value);
+
+  void login(BuildContext context,String name,String passwd) async {
+
+    //Data.username = name;
+    //Data.passwd = passwd;
+
+    //name = 'playplus@com.tw';
+    //passwd = 'p54178192';
+
+    Data.username = name;
+    Data.passwd = passwd;
+    Data.remeber.value = _remeber.value;
+
     var map = <String, String>{
-      'email': 'playplus@com.tw',
-      'password': 'p54178192',
+     
+      'email': name,
+      'password': passwd,
     };
-    final url = Uri.parse("https://investanchors.com:443/api/user_create");
+  
+    final url = Uri.parse("https://investanchors.com/api/users/login");
     final responseOfFuture = await http.post(
       url,
       headers: <String, String>{
@@ -33,15 +47,87 @@ class Login extends StatelessWidget {
 
     if (responseOfFuture.statusCode == 200) {
       print(responseOfFuture.body);
+      //{"status":"success","user_token":"166745463414164","error":""}
+      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
+      print(fromJsonMap["status"]);
+      if(fromJsonMap["status"].compareTo('success') == 0)    Data.status.value = Status.Browser;
+
+      if(fromJsonMap["status"].compareTo('error') == 0)   
+      {
+        _showDialog(context,fromJsonMap["error"]);
+      }
     }
   }
+  _showDialog(BuildContext context,String msg) async {
+    var dlg = AlertDialog(
+      title:Text('錯誤！'),
+      content: Text(msg),
+      contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+    
+      actions: <Widget>[
+        TextButton(
+          child: const Text("確定",
+            style: TextStyle(color: Colors.red, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context, ''),
+        ),
+     
+      ],
+    );
 
+    var ans = showDialog(
+      context: context,
+      builder: (context) => dlg,
+    );
+
+    return ans;
+  }
+
+
+  Widget _remeberSelectionBuilder(BuildContext context, bool remeber,Widget? child)
+  {
+    Widget widget =  Checkbox(
+        value: _remeber.value,
+        onChanged: (newValue) async {
+        //print('_remeberSelectionBuilder');                             
+        _remeber.value = newValue as bool;
+                                            
+        },
+        activeColor:
+        FlutterFlowTheme.of(context)
+            .primaryColor,
+        );
+
+    return widget;
+
+  }
   @override
   Widget build(BuildContext context) {
     //print('build');
     //print(MediaQuery.of(context).size.width);
     //print(MediaQuery.of(context).size.height);
+    String _input_name = '';
+    String _input_passwd = '';
+
+    if(_remeber.value == true)
+    {
+      _input_name = Data.username;
+      _input_passwd = Data.passwd;
+
+    }
+    final TextEditingController textController1 = TextEditingController(text:_input_name);
+    final TextEditingController textController2 = TextEditingController(text:_input_passwd);
     
+    textController1.value = TextEditingValue(
+      text:_input_name,
+      selection:TextSelection.collapsed(offset:_input_name.length),
+    );
+
+    textController2.value = TextEditingValue(
+      text:_input_passwd,
+      selection:TextSelection.collapsed(offset:_input_passwd.length),
+    );
+
     return SingleChildScrollView(
       child:Container(
         //width: double.infinity,
@@ -388,18 +474,11 @@ class Login extends StatelessWidget {
                                             FlutterFlowTheme.of(context)
                                                 .customColor4,
                                       ),
-                                      child: Checkbox(
-                                        value: checkboxValue ??= true,
-                                        onChanged: (newValue) async {
-                                          /*
-                                          setState(
-                                              () => checkboxValue = newValue!);
-                                              */
-                                        },
-                                        activeColor:
-                                            FlutterFlowTheme.of(context)
-                                                .primaryColor,
-                                      ),
+                                      child:ValueListenableBuilder<bool>(
+                                          builder:_remeberSelectionBuilder,
+                                          valueListenable:_remeber,
+                                      ), 
+
                                     ),
                                   ),
                                   Padding(
@@ -465,6 +544,7 @@ class Login extends StatelessWidget {
                       child: FFButtonWidget(
                         onPressed: () {
                           print('Button pressed ...');
+                          login(context,textController1.text,textController2.text);
                         },
                         child: Text('登入'),
                         options: FFButtonOptions(

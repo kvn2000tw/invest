@@ -3,6 +3,7 @@ import 'my_app_bar.dart';
 import 'login.dart';
 import 'dart:async';
 
+import 'data.dart';
 
 //import 'package:webview_flutter/webview_flutter.dart';
 
@@ -53,10 +54,8 @@ class MyHomePage extends StatelessWidget {
   ];
   void process_url(String url) async
   {
-    if(url.contains('user/register/new'))
-    {
-      MyAppBar.selectedNaviItem.value = 'intro';
-    }else if(url.contains('user/vip_contents/investanchors_index'))
+    /*
+    if(url.contains('user/vip_contents/investanchors_index'))
     {
       MyAppBar.selectedNaviItem.value = 'email';
       _selectedNaviItem.value = 0;
@@ -91,7 +90,7 @@ class MyHomePage extends StatelessWidget {
     {
       //MyAppBar.selectedNaviItem.value = 'login';
     }
-
+*/
     if (url.compareTo('https://investanchors.com/') == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       final WebViewController controller = await _controller.future;
@@ -109,33 +108,34 @@ class MyHomePage extends StatelessWidget {
       print(result);
       if(result.compareTo('login') == 0)
       {
-        if(MyAppBar.selectedNaviItem.value.compareTo('login') != 0){
-          MyAppBar.selectedNaviItem.value = 'login';
-          _selectedNaviItem.value = 4;
-        }
+         _selectedNaviItem.value = 4;
       }
       else 
       {
-        if(MyAppBar.selectedNaviItem.value.compareTo('logout') != 0){
-          MyAppBar.selectedNaviItem.value = 'logout';
-          _selectedNaviItem.value = -1;
-        }
+        _selectedNaviItem.value = -1;
+
       }
     }
     else if (url.compareTo('https://investanchors.com/user/register/new') == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
-      return;
+      print(url);
+      //return;
       final WebViewController controller = await _controller.future;
     
-        await controller.runJavascript(
-          """ 
+        String name = Data.username;
+        String passwd = Data.passwd;
+
+        String script =
+         """ 
           var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
-          document.getElementsByName("user[email]")[0].value = "playplus@com.tw";
-          document.getElementsByName("user[password]")[0].value = "p54178192";
+          document.getElementsByName("user[email]")[0].value = '$name';
+          document.getElementsByName("user[password]")[0].value = '$passwd';
           var form = document.querySelector("form[action='/user/register']");
           btn.click();
-          """
-        );
+          """;
+
+        print(script);
+        await controller.runJavascript(script);
       }
 
   }
@@ -148,14 +148,14 @@ class MyHomePage extends StatelessWidget {
    
     // 建立App的操作畫面
   
-      ValueListenableBuilder<int> bottomNavigationBar = ValueListenableBuilder<int>(
+      ValueListenableBuilder<Status> bottomNavigationBar = ValueListenableBuilder<Status>(
         builder: _bottomNavigationBarBuilder,
-        valueListenable: _selectedNaviItem,
+        valueListenable: Data.status,
       );
 
-      ValueListenableBuilder<int> tabview = ValueListenableBuilder<int>(
+      ValueListenableBuilder<Status> tabview = ValueListenableBuilder<Status>(
         builder: _tabviewBuilder,
-        valueListenable: _selectedNaviItem,
+        valueListenable: Data.status,
       );
       
       final page = DefaultTabController(
@@ -177,13 +177,13 @@ class MyHomePage extends StatelessWidget {
   }
  
   // 這個方法負責建立BottomNavigationBar
-  Widget _bottomNavigationBarBuilder(BuildContext context, int selectedButton, Widget? child) {
+  Widget _bottomNavigationBarBuilder(BuildContext context, Status selectedButton, Widget? child) {
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
-    final select_item = _selectedNaviItem.value;
+    final select_item = Data.status.value;
     
     //select_item = 0;
-    if(select_item < 0)
+    //if(select_item == Status.Login)
     {
     return SizedBox(
       height: 0.0,//_bottomNavBarHeight,
@@ -191,6 +191,8 @@ class MyHomePage extends StatelessWidget {
     );
 
     }
+
+/*
     for (var i = 0; i < 4; i++) {
       var index = i;
       if(select_item == i)
@@ -233,17 +235,22 @@ class MyHomePage extends StatelessWidget {
     );
 
     return widget;
+    */
   }
 
   // 這個方法負責建立BottomNavigationBar
-  Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
-  
-    final login_view = Login();
+  Widget _tabviewBuilder(BuildContext context, Status selectedButton, Widget? child) {
 
-    return login_view;
+    //print('_tabviewBuilder');
+    if(Data.status.value == Status.Login)
+    {
+      return Login();
+      
+    }
+
     final webview = WebView(
-      initialUrl :'https://investanchors.com/',
-      //initialUrl :'https://investanchors.com/user/register/new',
+      //initialUrl :'https://investanchors.com/',
+      initialUrl :'https://investanchors.com/user/register/new',
       onWebViewCreated: (WebViewController controller) {
         _controller.complete(controller);
         //load_req(controller);
