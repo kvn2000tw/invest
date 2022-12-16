@@ -25,7 +25,7 @@ class Login extends StatelessWidget {
      
     };
   
-    final url = Uri.parse("https://investanchors.com/api/users/forget_pass");
+    final url = Uri.parse(Data.forgot_page);
     final responseOfFuture = await http.post(
       url,
       headers: <String, String>{
@@ -53,8 +53,8 @@ class Login extends StatelessWidget {
 
   void login(BuildContext context,String name,String passwd) async {
 
-    //name = 'playplus@com.tw';
-    //passwd = 'p54178192';
+    name = 'playplus@com.tw';
+    passwd = 'p54178192';
 
     Data.username = name;
     Data.passwd = passwd;
@@ -66,7 +66,7 @@ class Login extends StatelessWidget {
       'password': passwd,
     };
   
-    final url = Uri.parse("https://investanchors.com/api/users/login");
+    final url = Uri.parse(Data.login_page);
     final responseOfFuture = await http.post(
       url,
       headers: <String, String>{
@@ -80,7 +80,11 @@ class Login extends StatelessWidget {
       //{"status":"success","user_token":"166745463414164","error":""}
       Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
       print(fromJsonMap["status"]);
-      if(fromJsonMap["status"].compareTo('success') == 0)    Data.status.value = Status.Browser;
+      if(fromJsonMap["status"].compareTo('success') == 0)    
+      {
+        Data.user_token = fromJsonMap["user_token"];
+        Data.status.value = Status.Browser;
+      }
 
       if(fromJsonMap["status"].compareTo('error') == 0)   
       {
@@ -409,7 +413,7 @@ class Login extends StatelessWidget {
   _gotoRegPage()async {
     //Data.status.value = Status.Register;
     
-    var uri = Uri.parse("https://investanchors.com/");
+    var uri = Uri.parse(Data.register_page);
     _launchInBrowser(uri);
     return;
     

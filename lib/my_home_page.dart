@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'my_app_bar.dart';
 import 'login.dart';
 import 'dart:async';
-
+import 'dart:convert';
 import 'data.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
+
+import 'package:http/http.dart' as http;
 
 //import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
@@ -13,7 +15,54 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class MyHomePage extends StatelessWidget {
 
-  //late WebViewController _controller;
+  final MAX_TIMER = 12;
+  int timer = 0;
+  MyHomePage()
+  {
+    loop();
+  }
+  void getNotify() async {
+
+    final url = Uri.parse('${Data.bell_notice_page}user_token=${Data.user_token}&playplus=${Data.playplus}');
+
+    final responseOfFuture = await http.get(
+      url
+    );
+
+    if (responseOfFuture.statusCode == 200) {
+      print(responseOfFuture.body);
+      //{"status":"success","user_token":"166745463414164","error":""}
+      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
+      print(fromJsonMap["status"]);
+      if(fromJsonMap["status"].compareTo('success') == 0)    
+      {
+       print('${fromJsonMap["no_see"].length}');
+      }
+    }
+  }
+
+  void loop() async{
+    while(true){
+
+      await Future.delayed(const Duration(seconds:5));
+    
+      if(timer == 0)
+      {
+        print('loop');
+        timer = MAX_TIMER;
+        print(Data.status);
+        if(Data.status.value != Status.Login && Data.status.value != Status.Logout)
+        {
+          getNotify();
+        }
+        
+      }
+      else 
+      {
+        --timer;
+      }
+    }
+  }  
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
   final Completer<WebViewController> _controller =
@@ -116,7 +165,7 @@ class MyHomePage extends StatelessWidget {
 
       }
     }
-    else if (url.compareTo('https://investanchors.com/user/register/new') == 0) {
+    else if (url.compareTo(Data.register_page) == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       print(url);
       if(Data.status.value != Status.Browser)    return;
@@ -129,8 +178,8 @@ class MyHomePage extends StatelessWidget {
         String script =
          """ 
           var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
-          document.getElementsByName("user[email]")[0].value = '$name';
-          document.getElementsByName("user[password]")[0].value = '$passwd';
+          document.getElementsByName("user[email]")[0].value = '${name}';
+          document.getElementsByName("user[password]")[0].value = '${passwd}';
           var form = document.querySelector("form[action='/user/register']");
           btn.click();
           """;
@@ -250,10 +299,12 @@ class MyHomePage extends StatelessWidget {
       return Login();
       
     }
+   
+    timer = 0;
 
     final webview = WebView(
       //initialUrl :'https://investanchors.com/',
-      initialUrl :'https://investanchors.com/user/register/new',
+      initialUrl :Data.register_page,
       onWebViewCreated: (WebViewController controller) {
         _controller.complete(controller);
         //load_req(controller);
