@@ -19,7 +19,7 @@ class MyHomePage extends StatelessWidget {
   int timer = 0;
   MyHomePage()
   {
-    loop();
+    //loop();
   }
   void getNotify() async {
 
@@ -231,7 +231,8 @@ class MyHomePage extends StatelessWidget {
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
     final select_item = Data.status.value;
-    
+    print(_bottomNavigationBarBuilder);
+    print(selectedButton);
     //select_item = 0;
     if(select_item == Status.Login)
     {
@@ -258,7 +259,7 @@ class MyHomePage extends StatelessWidget {
 
     var currentIndex;
     var selectedItemColor;
-
+    
     if((select_item.value < 4) && (select_item.value > (4+4)))
     {
       currentIndex = select_item.value-4;
@@ -286,9 +287,38 @@ class MyHomePage extends StatelessWidget {
     return widget;
     
   }
-  gotoItem(int value)
+  gotoItem(int value) async
   {
+    final WebViewController controller = await _controller.future;
 
+    print(value);
+
+    if(value == 0)
+    {
+      Data.status.value = Status.Email;
+    }
+
+    else if(value == 1)
+    {
+      Data.status.value = Status.QAnalysis;
+      String url = '${Data.QAnalysis_page}${Data.user_token}';
+      controller.loadUrl(url);
+    }
+    if(value == 2)
+    {
+      Data.status.value = Status.Screener;
+      String url = Data.Screener_page;
+      controller.loadUrl(url);      
+    }
+
+    else if(value == 3)
+    {
+      Data.status.value = Status.Price;
+      
+      String url = Data.Price_page;
+      controller.loadUrl(url);
+
+    }
   }
   // 這個方法負責建立BottomNavigationBar
   Widget _tabviewBuilder(BuildContext context, Status selectedButton, Widget? child) {

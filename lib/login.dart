@@ -53,8 +53,8 @@ class Login extends StatelessWidget {
 
   void login(BuildContext context,String name,String passwd) async {
 
-    name = 'playplus@com.tw';
-    passwd = 'p54178192';
+    //name = 'playplus@com.tw';
+    //passwd = 'p54178192';
 
     Data.username = name;
     Data.passwd = passwd;
@@ -413,7 +413,7 @@ class Login extends StatelessWidget {
   _gotoRegPage()async {
     //Data.status.value = Status.Register;
     
-    var uri = Uri.parse(Data.register_page);
+    var uri = Uri.parse(Data.register_app_page);
     _launchInBrowser(uri);
     return;
     

@@ -35,11 +35,15 @@ class Data {
   static final ValueNotifier<bool> remeber = ValueNotifier(false);
 
   static final ValueNotifier<Status> status = ValueNotifier(Status.Login);
-
+  static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';
   static final register_page = "https://investanchors.com/user/register/new";
   static final forgot_page = "https://investanchors.com/api/users/forget_pass";
   static final login_page = "https://investanchors.com/api/users/login";
   static String user_token =  "";
   static String bell_notice_page = "https://investanchors.com/api/articles/bell_notice?";
   static String playplus = '54178192';
+  static final  QAnalysis_page = 'https://investanchors.com/user/quantitative_analysis?coid=2330&view_source_from=app&user_token=';
+  static final Screener_page = 'https://investanchors.com/screener';
+  static final Price_page = 'https://investanchors.com/user/commodity_price';
+  
 }
