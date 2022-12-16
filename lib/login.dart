@@ -126,6 +126,7 @@ class Login extends StatelessWidget {
   }
   _showForgotDialog(BuildContext context) async {
 
+    print('_showForgotDialog');
     final TextEditingController textController = TextEditingController(text:'');
    
     final dlg = Dialog(
@@ -398,6 +399,9 @@ class Login extends StatelessWidget {
 
     return widget;
 
+  }
+  _gotoRegPage(){
+    Data.status.value = Status.Register;
   }
   @override
   Widget build(BuildContext context) {
@@ -886,17 +890,18 @@ class Login extends StatelessWidget {
                                       fontWeight: FontWeight.bold,
                                     ),
                           ),
-                          Text(
-                            '前往官網註冊 ',
-                            style: FlutterFlowTheme.of(context)
-                                .bodyText1
-                                .override(
-                                  fontFamily: 'Poppins',
-                                  color:
-                                      FlutterFlowTheme.of(context).primaryColor,
-                                  fontSize: 16,
-                                ),
-                          ),
+                          Expanded(
+                          child:TextButton( 
+                              style: TextButton.styleFrom(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                              0, 0, 0, 0),
+                              textStyle: const TextStyle(fontSize: 16,color:Colors.blue),
+                              ),
+                              child: const Text(
+                                '前往官網註冊',
+                              ),
+                              onPressed: () => _gotoRegPage(),
+                          )),
                         ],
                       ),
                     ),

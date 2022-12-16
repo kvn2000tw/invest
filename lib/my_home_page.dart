@@ -119,7 +119,8 @@ class MyHomePage extends StatelessWidget {
     else if (url.compareTo('https://investanchors.com/user/register/new') == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       print(url);
-      //return;
+      if(Data.status.value != Status.Browser)    return;
+
       final WebViewController controller = await _controller.future;
     
         String name = Data.username;

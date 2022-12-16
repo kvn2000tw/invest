@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 enum Status{
     Login(value: 0, label: "登入"),
-    Browser(value: 1, label: "browser"),
+    Register(value: 2, label: "Register"),
+    Browser(value: 3, label: "browser"),
    
     Logout(value: -1, label: "登出");
     
