@@ -184,7 +184,7 @@ class MyHomePage extends StatelessWidget {
     final select_item = Data.status.value;
     
     //select_item = 0;
-    //if(select_item == Status.Login)
+    if(select_item == Status.Login)
     {
     return SizedBox(
       height: 0.0,//_bottomNavBarHeight,
@@ -193,10 +193,9 @@ class MyHomePage extends StatelessWidget {
 
     }
 
-/*
     for (var i = 0; i < 4; i++) {
       var index = i;
-      if(select_item == i)
+      if(select_item.value == (i+4))
       {
         index = i+4;
       }
@@ -211,15 +210,15 @@ class MyHomePage extends StatelessWidget {
     var currentIndex;
     var selectedItemColor;
 
-    if(select_item >= 4)
+    if((select_item.value < 4) && (select_item.value > (4+4)))
     {
-      currentIndex = 0;
-      selectedItemColor = Color(0xFF0472bd);
+      currentIndex = select_item.value-4;
+      selectedItemColor = Color(0xFFe3b205);
     }
     else 
     {
-      currentIndex = select_item;
-      selectedItemColor = Color(0xFFe3b205);
+      currentIndex = 0;
+      selectedItemColor =Color(0xFF0472bd);
     }
 
     final widget = BottomNavigationBar(
@@ -232,13 +231,16 @@ class MyHomePage extends StatelessWidget {
       selectedItemColor: selectedItemColor,
       unselectedLabelStyle: TextStyle(fontSize: 10),
       unselectedItemColor: Color(0xFF0472bd),
-      onTap: (index) => _selectedNaviItem.value = index,
+      onTap: (index) => gotoItem(index),
     );
 
     return widget;
-    */
+    
   }
+  gotoItem(int value)
+  {
 
+  }
   // 這個方法負責建立BottomNavigationBar
   Widget _tabviewBuilder(BuildContext context, Status selectedButton, Widget? child) {
 

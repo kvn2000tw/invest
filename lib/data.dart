@@ -4,7 +4,12 @@ enum Status{
     Login(value: 0, label: "登入"),
     Register(value: 2, label: "Register"),
     Browser(value: 3, label: "browser"),
-   
+    Email(value: 4, label: "Email"),
+    QAnalysis(value: 5, label: "quantitative_analysis"),
+    Screener(value: 6, label: "screener"),
+    Price(value: 7, label: "commodity_price"),
+    User(value: 8, label: "user"),
+
     Logout(value: -1, label: "登出");
     
     final int value;

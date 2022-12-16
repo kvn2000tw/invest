@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'Data.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
@@ -116,43 +117,45 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Widget build(BuildContext context) {
 
-    return ValueListenableBuilder<String>(
+    return ValueListenableBuilder<Status>(
           builder: _topNavigationBarBuilder,
-          valueListenable: selectedNaviItem,
+          valueListenable: Data.status,
         );
  
   }
 
   // 這個方法負責建立BottomNavigationBar
-  Widget _topNavigationBarBuilder(BuildContext context, String selectedButton, Widget? child) {
+  Widget _topNavigationBarBuilder(BuildContext context, Status selectedButton, Widget? child) {
    
     var right = <Widget>[];
 
-    if(selectedNaviItem.value.contains('login'))
+    if(Data.status.value == Status.Login)
     {
       right.add(intro);
     }
-    else if(selectedNaviItem.value.contains('email'))
+
+    else if(Data.status.value == Status.Email)
     {
       right.addAll([notify,person]);
      
     }
-    else if(selectedNaviItem.value.contains('quantitative_analysis'))
+    else if(Data.status.value == Status.QAnalysis)
     {
       right.addAll([notify,person]);
      
     }
-    else if(selectedNaviItem.value.contains('screener'))
+
+    else if(Data.status.value == Status.Screener)
     {
       right.addAll([notify,person]);
      
     }
-    else if(selectedNaviItem.value.contains('commodity_price'))
+    else if(Data.status.value == Status.Price)
     {
       right.addAll([notify,person]);
      
     }
-    else if(selectedNaviItem.value.contains('user'))
+    else if(Data.status.value == Status.User)
     {
       right.addAll([notify,person]);
      

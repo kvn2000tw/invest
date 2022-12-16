@@ -47,5 +47,11 @@
 	<false/>
 	<key>App Uses Non-Exempt Encryption</key>
 	<false/>	
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+  		<string>sms</string>
+  		<string>tel</string>
+	</array>
+
 </dict>
 </plist>

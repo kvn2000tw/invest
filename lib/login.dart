@@ -8,14 +8,12 @@ import 'package:http/http.dart' as http;
 import 'custom/custom_theme.dart';
 import 'custom/custom_button.dart';
 import 'custom/custom_button_options.dart';
-//import 'package:google_fonts/google_fonts.dart';
-//import 'custom/custom_widget.dart';
-//import 'custom/custom_theme_state.dart';
+
 import 'data.dart';
-import 'package:fading_image_button/fading_image_button.dart';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class Login extends StatelessWidget {
-
 
   final ValueNotifier<bool> _remeber = ValueNotifier(Data.remeber.value);
 
@@ -54,9 +52,6 @@ class Login extends StatelessWidget {
   }
 
   void login(BuildContext context,String name,String passwd) async {
-
-    //Data.username = name;
-    //Data.passwd = passwd;
 
     //name = 'playplus@com.tw';
     //passwd = 'p54178192';
@@ -143,34 +138,36 @@ class Login extends StatelessWidget {
                 Padding(
                   padding: EdgeInsetsDirectional.fromSTEB(0, 18, 17, 0),
                   child: Container(
+                    alignment:Alignment.centerRight,
                     width: double.infinity,
                     height: 30,
                     decoration: BoxDecoration(
                       color: FlutterFlowTheme.of(context).secondaryBackground,
                     ),
                     child: Padding(
-                      padding: EdgeInsetsDirectional.fromSTEB(315, 0, 0, 0),
+                      
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 0),
                       child: Container(
+
                         width: 30,
                         height: 30,
                         decoration: BoxDecoration(
                           color:
                               FlutterFlowTheme.of(context).secondaryBackground,
+                          //border: Border.all(color: Colors.blueAccent)
                         ),
-                        child:FadingImageButton(
-                           width: 30,
-                          height: 30,
-                          onPressed: () =>  pressReturn(context),
-                          image: Image.asset("assets/images/Vector-x.png",
-                           width: 14,
-                                  height: 14,
-                                  fit: BoxFit.fill,),
-                          onPressedImage: Image.asset("assets/images/Vector-x.png",
-                           width: 14,
-                                  height: 14,
-                                  fit: BoxFit.fill,),
-                        ),
-                       
+                        child: TextButton(
+                          child: const Text(
+                            'X',
+                            style: TextStyle(fontSize: 20, color: Colors.black,),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                          primary: Colors.white,
+                          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                        
+                          ),
+                          onPressed: () => pressReturn(context),
+                        ),    
                       ),
                     ),
                   ),
@@ -400,8 +397,22 @@ class Login extends StatelessWidget {
     return widget;
 
   }
-  _gotoRegPage(){
-    Data.status.value = Status.Register;
+  Future<void> _launchInBrowser(Uri url) async {
+    if (!await launchUrl(
+      url,
+      mode: LaunchMode.externalApplication,
+    )) {
+      throw 'Could not launch $url';
+    }
+  }
+
+  _gotoRegPage()async {
+    //Data.status.value = Status.Register;
+    
+    var uri = Uri.parse("https://investanchors.com/");
+    _launchInBrowser(uri);
+    return;
+    
   }
   @override
   Widget build(BuildContext context) {
