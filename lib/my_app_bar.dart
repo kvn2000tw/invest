@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
-import 'Data.dart';
+import 'data.dart';
+import 'package:provider/provider.dart';
+import 'theme/theme_model.dart';
+import 'custom/custom_theme.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
+  late ThemeModel themeNotifier;
   static final ValueNotifier<String> selectedNaviItem = ValueNotifier('login');
 
   MyAppBar() : super();
@@ -18,16 +22,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     margin: EdgeInsets.all(5.0),
     decoration: BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(30)),
-    color: Colors.white,
-    border: Border.all(width: 5, color: Colors.blue),
+    color: Data.white,
+    border: Border.all(width: 5, color: Data.blue),
           
     ),
     child: Text(
     '簡介',
-    style: TextStyle(fontSize: 15.0,color:Colors.blue),
+    style: TextStyle(fontSize: 15.0,color:Data.blue),
     ),
 
   );
+
   final read_all = Container(
     alignment: Alignment.center,
     height: 25.0,
@@ -36,13 +41,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     margin: EdgeInsets.all(5.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(30)),
-      color: Colors.white,
-      border: Border.all(width: 5, color: Colors.blue),
+      color: Data.white,
+      border: Border.all(width: 5, color: Data.blue),
           
     ),
     child: Text(
       '全部已讀',
-      style: TextStyle(fontSize: 15.0,color:Colors.blue),
+      style: TextStyle(fontSize: 15.0,color:Data.blue),
     ),
 
   );
@@ -55,13 +60,13 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     margin: EdgeInsets.all(5.0),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(30)),
-      color: Colors.white,
-      border: Border.all(width: 5, color: Colors.blue),
+      color: Data.white,
+      border: Border.all(width: 5, color: Data.blue),
           
     ),
     child: Text(
       '登入',
-      style: TextStyle(fontSize: 15.0,color:Colors.blue),
+      style: TextStyle(fontSize: 15.0,color:Data.blue),
     ),
 
   );
@@ -99,16 +104,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     ),
     margin:const EdgeInsets.fromLTRB(10,10,10,10),
   );
-  final text1 = const Text('定錨產業筆記',
+  final text1 =  Text('定錨產業筆記',
     style:TextStyle(fontSize:20,
-      color:Colors.orange,
+      color:Data.orange,
     ),
     textAlign:TextAlign.left,
       
   );
   final text2 = const Text('科技產業趨勢領航者',
     style:TextStyle(fontSize:10,
-      color:Colors.black,
+      //color:Colors.black,
     ),
     textAlign:TextAlign.left,
       
@@ -116,12 +121,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
+    final myapp = ValueListenableBuilder<Status>(
+            builder: _topNavigationBarBuilder,
+            valueListenable: Data.status,
+          );
 
-    return ValueListenableBuilder<Status>(
-          builder: _topNavigationBarBuilder,
-          valueListenable: Data.status,
-        );
- 
+    return Consumer<ThemeModel>(
+        builder: (context, ThemeModel themeNotifier, child) {
+          this.themeNotifier = themeNotifier;
+          return myapp;
+        } 
+    );
   }
 
   // 這個方法負責建立BottomNavigationBar
@@ -129,6 +139,79 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
    
     var right = <Widget>[];
 
+    var image;
+
+    if(Theme.of(context).colorScheme.brightness == Brightness.dark)
+      image = Data.dark_image;
+    else 
+      image = Data.light_image;
+
+  final dark = 
+   InkWell(
+        onTap: (){
+          print("Dark clicked");
+          /*
+           themeNotifier.isDark
+                      ? themeNotifier.isDark = false
+                      : themeNotifier.isDark = true;
+
+          Data.is_dark = themeNotifier.isDark;
+          
+          Data.init();
+
+          FlutterFlowTheme.of(context).init();
+       */   
+        },
+   child:Image.asset(
+      'assets/images/${image}',
+      fit: BoxFit.contain,
+      height: 40,
+      width: 40,
+      alignment: Alignment.center,
+    ));
+
+      final menu = PopupMenuButton(
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+          const PopupMenuItem(
+            child: Text('系統', style: TextStyle(fontSize: 20),
+            ),
+            value: 0,
+          ),
+          const PopupMenuItem(
+            child: Text('日間模式', style: TextStyle(fontSize: 20),
+            ),
+            value: 1,
+          ),
+          const PopupMenuDivider(),
+          const PopupMenuItem(
+            child: Text('夜間模式', style: TextStyle(fontSize: 20),),
+            value: 2,
+          ),
+        ];
+      },
+      onSelected: (value) {
+        switch (value) {
+           case 0:
+          //_msg.value = '第一項';
+          //Data.is_dark = themeNotifier.isDark;
+          
+          Data.init();
+
+          FlutterFlowTheme.of(context).init();
+
+            break;         
+          case 1:
+            //_msg.value = '第一項';
+            break;
+          case 2:
+           // _msg.value = '第二項';
+            break;
+        }
+      }
+    );
+
+    right.add(dark);
     if(Data.status.value == Status.Login)
     {
       right.add(intro);
@@ -166,8 +249,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       right.add(login);
     }
 
+    right.add(menu);
+
     final widget = AppBar(
+      
       title:  Container(
+         
       child:Column(
         children:<Widget>[text1,text2],
         mainAxisAlignment:MainAxisAlignment.start,
@@ -185,7 +272,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     //actions: <Widget>[read_all],
     actions: right,
 
-    backgroundColor:Colors.white,
+    backgroundColor:Data.white,
 
     );
     return widget;

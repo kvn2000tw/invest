@@ -8,12 +8,17 @@ import 'data.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
+import 'theme/theme_model.dart';
+import 'custom/custom_theme.dart';
 
 //import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
 //import 'web_view.dart';
 
 class MyHomePage extends StatelessWidget {
+
+  late ThemeModel themeNotifier;
 
   final MAX_TIMER = 12;
   int timer = 0;
@@ -132,9 +137,10 @@ class MyHomePage extends StatelessWidget {
     }
     else if(url.compareTo('https://investanchors.com/user') == 0)
     {
-      MyAppBar.selectedNaviItem.value = 'user';
-      _selectedNaviItem.value = 4;
+      //Data.status.value = Status.Browser;
+      //_selectedNaviItem.value = 4;
     }
+    
     else 
     {
       //MyAppBar.selectedNaviItem.value = 'login';
@@ -194,6 +200,18 @@ class MyHomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     // 建立AppBar
     
+    if(Theme.of(context).brightness == Brightness.dark)
+    {
+      Data.is_dark = true;
+    }
+    else 
+    {
+      Data.is_dark = false;
+    }
+
+    Data.init();
+    FlutterFlowTheme.of(context).init();
+
     final appBar = MyAppBar();
    
     // 建立App的操作畫面
@@ -203,23 +221,68 @@ class MyHomePage extends StatelessWidget {
         valueListenable: Data.status,
       );
 
-      ValueListenableBuilder<Status> tabview = ValueListenableBuilder<Status>(
+      ValueListenableBuilder<int> tabview = ValueListenableBuilder<int>(
         builder: _tabviewBuilder,
-        valueListenable: Data.status,
+        valueListenable: Data.view_change,
       );
       
+     final drawer = Drawer(
+      child: ListView(
+        children: <Widget> [
+           DrawerHeader(
+            child: Text('模式', style: TextStyle(fontSize: 20),),
+            decoration: BoxDecoration(
+              color: Data.blue,
+            ),
+          ),
+          ListTile(
+            title: const Text('系統', style: TextStyle(fontSize: 20),),
+            onTap: () {
+              themeNotifier.setThemeMode(ThemeMode.system);
+              //_msg.value = '選項一';
+              //Navigator.pop(context);
+
+            }
+          ),
+          ListTile(
+            title: const Text('日間模式', style: TextStyle(fontSize: 20),),
+            onTap: () {
+              themeNotifier.setThemeMode(ThemeMode.light);
+             // _msg.value = '選項二';
+              //Navigator.pop(context);
+            }
+          ),
+          ListTile(
+            title: const Text('夜間模式', style: TextStyle(fontSize: 20),),
+            onTap: () {
+              themeNotifier.setThemeMode(ThemeMode.dark);
+              //_msg.value = '選項三';
+              //Navigator.pop(context);
+            }
+          ),
+        ],
+      ),
+    );
+
+   
       final page = DefaultTabController(
       length: 1,
+      
       child: Scaffold(
         appBar: appBar,
         body: tabview,
-      
+        drawer: drawer,
         bottomNavigationBar: bottomNavigationBar,
         
       ),
     );
-
-    return page;
+    return Consumer<ThemeModel>(
+      builder: (context, ThemeModel themeNotifier, child) {
+        this.themeNotifier = themeNotifier;
+        return page;
+      }
+    );   
+  
   }
 
   _backToHomePage(BuildContext context) {
@@ -231,12 +294,13 @@ class MyHomePage extends StatelessWidget {
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
     final select_item = Data.status.value;
-    print(_bottomNavigationBarBuilder);
-    print(selectedButton);
+    print('_bottomNavigationBarBuilder');
+    //print(selectedButton);
     //select_item = 0;
     if(select_item == Status.Login)
     {
     return SizedBox(
+      //color:Colors.white,
       height: 0.0,//_bottomNavBarHeight,
       child: null,
     );
@@ -244,6 +308,7 @@ class MyHomePage extends StatelessWidget {
     }
 
     for (var i = 0; i < 4; i++) {
+      
       var index = i;
       if(select_item.value == (i+4))
       {
@@ -260,15 +325,18 @@ class MyHomePage extends StatelessWidget {
     var currentIndex;
     var selectedItemColor;
     
-    if((select_item.value < 4) && (select_item.value > (4+4)))
+    
+    if((select_item.value > 4) && (select_item.value < (4+4)))
     {
       currentIndex = select_item.value-4;
-      selectedItemColor = Color(0xFFe3b205);
+      selectedItemColor = Data.orange;
+      
     }
     else 
     {
       currentIndex = 0;
-      selectedItemColor =Color(0xFF0472bd);
+      selectedItemColor = Data.blue;
+     
     }
 
     final widget = BottomNavigationBar(
@@ -280,7 +348,7 @@ class MyHomePage extends StatelessWidget {
       selectedLabelStyle: TextStyle(fontSize: 10),
       selectedItemColor: selectedItemColor,
       unselectedLabelStyle: TextStyle(fontSize: 10),
-      unselectedItemColor: Color(0xFF0472bd),
+      unselectedItemColor: Data.blue,
       onTap: (index) => gotoItem(index),
     );
 
@@ -302,12 +370,14 @@ class MyHomePage extends StatelessWidget {
     {
       Data.status.value = Status.QAnalysis;
       String url = '${Data.QAnalysis_page}${Data.user_token}';
+      Data.url = url;
       controller.loadUrl(url);
     }
     if(value == 2)
     {
       Data.status.value = Status.Screener;
       String url = Data.Screener_page;
+      Data.url = url;
       controller.loadUrl(url);      
     }
 
@@ -316,25 +386,27 @@ class MyHomePage extends StatelessWidget {
       Data.status.value = Status.Price;
       
       String url = Data.Price_page;
+      Data.url = url;
       controller.loadUrl(url);
 
     }
   }
   // 這個方法負責建立BottomNavigationBar
-  Widget _tabviewBuilder(BuildContext context, Status selectedButton, Widget? child) {
+  Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
 
-    //print('_tabviewBuilder');
+    
     if(Data.status.value == Status.Login)
     {
       return Login();
       
     }
    
+   print('_tabviewBuilder');
     timer = 0;
 
     final webview = WebView(
       //initialUrl :'https://investanchors.com/',
-      initialUrl :Data.register_page,
+      initialUrl : Data.url,
       onWebViewCreated: (WebViewController controller) {
         _controller.complete(controller);
         //load_req(controller);

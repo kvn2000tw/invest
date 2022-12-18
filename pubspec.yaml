@@ -33,7 +33,8 @@ dependencies:
     sdk: flutter
   
   url_launcher: ^6.1.7
-
+  provider: ^6.0.5
+  shared_preferences: ^2.0.15
   http:
   webview_flutter: ^3.0.4
   webview_flutter_platform_interface: ^1.8.0

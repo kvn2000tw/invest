@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'my_home_page.dart';
+import 'data.dart';
+import 'package:provider/provider.dart';
+import 'theme/theme_model.dart';
 
 void main() {
+  Data.init();
   runApp(const MyApp());
 }
 
@@ -11,17 +15,25 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      initialRoute: '/loading',
-      routes: {
-        '/': (context) => MyHomePage(),
-        '/loading': (context) =>Loading(),
-       
-      },
+   return ChangeNotifierProvider(
+      create: (_) => ThemeModel(),
+      child: Consumer<ThemeModel>(
+        builder: (context, ThemeModel themeNotifier, child) {
+          return MaterialApp(
+            title: 'Flutter Invest',
+            theme: ThemeData(colorScheme: const ColorScheme.light()),
+            darkTheme: ThemeData(colorScheme: const ColorScheme.dark()),
+            themeMode: themeNotifier.themeMode,
+            //theme: themeNotifier.isDark ? ThemeData.dark() : ThemeData.light(),
+            debugShowCheckedModeBanner: false,
+            initialRoute: '/loading',
+            routes: {
+              '/': (context) => MyHomePage(),
+              '/loading': (context) =>Loading(),      
+            },
+          );
+        }
+      )
     );
   }
 }
@@ -42,11 +54,11 @@ class Loading extends StatelessWidget {
   Widget build(BuildContext context) {
     // 建立AppBar
     final appBar = AppBar(
-      title: const Text('點餐'),
+      title: const Text('Invest'),
     );
  
    var img = Image.asset(
-      'assets/invest.png',
+      'assets/images/invest.png',
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,

@@ -53,8 +53,8 @@ class Login extends StatelessWidget {
 
   void login(BuildContext context,String name,String passwd) async {
 
-    //name = 'playplus@com.tw';
-    //passwd = 'p54178192';
+    name = 'playplus@com.tw';
+    passwd = 'p54178192';
 
     Data.username = name;
     Data.passwd = passwd;
@@ -83,7 +83,9 @@ class Login extends StatelessWidget {
       if(fromJsonMap["status"].compareTo('success') == 0)    
       {
         Data.user_token = fromJsonMap["user_token"];
+        Data.url = Data.register_page;
         Data.status.value = Status.Browser;
+        Data.view_change.value = 1;
       }
 
       if(fromJsonMap["status"].compareTo('error') == 0)   
@@ -161,12 +163,12 @@ class Login extends StatelessWidget {
                           //border: Border.all(color: Colors.blueAccent)
                         ),
                         child: TextButton(
-                          child: const Text(
+                          child: Text(
                             'X',
-                            style: TextStyle(fontSize: 20, color: Colors.black,),
+                            style: TextStyle(fontSize: 20, color: FlutterFlowTheme.of(context).customColor6),
                           ),
                           style: ElevatedButton.styleFrom(
-                          primary: Colors.white,
+                          
                           padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
                         
                           ),
@@ -230,7 +232,7 @@ class Login extends StatelessWidget {
                                       .secondaryBackground,
                                 ),
                                 child: Image.asset(
-                                  'assets/images/mail.png',
+                                  'assets/images/${Data.email}',
                                   width: 25,
                                   height: 20,
                                   fit: BoxFit.cover,
@@ -279,7 +281,7 @@ class Login extends StatelessWidget {
                                 enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
                                     color: FlutterFlowTheme.of(context)
-                                        .secondaryColor,
+                                        .customColor4,
                                     width: 1,
                                   ),
                                   borderRadius: const BorderRadius.only(
@@ -395,7 +397,7 @@ class Login extends StatelessWidget {
         },
         activeColor:
         FlutterFlowTheme.of(context)
-            .primaryColor,
+            .checkColor,
         );
 
     return widget;
@@ -445,11 +447,16 @@ class Login extends StatelessWidget {
       selection:TextSelection.collapsed(offset:_input_passwd.length),
     );
 
-    return SingleChildScrollView(
+    return 
+    Container(
+      constraints: BoxConstraints.expand(),
+       
+     color:FlutterFlowTheme.of(context).customColor1,
+      child:
+    SingleChildScrollView(
       child:Container(
-        //width: double.infinity,
-        //height: double.infinity,
-        color:Color(0xFFF6F6F6),
+         
+        color:FlutterFlowTheme.of(context).customColor1,
         child:Column(
         mainAxisSize: MainAxisSize.max,
         children: [
@@ -482,7 +489,7 @@ class Login extends StatelessWidget {
                     ),
                     child:Text(
                       '會員登入',
-
+                   
                       style: FlutterFlowTheme.of(context).bodyText1.override(
                             fontFamily: 'Poppins',
                             color: FlutterFlowTheme.of(context).customColor2,
@@ -504,7 +511,7 @@ class Login extends StatelessWidget {
                 color: FlutterFlowTheme.of(context).secondaryBackground,
               ),
               child:Container(
-                 color:Colors.white,
+                 color:FlutterFlowTheme.of(context).customColor2,
               child:Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
@@ -549,10 +556,10 @@ class Login extends StatelessWidget {
                                               .secondaryBackground,
                                         ),
                                         child: Image.asset(
-                                          'assets/images/mail.png',
-                                          width: 100,
-                                          height: 100,
-                                          fit: BoxFit.cover,
+                                          'assets/images/${Data.email}',
+                                          width: 25,
+                                          height: 20,
+                                          fit: BoxFit.contain,
                                         ),
                                       ),
                                       Padding(
@@ -621,7 +628,8 @@ class Login extends StatelessWidget {
                                         ),
                                         errorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
+                                            color: FlutterFlowTheme.of(context)
+                                                .customColor3,
                                             width: 1,
                                           ),
                                           borderRadius: const BorderRadius.only(
@@ -631,7 +639,8 @@ class Login extends StatelessWidget {
                                         ),
                                         focusedErrorBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
-                                            color: Color(0x00000000),
+                                            color: FlutterFlowTheme.of(context)
+                                                .customColor3,
                                             width: 1,
                                           ),
                                           borderRadius: const BorderRadius.only(
@@ -666,7 +675,7 @@ class Login extends StatelessWidget {
                                         .secondaryBackground,
                                   ),
                                   child: Image.asset(
-                                    'assets/images/key.png',
+                                    'assets/images/${Data.key}',
                                     width: 27.5,
                                     height: 15,
                                     fit: BoxFit.contain,
@@ -737,7 +746,8 @@ class Login extends StatelessWidget {
                                 ),
                                 errorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0x00000000),
+                                    color: FlutterFlowTheme.of(context)
+                                                .customColor3,
                                     width: 1,
                                   ),
                                   borderRadius: const BorderRadius.only(
@@ -747,7 +757,8 @@ class Login extends StatelessWidget {
                                 ),
                                 focusedErrorBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
-                                    color: Color(0x00000000),
+                                    color: FlutterFlowTheme.of(context)
+                                                .customColor3,
                                     width: 1,
                                   ),
                                   borderRadius: const BorderRadius.only(
@@ -776,8 +787,10 @@ class Login extends StatelessWidget {
                                     width: 18,
                                     height: 18,
                                     decoration: BoxDecoration(
-                                      color: FlutterFlowTheme.of(context)
-                                          .secondaryBackground,
+                                      border: Border.all(color: FlutterFlowTheme.of(context)
+                                          .customColor5),
+                                      //color: FlutterFlowTheme.of(context)
+                                      //    .primaryColor,
                                     ),
                                     child: Theme(
                                       data: ThemeData(
@@ -835,7 +848,7 @@ class Login extends StatelessWidget {
                                       style: TextButton.styleFrom(
                                          padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 0),
-                                            textStyle: const TextStyle(fontSize: 16,color:Colors.blue),
+                                            textStyle: TextStyle(fontSize: 16,color:FlutterFlowTheme.of(context).primaryColor),
                                           ),
                                         child: const Text(
                                         '忘記密碼？',
@@ -873,7 +886,7 @@ class Login extends StatelessWidget {
                           textStyle:
                               FlutterFlowTheme.of(context).subtitle2.override(
                                     fontFamily: 'Poppins',
-                                    color: Colors.white,
+                                    color: FlutterFlowTheme.of(context).customColor2,
                                     fontWeight: FontWeight.bold,
                                   ),
                           borderSide: BorderSide(
@@ -910,7 +923,7 @@ class Login extends StatelessWidget {
                               style: TextButton.styleFrom(
                               padding: EdgeInsetsDirectional.fromSTEB(
                               0, 0, 0, 0),
-                              textStyle: const TextStyle(fontSize: 16,color:Colors.blue),
+                              textStyle: TextStyle(fontSize: 16,color:FlutterFlowTheme.of(context).primaryColor),
                               ),
                               child: const Text(
                                 '前往官網註冊',
@@ -970,6 +983,6 @@ class Login extends StatelessWidget {
             ),
           ),
         ],
-      )));
+      ))));
   }
 }
