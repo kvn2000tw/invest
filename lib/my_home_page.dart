@@ -11,7 +11,7 @@ import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'theme/theme_model.dart';
 import 'custom/custom_theme.dart';
-
+import 'service.dart';
 //import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
 //import 'web_view.dart';
@@ -26,25 +26,6 @@ class MyHomePage extends StatelessWidget {
   {
     //loop();
   }
-  void getNotify() async {
-
-    final url = Uri.parse('${Data.bell_notice_page}user_token=${Data.user_token}&playplus=${Data.playplus}');
-
-    final responseOfFuture = await http.get(
-      url
-    );
-
-    if (responseOfFuture.statusCode == 200) {
-      print(responseOfFuture.body);
-      //{"status":"success","user_token":"166745463414164","error":""}
-      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
-      print(fromJsonMap["status"]);
-      if(fromJsonMap["status"].compareTo('success') == 0)    
-      {
-       print('${fromJsonMap["no_see"].length}');
-      }
-    }
-  }
 
   void loop() async{
     while(true){
@@ -58,7 +39,7 @@ class MyHomePage extends StatelessWidget {
         print(Data.status);
         if(Data.status.value != Status.Login && Data.status.value != Status.Logout)
         {
-          getNotify();
+          //getNotify();
         }
         
       }

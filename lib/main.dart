@@ -6,6 +6,7 @@ import 'theme/theme_model.dart';
 
 void main() {
   Data.init();
+  
   runApp(const MyApp());
 }
 

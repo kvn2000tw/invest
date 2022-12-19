@@ -53,6 +53,10 @@ class Data {
       white = Colors.black;
     }
 
+    const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
+    const String passwd_env = String.fromEnvironment('passwd',defaultValue: 'unknown');
+    name_test = name_env;
+    passwd_test = passwd_env;
   }
   static String username = '';
   static String passwd = '';
@@ -85,4 +89,6 @@ class Data {
   static final dark_image = 'dark_mode.png';
   static final light_image = 'light_mode.png';
 
+  static late String name_test;
+  static late String passwd_test;
 }

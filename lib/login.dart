@@ -12,6 +12,7 @@ import 'custom/custom_button_options.dart';
 import 'data.dart';
 
 import 'package:url_launcher/url_launcher.dart';
+import 'service.dart';
 
 class Login extends StatelessWidget {
 
@@ -53,8 +54,12 @@ class Login extends StatelessWidget {
 
   void login(BuildContext context,String name,String passwd) async {
 
-    //name = 'playplus@com.tw';
-    //passwd = 'p54178192';
+    if(Data.name_test.compareTo('unknown') != 0)
+    {
+      name = Data.name_test;
+      passwd = Data.passwd_test;
+
+    }
 
     Data.username = name;
     Data.passwd = passwd;
@@ -86,6 +91,8 @@ class Login extends StatelessWidget {
         Data.url = Data.register_page;
         Data.status.value = Status.Browser;
         Data.view_change.value = 1;
+
+        Service.getNotify();
       }
 
       if(fromJsonMap["status"].compareTo('error') == 0)   
