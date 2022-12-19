@@ -196,10 +196,8 @@ class MyHomePage extends StatelessWidget {
 
   }
  
-  @override
-  Widget build(BuildContext context) {
-    // 建立AppBar
-    
+  void check_dark_mode(BuildContext context)
+  {
     if(Theme.of(context).brightness == Brightness.dark)
     {
       Data.is_dark = true;
@@ -211,6 +209,12 @@ class MyHomePage extends StatelessWidget {
 
     Data.init();
     FlutterFlowTheme.of(context).init();
+  }
+  @override
+  Widget build(BuildContext context) {
+    // 建立AppBar
+    
+    check_dark_mode(context);
 
     final appBar = MyAppBar();
    
@@ -226,52 +230,12 @@ class MyHomePage extends StatelessWidget {
         valueListenable: Data.view_change,
       );
       
-     final drawer = Drawer(
-      child: ListView(
-        children: <Widget> [
-           DrawerHeader(
-            child: Text('模式', style: TextStyle(fontSize: 20),),
-            decoration: BoxDecoration(
-              color: Data.blue,
-            ),
-          ),
-          ListTile(
-            title: const Text('系統', style: TextStyle(fontSize: 20),),
-            onTap: () {
-              themeNotifier.setThemeMode(ThemeMode.system);
-              //_msg.value = '選項一';
-              //Navigator.pop(context);
-
-            }
-          ),
-          ListTile(
-            title: const Text('日間模式', style: TextStyle(fontSize: 20),),
-            onTap: () {
-              themeNotifier.setThemeMode(ThemeMode.light);
-             // _msg.value = '選項二';
-              //Navigator.pop(context);
-            }
-          ),
-          ListTile(
-            title: const Text('夜間模式', style: TextStyle(fontSize: 20),),
-            onTap: () {
-              themeNotifier.setThemeMode(ThemeMode.dark);
-              //_msg.value = '選項三';
-              //Navigator.pop(context);
-            }
-          ),
-        ],
-      ),
-    );
-
-   
       final page = DefaultTabController(
       length: 1,
       
       child: Scaffold(
         appBar: appBar,
         body: tabview,
-        drawer: drawer,
         bottomNavigationBar: bottomNavigationBar,
         
       ),

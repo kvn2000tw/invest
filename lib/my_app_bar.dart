@@ -249,7 +249,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       right.add(login);
     }
 
-    right.add(menu);
+    //right.add(menu);
 
     final widget = AppBar(
       

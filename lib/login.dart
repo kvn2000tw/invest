@@ -53,8 +53,8 @@ class Login extends StatelessWidget {
 
   void login(BuildContext context,String name,String passwd) async {
 
-    name = 'playplus@com.tw';
-    passwd = 'p54178192';
+    //name = 'playplus@com.tw';
+    //passwd = 'p54178192';
 
     Data.username = name;
     Data.passwd = passwd;
