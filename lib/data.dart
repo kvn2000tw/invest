@@ -4,11 +4,12 @@ enum Status{
     Login(value: 0, label: "登入"),
     Register(value: 2, label: "Register"),
     Browser(value: 3, label: "browser"),
-    Email(value: 4, label: "Email"),
-    QAnalysis(value: 5, label: "quantitative_analysis"),
-    Screener(value: 6, label: "screener"),
-    Price(value: 7, label: "commodity_price"),
-    User(value: 8, label: "user"),
+    Alarm(value: 4, label: "alarm"),
+    Email(value: 5, label: "Email"),
+    QAnalysis(value: 6, label: "quantitative_analysis"),
+    Screener(value: 7, label: "screener"),
+    Price(value: 8, label: "commodity_price"),
+    User(value: 9, label: "user"),
 
     Logout(value: -1, label: "登出");
     
@@ -89,6 +90,12 @@ class Data {
   static final dark_image = 'dark_mode.png';
   static final light_image = 'light_mode.png';
 
+  static const notify_image = 'notifications.png';
+  static const notify_alarm_image = 'notifications_alarm.png';
+
   static late String name_test;
   static late String passwd_test;
+  static bool is_alarm = false;
+
+
 }

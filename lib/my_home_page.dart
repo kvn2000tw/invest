@@ -20,6 +20,7 @@ class MyHomePage extends StatelessWidget {
 
   late ThemeModel themeNotifier;
 
+  final MENU_START = 5;
   final MAX_TIMER = 12;
   int timer = 0;
   MyHomePage()
@@ -255,7 +256,7 @@ class MyHomePage extends StatelessWidget {
     for (var i = 0; i < 4; i++) {
       
       var index = i;
-      if(select_item.value == (i+4))
+      if(select_item.value == (i+MENU_START))
       {
         index = i+4;
       }
@@ -271,9 +272,9 @@ class MyHomePage extends StatelessWidget {
     var selectedItemColor;
     
     
-    if((select_item.value >= 4) && (select_item.value < (4+4)))
+    if((select_item.value >= MENU_START) && (select_item.value < (MENU_START+4)))
     {
-      currentIndex = select_item.value-4;
+      currentIndex = select_item.value-5;
       selectedItemColor = Data.orange;
       
     }

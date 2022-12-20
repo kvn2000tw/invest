@@ -52,6 +52,22 @@ class Login extends StatelessWidget {
     }
   }
 
+  void serviceReturn(String ret)
+  {
+    print('serviceReturn');
+    if(ret.isEmpty)    return;
+
+    Map<String,dynamic>  fromJsonMap = jsonDecode(ret);
+       
+    print(fromJsonMap);
+    if( fromJsonMap["no_see"].length > 0) 
+    {
+      Data.is_alarm = true;
+      Data.status.value = Status.Alarm;
+          
+    }
+
+  }
   void login(BuildContext context,String name,String passwd) async {
 
     if(Data.name_test.compareTo('unknown') != 0)
@@ -92,7 +108,9 @@ class Login extends StatelessWidget {
         Data.status.value = Status.Browser;
         Data.view_change.value = 1;
 
-        Service.getNotify();
+        var ret = Service.getNotify();
+
+        ret.then((value)=>serviceReturn(value));
       }
 
       if(fromJsonMap["status"].compareTo('error') == 0)   

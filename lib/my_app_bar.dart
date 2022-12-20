@@ -4,6 +4,11 @@ import 'package:provider/provider.dart';
 import 'theme/theme_model.dart';
 import 'custom/custom_theme.dart';
 
+import 'custom/custom_button.dart';
+import 'custom/custom_button_options.dart';
+import 'service.dart';
+import 'dart:convert';
+
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   late ThemeModel themeNotifier;
@@ -71,13 +76,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   );
 
-  var notify = Container(
-    child:Image.asset(
-      'assets/notifications.png',
-     
-    ),
-    margin:const EdgeInsets.fromLTRB(10,10,10,10),
-  );
  
  var person = Container(
     child:Image.asset(
@@ -133,11 +131,156 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
         } 
     );
   }
+ 
+  getNotify(BuildContext context) async {
+     var ret = Service.getNotify();
+      ret.then((value)=>_showAlarmDialog(context,value));    
+  }
+  _showAlarmDialog(BuildContext context,String str) async {
+
+    print('_showAlarmDialog');
+
+    //if(str.isEmpty)    return;
+
+    Map<String,dynamic>  fromJsonMap = jsonDecode(str);
+       
+    print(fromJsonMap);
+    if( fromJsonMap["no_see"].length > 0) 
+    {
+      final lists = fromJsonMap["no_see"];
+      for(final list in lists)
+      {
+        print(list["name"]);
+      }
+
+    }
+   
+    final dlg = Dialog(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                child: Align(
+                  alignment: AlignmentDirectional(0, 0),
+                  child: Text(
+                    '未讀信件',
+                    style: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                  ),
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 400,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.vertical,
+                  children: [],
+                ),
+              ),
+              Container(
+                width: double.infinity,
+                height: 50,
+                decoration: BoxDecoration(
+                  color: FlutterFlowTheme.of(context).secondaryBackground,
+                ),
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Container(
+                      width: 100,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
+                      child: Align(
+                        alignment: AlignmentDirectional(0.15, 0),
+                        child: Text(
+                          '全部已讀',
+                          style:
+                              FlutterFlowTheme.of(context).bodyText1.override(
+                                    fontFamily: 'Poppins',
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
+                        ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0.7, 0),
+                          child: Text(
+                            '查看全部',
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+    );
+
+    var willPopScope = WillPopScope(
+      onWillPop: () async => false,
+      child: dlg,
+    );
+
+    var ans = showDialog(
+      context: context,
+      builder: (context) => willPopScope,
+    );
+
+    return ans;  
+  }
 
   // 這個方法負責建立BottomNavigationBar
   Widget _topNavigationBarBuilder(BuildContext context, Status selectedButton, Widget? child) {
-   
+    print('_topNavigationBarBuilder');
     var right = <Widget>[];
+
+    String notify_str = 'assets/images/${Data.notify_image}';
+
+    if(Data.is_alarm)
+      notify_str = 'assets/images/${Data.notify_alarm_image}';
+
+    final  notify = InkWell(
+              onTap: (){
+          print("alarm clicked");
+          getNotify(context);
+          
+        },
+      child:Image.asset(
+        notify_str,
+     
+      ),
+     //margin:const EdgeInsets.fromLTRB(10,10,10,10),
+    );
 
     var image;
 
@@ -216,7 +359,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     {
       right.add(intro);
     }
-    else if(Data.status.value == Status.Browser)
+    else if(Data.status.value == Status.Browser || Data.status.value == Status.Alarm)
     {
       right.addAll([notify,person]);
     }
