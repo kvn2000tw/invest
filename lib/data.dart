@@ -72,8 +72,8 @@ class Data {
   static String bell_notice_page = "https://investanchors.com/api/articles/bell_notice?";
   static String playplus = '54178192';
   static final  QAnalysis_page = 'https://investanchors.com/user/quantitative_analysis?coid=2330&view_source_from=app&user_token=';
-  static final Screener_page = 'https://investanchors.com/screener';
-  static final Price_page = 'https://investanchors.com/user/commodity_price';
+  static final Screener_page = 'https://investanchors.com/screener?view_source_from=app&user_token=';
+  static final Price_page = 'https://investanchors.com/user/commodity_price/23DD24?view_source_from=app&user_token=';
   
 
   //static final String email = 'email_dark.png';

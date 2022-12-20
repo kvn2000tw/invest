@@ -271,7 +271,7 @@ class MyHomePage extends StatelessWidget {
     var selectedItemColor;
     
     
-    if((select_item.value > 4) && (select_item.value < (4+4)))
+    if((select_item.value >= 4) && (select_item.value < (4+4)))
     {
       currentIndex = select_item.value-4;
       selectedItemColor = Data.orange;
@@ -321,7 +321,7 @@ class MyHomePage extends StatelessWidget {
     if(value == 2)
     {
       Data.status.value = Status.Screener;
-      String url = Data.Screener_page;
+      String url = '${Data.Screener_page}${Data.user_token}'; 
       Data.url = url;
       controller.loadUrl(url);      
     }
@@ -330,7 +330,7 @@ class MyHomePage extends StatelessWidget {
     {
       Data.status.value = Status.Price;
       
-      String url = Data.Price_page;
+      String url = '${Data.Price_page}${Data.user_token}'; 
       Data.url = url;
       controller.loadUrl(url);
 
