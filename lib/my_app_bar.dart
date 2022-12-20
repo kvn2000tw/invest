@@ -216,6 +216,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     {
       right.add(intro);
     }
+    else if(Data.status.value == Status.Browser)
+    {
+      right.addAll([notify,person]);
+    }
 
     else if(Data.status.value == Status.Email)
     {
