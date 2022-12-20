@@ -12,6 +12,8 @@
             "args": [
                 "--dart-define", "name=playplus@com.tw",
                 "--dart-define", "passwd=p54178192",
+                "--dart-define", "dark_config=true",
+                
             ],
         },
         {

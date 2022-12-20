@@ -136,25 +136,57 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
      var ret = Service.getNotify();
       ret.then((value)=>_showAlarmDialog(context,value));    
   }
+    pressReturn(BuildContext context)
+  {
+    print('return');
+    Navigator.pop(context, '');
+  }
+
   _showAlarmDialog(BuildContext context,String str) async {
 
     print('_showAlarmDialog');
 
-    //if(str.isEmpty)    return;
+    if(str.isEmpty)    return;
 
     Map<String,dynamic>  fromJsonMap = jsonDecode(str);
+
+    if( fromJsonMap["no_see"].length == 0) return;
        
     print(fromJsonMap);
-    if( fromJsonMap["no_see"].length > 0) 
+    var items = [];
+    var sub_items = [];
+    
+    final lists = fromJsonMap["no_see"];
+    for(final list in lists)
     {
-      final lists = fromJsonMap["no_see"];
-      for(final list in lists)
-      {
-        print(list["name"]);
-      }
-
+      final arr = list["name"].split(' ');
+      items.add(arr[0]);
+      sub_items.add(arr[1]);
     }
-   
+    String len_str = lists.length.toString();
+    String  no_see = '${len_str}封未讀信件';
+     // 建立App的操作畫面
+    const msg_icon = 'assets/images/msg.png';
+
+    var listView = ListView.separated(
+      itemCount: lists.length,
+      itemBuilder: (context, index) =>
+          ListTile(
+            title: Text(items[index], style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+            subtitle:Text(sub_items[index], style: const TextStyle(fontSize: 16),),
+            onTap: () => {},//_selectedItem.value = '點選' + items[index],
+            leading: Container(
+              width:25,
+              height:25,
+              child: CircleAvatar(backgroundImage: AssetImage(msg_icon,),backgroundColor:Data.white),
+              padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
+              ),
+            //trailing: const Icon(Icons.keyboard_arrow_right,),
+           
+          ),
+      separatorBuilder: (context, index) => const Divider(),
+  );
+
     final dlg = Dialog(
       
       child:ColoredBox(
@@ -168,16 +200,59 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
-                child: Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Text(
-                    '未讀信件',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
+                child: Row(
+                  mainAxisSize: MainAxisSize.max,
+                  children: [
+                    Expanded(
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          color:
+                              FlutterFlowTheme.of(context).secondaryBackground,
                         ),
-                  ),
+                        child: Align(
+                          alignment: AlignmentDirectional(0, 0),
+                          child: Text(
+                            no_see,
+                            style:
+                                FlutterFlowTheme.of(context).bodyText1.override(
+                                      fontFamily: 'Poppins',
+                                      fontSize: 20,
+                                      color:Data.blue,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Align(
+                      alignment: AlignmentDirectional(0, 0),
+                      child: Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
+                        child: Container(
+                          width: 20,
+                          height: 20,
+                          decoration: BoxDecoration(
+                            color: FlutterFlowTheme.of(context)
+                                .secondaryBackground,
+                          ),
+                        child: TextButton(
+                          child: Text(
+                            'X',
+                            style: TextStyle(fontSize: 20, color: FlutterFlowTheme.of(context).customColor6),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                          
+                          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
+                        
+                          ),
+                          onPressed: () => pressReturn(context),
+                        ),    
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               Container(
@@ -186,11 +261,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
                 decoration: BoxDecoration(
                   color: FlutterFlowTheme.of(context).secondaryBackground,
                 ),
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.vertical,
-                  children: [],
-                ),
+                child: listView,
               ),
               Container(
                 width: double.infinity,
@@ -215,6 +286,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
                               FlutterFlowTheme.of(context).bodyText1.override(
                                     fontFamily: 'Poppins',
                                     fontSize: 20,
+                                    color:Data.blue,
                                     fontWeight: FontWeight.bold,
                                   ),
                         ),
@@ -236,6 +308,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
                                 FlutterFlowTheme.of(context).bodyText1.override(
                                       fontFamily: 'Poppins',
                                       fontSize: 20,
+                                      color:Data.blue,
                                       fontWeight: FontWeight.bold,
                                     ),
                           ),
@@ -295,18 +368,15 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   final dark = 
    InkWell(
         onTap: (){
-          print("Dark clicked");
-          /*
-           themeNotifier.isDark
-                      ? themeNotifier.isDark = false
-                      : themeNotifier.isDark = true;
+          print("Dark clicked"); 
+          if(Data.dark_setting == false)    return;
+          int val = ThemeModel.enumConvertToConst(themeNotifier.themeMode);
+          val ++;
 
-          Data.is_dark = themeNotifier.isDark;
-          
-          Data.init();
+          if(val >= 3)    val = 0;
 
-          FlutterFlowTheme.of(context).init();
-       */   
+          themeNotifier.setThemeMode(ThemeModel.constConvertToEnum(val));
+
         },
    child:Image.asset(
       'assets/images/${image}',
@@ -316,46 +386,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       alignment: Alignment.center,
     ));
 
-      final menu = PopupMenuButton(
-      itemBuilder: (context) {
-        return <PopupMenuEntry>[
-          const PopupMenuItem(
-            child: Text('系統', style: TextStyle(fontSize: 20),
-            ),
-            value: 0,
-          ),
-          const PopupMenuItem(
-            child: Text('日間模式', style: TextStyle(fontSize: 20),
-            ),
-            value: 1,
-          ),
-          const PopupMenuDivider(),
-          const PopupMenuItem(
-            child: Text('夜間模式', style: TextStyle(fontSize: 20),),
-            value: 2,
-          ),
-        ];
-      },
-      onSelected: (value) {
-        switch (value) {
-           case 0:
-          //_msg.value = '第一項';
-          //Data.is_dark = themeNotifier.isDark;
-          
-          Data.init();
-
-          FlutterFlowTheme.of(context).init();
-
-            break;         
-          case 1:
-            //_msg.value = '第一項';
-            break;
-          case 2:
-           // _msg.value = '第二項';
-            break;
-        }
-      }
-    );
 
     right.add(dark);
     if(Data.status.value == Status.Login)

@@ -56,6 +56,11 @@ class Data {
 
     const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
     const String passwd_env = String.fromEnvironment('passwd',defaultValue: 'unknown');
+    const String dark_config = String.fromEnvironment('dark_config',defaultValue: 'false');
+
+    if(dark_config.compareTo('false') != 0)
+      dark_setting = true;
+
     name_test = name_env;
     passwd_test = passwd_env;
   }
@@ -96,6 +101,7 @@ class Data {
   static late String name_test;
   static late String passwd_test;
   static bool is_alarm = false;
+  static bool dark_setting = false;
 
 
 }
