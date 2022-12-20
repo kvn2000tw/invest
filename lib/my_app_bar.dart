@@ -156,8 +156,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     }
    
     final dlg = Dialog(
+      
+      child:ColoredBox(
+        color:Data.white,
           child: Column(
-            mainAxisSize: MainAxisSize.max,
+            mainAxisSize: MainAxisSize.min,
             children: [
               Container(
                 width: double.infinity,
@@ -244,7 +247,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
               ),
             ],
           ),
-    );
+    ));
 
     var willPopScope = WillPopScope(
       onWillPop: () async => false,
