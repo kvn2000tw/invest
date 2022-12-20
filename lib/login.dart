@@ -355,6 +355,9 @@ class Login extends StatelessWidget {
                         print('Button pressed ...');
                         sendEmail(context,textController.text);
                       },
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(Data.blue),
+                        ),
                       child: Text('確認送出'),
                       options: FFButtonOptions(
                         width: 130,
@@ -855,10 +858,11 @@ class Login extends StatelessWidget {
                                       style: TextButton.styleFrom(
                                          padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 0, 0, 0),
-                                            textStyle: TextStyle(fontSize: 16,color:FlutterFlowTheme.of(context).primaryColor),
+                                            textStyle: TextStyle(fontSize: 16,color:Colors.blue),
                                           ),
-                                        child: const Text(
+                                        child: Text(
                                         '忘記密碼？',
+                                        style:TextStyle(fontSize: 16,color:Data.blue),
                                         ),
                                         onPressed: () => _showForgotDialog(context),
                                       ),
@@ -878,29 +882,16 @@ class Login extends StatelessWidget {
                       width: 132,
                       height: 46,
                       decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                        color: Colors.blue,
                       ),
-                      child: FFButtonWidget(
+                      child: ElevatedButton(
                         onPressed: () {
                           print('Button pressed ...');
                           login(context,textController1.text,textController2.text);
                         },
                         child: Text('登入'),
-                        options: FFButtonOptions(
-                          width: 130,
-                          height: 40,
-                          color: FlutterFlowTheme.of(context).primaryColor,
-                          textStyle:
-                              FlutterFlowTheme.of(context).subtitle2.override(
-                                    fontFamily: 'Poppins',
-                                    color: FlutterFlowTheme.of(context).customColor2,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                          borderSide: BorderSide(
-                            color: Colors.transparent,
-                            width: 1,
-                          ),
-                          borderRadius: BorderRadius.circular(8),
+                        style: ButtonStyle(
+                          backgroundColor: MaterialStatePropertyAll<Color>(Data.blue),
                         ),
                       ),
                     ),
@@ -932,8 +923,9 @@ class Login extends StatelessWidget {
                               0, 0, 0, 0),
                               textStyle: TextStyle(fontSize: 16,color:FlutterFlowTheme.of(context).primaryColor),
                               ),
-                              child: const Text(
+                              child: Text(
                                 '前往官網註冊',
+                                style:TextStyle(fontSize: 16,color:Data.blue),
                               ),
                               onPressed: () => _gotoRegPage(),
                           )),
