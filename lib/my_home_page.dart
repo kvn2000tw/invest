@@ -164,7 +164,7 @@ class MyHomePage extends StatelessWidget {
   }  
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
-  final Completer<WebViewController> _controller =
+   Completer<WebViewController> _controller =
     Completer<WebViewController>();
 
   static  final _naviItemIcon = [
@@ -355,7 +355,7 @@ class MyHomePage extends StatelessWidget {
     print('_bottomNavigationBarBuilder');
     //print(selectedButton);
     //select_item = 0;
-    if(select_item == Status.Login)
+    if(select_item == Status.Login || select_item == Status.Introduce)
     {
     return SizedBox(
       //color:Colors.white,
@@ -415,8 +415,6 @@ class MyHomePage extends StatelessWidget {
   }
   gotoItem(int value) async
   {
-    final WebViewController controller = await _controller.future;
-
     print(value);
 
     if(value == 0)
@@ -427,51 +425,44 @@ class MyHomePage extends StatelessWidget {
 
     else if(value == 1)
     {
-      
       Data.update_status(Status.QAnalysis);
-      String url = '${Data.QAnalysis_page}${Data.user_token}';
-      Data.url = url;
-      controller.loadUrl(url);
+    
+      Data.url = '${Data.QAnalysis_page}${Data.user_token}';
+     
     }
     if(value == 2)
     {
     
       Data.update_status(Status.Screener);
-      String url = '${Data.Screener_page}${Data.user_token}'; 
-      Data.url = url;
-      controller.loadUrl(url);      
+    
+      Data.url = '${Data.Screener_page}${Data.user_token}'; 
+       
     }
 
     else if(value == 3)
     {
       Data.update_status(Status.Price);
       
-      String url = '${Data.Price_page}${Data.user_token}'; 
-      Data.url = url;
-      controller.loadUrl(url);
+      Data.url = '${Data.Price_page}${Data.user_token}'; 
 
     }
+     final WebViewController controller = await _controller.future;
+
+     controller.loadUrl(Data.url);    
+     Data.update_view_change();
   }
-  // 這個方法負責建立BottomNavigationBar
-  Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
 
-    
-    if(Data.status.value == Status.Login)
-    {
-      return Login();
-      
-    }
-   
-   print('_tabviewBuilder');
-    timer = 0;
+  late WebView webview;
 
-    final webview = WebView(
+  void init_webvieww()
+  {
+    webview = WebView(
       //initialUrl :'https://investanchors.com/',
       initialUrl : Data.url,
       onWebViewCreated: (WebViewController controller) {
+      
         _controller.complete(controller);
-        //load_req(controller);
-
+     
       },
       javascriptMode:JavascriptMode.unrestricted,    
      
@@ -485,8 +476,26 @@ class MyHomePage extends StatelessWidget {
         // In the final result page we check the url to make sure  it is the last page.
       },        
     );
-          
-      // 結合AppBar和App操作畫面
+ 
+  }
+  // 這個方法負責建立BottomNavigationBar
+  Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
+
+    if(Data.status.value == Status.Login)
+    {
+      _controller = Completer<WebViewController>();
+      return Login();
+      
+    }
+   
+    print('_tabviewBuilder');
+    print(Data.status.value);
+    print(Data.view_change.value);
+    timer = 0;
+
+    init_webvieww();
+
+    // 結合AppBar和App操作畫面
     final tabBarView = TabBarView(
         children: [
           webview

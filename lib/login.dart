@@ -106,8 +106,8 @@ class Login extends StatelessWidget {
       {
         Data.user_token = fromJsonMap["user_token"];
         Data.url = Data.register_page;
-        Data.status.value = Status.Browser;
-        Data.view_change.value = 1;
+        Data.update_status(Status.Browser);
+        Data.update_view_change();
 
         var ret = Service.getNotify();
 

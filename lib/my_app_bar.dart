@@ -19,7 +19,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   @override
   Size get preferredSize => const Size.fromHeight(56);
 
-  final intro = Container(
+  final intro =  InkWell(
+    onTap: (){
+      print("intro clicked"); 
+     
+      Data.url = Data.intro_page;
+    
+      Data.update_status(Status.Introduce);
+      Data.update_view_change();
+    },
+    child:Container(
     alignment: Alignment.center,
     height: 25.0,
     width:70,
@@ -36,7 +45,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     style: TextStyle(fontSize: 15.0,color:Data.blue),
     ),
 
-  );
+  ));
 
   final read_all = Container(
     alignment: Alignment.center,
@@ -57,10 +66,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   );
 
-  final login = Container(
+  final login =   InkWell(
+    onTap: (){
+      print("login clicked"); 
+      Data.update_view_change();
+      
+      Data.update_status(Status.Login);
+
+    },
+    child: Container(
     alignment: Alignment.center,
     height: 25.0,
-    width:120,
+    width:70,
         
     margin: EdgeInsets.all(5.0),
     decoration: BoxDecoration(
@@ -74,7 +91,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       style: TextStyle(fontSize: 15.0,color:Data.blue),
     ),
 
-  );
+  ));
 
  
  var person = Container(
@@ -109,9 +126,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     textAlign:TextAlign.left,
       
   );
-  final text2 = const Text('科技產業趨勢領航者',
+  final text2 =  Text('科技產業趨勢領航者',
     style:TextStyle(fontSize:10,
-      //color:Colors.black,
+      color:Data.black,
     ),
     textAlign:TextAlign.left,
       
@@ -357,6 +374,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   // 這個方法負責建立BottomNavigationBar
   Widget _topNavigationBarBuilder(BuildContext context, bool selectedButton, Widget? child) {
     print('_topNavigationBarBuilder');
+    print(Data.status.value);
     var right = <Widget>[];
 
     String notify_str = 'assets/images/${Data.notify_image}';
@@ -371,11 +389,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
           
         },
       child:Image.asset(
-        notify_str,
-     
-      ),
-     //margin:const EdgeInsets.fromLTRB(10,10,10,10),
-    );
+      notify_str,
+      fit: BoxFit.contain,
+      height: 40,
+      width: 40,
+      alignment: Alignment.center,
+    ));
 
     var image;
 
@@ -411,6 +430,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     {
       right.add(intro);
     }
+    else if(Data.status.value == Status.Introduce)
+    {
+      right.add(login);
+    }
     else if(Data.status.value == Status.Browser || Data.status.value == Status.Alarm)
     {
       right.addAll([notify,person]);
@@ -442,7 +465,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       right.addAll([notify,person]);
      
     }
-
     else 
     {
       right.add(login);

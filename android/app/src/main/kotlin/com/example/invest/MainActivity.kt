@@ -1,4 +1,4 @@
-package com.investanchors.invest
+package com.investanchors.investor
 
 import io.flutter.embedding.android.FlutterActivity
 

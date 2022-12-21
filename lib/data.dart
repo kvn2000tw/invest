@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 enum Status{
     Login(value: 0, label: "登入"),
+    Introduce(value: 1, label: "簡介"),
     Register(value: 2, label: "Register"),
     Browser(value: 3, label: "browser"),
     Alarm(value: 4, label: "alarm"),
@@ -43,6 +44,7 @@ class Data {
       orange = Color(0xFFecaf00);
         
       white = Colors.white;
+      black = Colors.black;
     }
     else 
     {
@@ -53,6 +55,7 @@ class Data {
       orange = Color(0xFFffc300);
       
       white = Colors.black;
+      black = Colors.white;
     }
 
     const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
@@ -70,8 +73,9 @@ class Data {
   static final ValueNotifier<bool> remeber = ValueNotifier(false);
 
   static final ValueNotifier<bool> headbar_event = ValueNotifier(false);
-  static final ValueNotifier<Status> status = ValueNotifier(Status.Login);
+  static final ValueNotifier<Status> status = ValueNotifier(Status.Introduce);
   static final ValueNotifier<int> view_change = ValueNotifier(0);
+  static final intro_page = 'https://investanchors.com/home/about?view_source_from=app';
   static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';
   static final register_page = "https://investanchors.com/user/register/new";
   static final forgot_page = "https://investanchors.com/api/users/forget_pass";
@@ -91,9 +95,10 @@ class Data {
   static Color blue = Colors.blue;
   static Color orange = Colors.orange;
   static Color white = Colors.white;
+  static Color black = Colors.black;
 
   static bool is_dark = true;
-  static String url = '';
+  static String url = intro_page;
   static final dark_image = 'dark_mode.png';
   static final light_image = 'light_mode.png';
 
@@ -115,4 +120,10 @@ class Data {
   {
     headbar_event.value = !headbar_event.value;
   }
+  static void update_view_change()
+  {
+    view_change.value = view_change.value+1;
+  }
+
+  
 }
