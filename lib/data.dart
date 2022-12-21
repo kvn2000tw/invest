@@ -68,6 +68,7 @@ class Data {
   static String passwd = '';
   static final ValueNotifier<bool> remeber = ValueNotifier(false);
 
+  static final ValueNotifier<bool> headbar_event = ValueNotifier(false);
   static final ValueNotifier<Status> status = ValueNotifier(Status.Login);
   static final ValueNotifier<int> view_change = ValueNotifier(0);
   static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';
@@ -102,6 +103,15 @@ class Data {
   static late String passwd_test;
   static bool is_alarm = false;
   static bool dark_setting = false;
+  
+  static void update_status(Status s)
+  {
+    status.value = s;
+    update_headbar_event();
+  }
 
-
+  static void update_headbar_event()
+  {
+    headbar_event.value = !headbar_event.value;
+  }
 }

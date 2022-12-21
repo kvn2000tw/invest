@@ -309,19 +309,22 @@ class MyHomePage extends StatelessWidget {
 
     if(value == 0)
     {
-      Data.status.value = Status.Email;
+      Data.update_status(Status.Email);
+     
     }
 
     else if(value == 1)
     {
-      Data.status.value = Status.QAnalysis;
+      
+      Data.update_status(Status.QAnalysis);
       String url = '${Data.QAnalysis_page}${Data.user_token}';
       Data.url = url;
       controller.loadUrl(url);
     }
     if(value == 2)
     {
-      Data.status.value = Status.Screener;
+    
+      Data.update_status(Status.Screener);
       String url = '${Data.Screener_page}${Data.user_token}'; 
       Data.url = url;
       controller.loadUrl(url);      
@@ -329,7 +332,7 @@ class MyHomePage extends StatelessWidget {
 
     else if(value == 3)
     {
-      Data.status.value = Status.Price;
+      Data.update_status(Status.Price);
       
       String url = '${Data.Price_page}${Data.user_token}'; 
       Data.url = url;

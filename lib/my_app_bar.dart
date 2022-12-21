@@ -119,9 +119,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   @override
   Widget build(BuildContext context) {
-    final myapp = ValueListenableBuilder<Status>(
+    final myapp = ValueListenableBuilder<bool>(
             builder: _topNavigationBarBuilder,
-            valueListenable: Data.status,
+            valueListenable: Data.headbar_event,
           );
 
     return Consumer<ThemeModel>(
@@ -140,6 +140,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   {
     print('return');
     Navigator.pop(context, '');
+  }
+
+  _nonews(BuildContext context) async
+  {
+    print('no news');
+
+    Data.is_alarm = false;
+    Data.update_headbar_event();
+    await pressReturn(context);
+  }
+  _readAll(BuildContext context) async
+  {
+    print('read all');
+    Data.update_status(Status.Email);
+    await pressReturn(context);
   }
 
   _showAlarmDialog(BuildContext context,String str) async {
@@ -280,16 +295,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
                       ),
                       child: Align(
                         alignment: AlignmentDirectional(0.15, 0),
-                        child: Text(
-                          '全部已讀',
-                          style:
-                              FlutterFlowTheme.of(context).bodyText1.override(
-                                    fontFamily: 'Poppins',
-                                    fontSize: 20,
-                                    color:Data.blue,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                        ),
+                          child:TextButton(                    
+                            style: TextButton.styleFrom(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 0),
+                                textStyle: TextStyle(fontSize: 16,color:Colors.blue),
+                            ),
+                            child: Text(
+                              '全部已讀',
+                              style:TextStyle(fontSize: 20,color:Data.blue),
+                              ),
+                              onPressed: () => {_nonews(context)},
+                          ),
                       ),
                     ),
                     Expanded(
@@ -302,16 +319,18 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
                         ),
                         child: Align(
                           alignment: AlignmentDirectional(0.7, 0),
-                          child: Text(
-                            '查看全部',
-                            style:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 20,
-                                      color:Data.blue,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
+                          child:TextButton(                    
+                            style: TextButton.styleFrom(
+                            padding: EdgeInsetsDirectional.fromSTEB(
+                                0, 0, 0, 0),
+                                textStyle: TextStyle(fontSize: 16,color:Colors.blue),
+                            ),
+                            child: Text(
+                              '查看全部',
+                              style:TextStyle(fontSize: 20,color:Data.blue),
+                              ),
+                              onPressed: () => {_readAll(context)},
+                          ),                        
                         ),
                       ),
                     ),
@@ -336,7 +355,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   }
 
   // 這個方法負責建立BottomNavigationBar
-  Widget _topNavigationBarBuilder(BuildContext context, Status selectedButton, Widget? child) {
+  Widget _topNavigationBarBuilder(BuildContext context, bool selectedButton, Widget? child) {
     print('_topNavigationBarBuilder');
     var right = <Widget>[];
 

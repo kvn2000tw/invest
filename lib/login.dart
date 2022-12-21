@@ -63,7 +63,8 @@ class Login extends StatelessWidget {
     if( fromJsonMap["no_see"].length > 0) 
     {
       Data.is_alarm = true;
-      Data.status.value = Status.Alarm;
+    
+      Data.update_status(Status.Alarm);
           
     }
 
