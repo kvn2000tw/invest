@@ -10,6 +10,7 @@ enum Status{
     Screener(value: 7, label: "screener"),
     Price(value: 8, label: "commodity_price"),
     User(value: 9, label: "user"),
+    Notify(value: 10, label: "notify"),
 
     Logout(value: -1, label: "登出");
     

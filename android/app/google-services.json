@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "848529697826",
+    "project_id": "invest-f173c",
+    "storage_bucket": "invest-f173c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:848529697826:android:614c8ca3b3889dbe8cae7b",
+        "android_client_info": {
+          "package_name": "com.investanchors.invest"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "848529697826-4oo2o9taq6kbcb8g74qg2ac87ncdcidr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyALKlUsSDCi3uElKP9HU4OwkMlXrgOY8B4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "848529697826-4oo2o9taq6kbcb8g74qg2ac87ncdcidr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

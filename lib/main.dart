@@ -3,6 +3,7 @@ import 'my_home_page.dart';
 import 'data.dart';
 import 'package:provider/provider.dart';
 import 'theme/theme_model.dart';
+import 'package:overlay_support/overlay_support.dart';
 
 void main() {
   Data.init();
@@ -20,7 +21,8 @@ class MyApp extends StatelessWidget {
       create: (_) => ThemeModel(),
       child: Consumer<ThemeModel>(
         builder: (context, ThemeModel themeNotifier, child) {
-          return MaterialApp(
+        return OverlaySupport(
+          child: MaterialApp(
             title: 'Flutter Invest',
             theme: ThemeData(colorScheme: const ColorScheme.light()),
             darkTheme: ThemeData(colorScheme: const ColorScheme.dark()),
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
               '/': (context) => MyHomePage(),
               '/loading': (context) =>Loading(),      
             },
-          );
+          ));
         }
       )
     );
