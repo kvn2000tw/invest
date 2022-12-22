@@ -24,6 +24,13 @@ import 'notification_badge.dart';
 
 import 'package:plain_notification_token/plain_notification_token.dart';
 
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  // If you're going to use other Firebase services in the background, such as Firestore,
+  // make sure you call `initializeApp` before using other Firebase services.
+  await Firebase.initializeApp();
+
+  print("Handling a background message: ${message.messageId}");
+}
 
 class PushNotification {
   PushNotification({
@@ -32,11 +39,11 @@ class PushNotification {
   });
   String? title;
   String? body;
-}
-  Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+}/*
+  Future _firebaseMessagingBackgroundHandler`(RemoteMessage message) async {
     print("Handling a background message: ${message.messageId}");
   }
-
+*/
 class MyHomePage extends StatelessWidget {
  
   late final FirebaseMessaging _messaging;
@@ -57,14 +64,19 @@ class MyHomePage extends StatelessWidget {
 }
 
   late int _totalNotifications;
+  void receivedMessage(RemoteMessage remoteMessage){
+     print('onMessage.listen');
+     print(remoteMessage.notification?.title);
+     print(remoteMessage.notification?.body);
+}
   void registerNotification() async {
 
     print('registerNotification');
     // 1. Initialize the Firebase app
     await Firebase.initializeApp();
 
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-
+    //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+/*
      FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       PushNotification notification = PushNotification(
         title: message.notification?.title,
@@ -76,17 +88,26 @@ class MyHomePage extends StatelessWidget {
      
    
     });
-
+*/
     // 2. Instantiate Firebase Messaging
     _messaging = FirebaseMessaging.instance;
 
     // 3. On iOS, this helps to take the user permissions
     NotificationSettings settings = await _messaging.requestPermission(
-      alert: true,
-      badge: true,
-      provisional: false,
-      sound: true,
+     alert: true,
+  announcement: false,
+  badge: true,
+  carPlay: false,
+  criticalAlert: false,
+  provisional: false,
+  sound: true,
     );
+
+  await _messaging.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
@@ -97,8 +118,27 @@ class MyHomePage extends StatelessWidget {
      
       Data.token = token.toString();
       print(Data.token);
+      print('abc');
+    await _messaging
+        .getToken()
+        .then((String? token) {
+          print(token);
+      assert(token != null);
+    });
+    
+    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+     FirebaseMessaging.onMessage.listen(receivedMessage);
+     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+     
+      //final routeFromMessage = message.data['route'];
+
+      print('routeFromMessage');
+    });
+/*
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // Parse the message received
+      print('onMessage.listen');
+      
         PushNotification notification = PushNotification(
           title: message.notification?.title,
           body: message.notification?.body,
@@ -116,9 +156,10 @@ class MyHomePage extends StatelessWidget {
           background: Colors.cyan.shade700,
           duration: Duration(seconds: 2),
         );
-      }           
+      } 
+              
       });
-      
+      */
       /*
  
         */
@@ -138,7 +179,7 @@ class MyHomePage extends StatelessWidget {
     //loop();
     _totalNotifications = 0;
     registerNotification();
-    checkForInitialMessage();
+    //checkForInitialMessage();
      
   }
 

@@ -7,7 +7,7 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:848529697826:android:614c8ca3b3889dbe8cae7b",
+        "mobilesdk_app_id": "1:848529697826:android:2868c30a2b4c64f18cae7b",
         "android_client_info": {
           "package_name": "com.investanchors.investor"
         }
@@ -29,6 +29,13 @@
             {
               "client_id": "848529697826-4oo2o9taq6kbcb8g74qg2ac87ncdcidr.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "848529697826-4o0otv9al2e9jjlf5hbilg7v6u1dvgnn.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.investanchors.invest"
+              }
             }
           ]
         }

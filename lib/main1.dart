@@ -51,7 +51,7 @@ class _HomePageState extends State {
   void initState() {
     _totalNotifications = 0;
     registerNotification();
-    checkForInitialMessage();
+    //checkForInitialMessage();
     super.initState();
   }
 // For handling notification when the app is in terminated state
@@ -90,9 +90,27 @@ void registerNotification() async {
     sound: true,
   );
 
+  await _messaging.setForegroundNotificationPresentationOptions(
+    alert: true,
+    badge: true,
+    sound: true,
+  );
+
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     print('User granted permission');
+    FirebaseMessaging.onMessage.handleError((error) {
+      print("Erorrrrrr : ${error.toString()}");
+    }).listen((event) {
+      print('event');
+      /*
+      _showNotification({
+        "title": event.notification?.title ?? "",
+        "body": event.notification?.body ?? "",
+      });
+      */
+    });
+/*
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('aaaa');
       // ...
@@ -107,6 +125,7 @@ void registerNotification() async {
         );
       }
     });
+    */
   } else {
     print('User declined or has not accepted permission');
   }
