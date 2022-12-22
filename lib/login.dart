@@ -16,7 +16,7 @@ import 'service.dart';
 
 class Login extends StatelessWidget {
 
-  final ValueNotifier<bool> _remeber = ValueNotifier(Data.remeber.value);
+  final ValueNotifier<bool> _remeber = ValueNotifier(Service.getRemeber());
 
   void sendEmail(BuildContext context,String email) async {
 
@@ -78,6 +78,11 @@ class Login extends StatelessWidget {
 
     }
 
+    if(_remeber.value != false)
+    [
+      Service.setRemeberInfo(name, passwd);
+    ]
+    
     Data.username = name;
     Data.passwd = passwd;
     Data.remeber.value = _remeber.value;
@@ -422,6 +427,7 @@ class Login extends StatelessWidget {
         onChanged: (newValue) async {
         //print('_remeberSelectionBuilder');                             
         _remeber.value = newValue as bool;
+        Service.setRemeber(_remeber.value);
                                             
         },
         activeColor:
@@ -458,10 +464,12 @@ class Login extends StatelessWidget {
   
     String _input_passwd = '';
 
+     _remeber.value =  Service.getRemeber();
+
     if(_remeber.value == true)
     {
-      _input_name = Data.username;
-      _input_passwd = Data.passwd;
+      _input_name = Service.getUsername();
+      _input_passwd = Service.getPasswd();
 
     }
     final TextEditingController textController1 = TextEditingController(text:_input_name);
