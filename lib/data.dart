@@ -125,5 +125,5 @@ class Data {
     view_change.value = view_change.value+1;
   }
 
-  
+  static String token = '';
 }

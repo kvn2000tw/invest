@@ -21,6 +21,10 @@ import 'package:overlay_support/overlay_support.dart';
 
 //import 'web_view.dart';
 import 'notification_badge.dart';
+
+import 'package:plain_notification_token/plain_notification_token.dart';
+
+
 class PushNotification {
   PushNotification({
     this.title,
@@ -34,7 +38,7 @@ class PushNotification {
   }
 
 class MyHomePage extends StatelessWidget {
-
+ 
   late final FirebaseMessaging _messaging;
   PushNotification? _notificationInfo;
  
@@ -54,6 +58,8 @@ class MyHomePage extends StatelessWidget {
 
   late int _totalNotifications;
   void registerNotification() async {
+
+    print('registerNotification');
     // 1. Initialize the Firebase app
     await Firebase.initializeApp();
 
@@ -68,16 +74,7 @@ class MyHomePage extends StatelessWidget {
        _totalNotifications++;
       _notificationInfo = notification;
      
-     if (_notificationInfo != null) {
-        // For displaying the notification as an overlay
-        showSimpleNotification(
-          Text(_notificationInfo!.title!),
-          leading: NotificationBadge(totalNotifications: _totalNotifications),
-          subtitle: Text(_notificationInfo!.body!),
-          background: Colors.cyan.shade700,
-          duration: Duration(seconds: 2),
-        );
-      }   
+   
     });
 
     // 2. Instantiate Firebase Messaging
@@ -95,7 +92,11 @@ class MyHomePage extends StatelessWidget {
       print('User granted permission');
       // TODO: handle the received notifications
       // For handling the received notifications
-      
+  
+      final token = await PlainNotificationToken().getToken();
+     
+      Data.token = token.toString();
+      print(Data.token);
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       // Parse the message received
         PushNotification notification = PushNotification(
@@ -137,7 +138,8 @@ class MyHomePage extends StatelessWidget {
     //loop();
     _totalNotifications = 0;
     registerNotification();
-      checkForInitialMessage();
+    checkForInitialMessage();
+     
   }
 
   void loop() async{
@@ -307,7 +309,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
-    
+     
     check_dark_mode(context);
 
     final appBar = MyAppBar();

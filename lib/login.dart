@@ -455,6 +455,7 @@ class Login extends StatelessWidget {
     //print(MediaQuery.of(context).size.width);
     //print(MediaQuery.of(context).size.height);
     String _input_name = '';
+  
     String _input_passwd = '';
 
     if(_remeber.value == true)

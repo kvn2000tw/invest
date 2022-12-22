@@ -5,3 +5,8 @@ playplus那格用： 54178192
 
 flutter build ipa
 xcrun altool --upload-app --type ios -f build/ios/ipa/*.ipa --apiKey XBY95C7CUN --apiIssuer 7458a0fb-7a2b-479d-9bc5-671a8d944f12
+
+
+Name:push
+Key ID:J53Q2H394Y
+Services:Apple Push Notifications service (APNs)
