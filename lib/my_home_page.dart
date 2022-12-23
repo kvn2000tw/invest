@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'my_app_bar.dart';
 import 'login.dart';
 import 'dart:async';
-import 'dart:convert';
+//import 'dart:convert';
 import 'data.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
 
-import 'package:http/http.dart' as http;
+//import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'theme/theme_model.dart';
 import 'custom/custom_theme.dart';
@@ -15,7 +15,7 @@ import 'service.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/foundation.dart';
+//import 'package:flutter/foundation.dart';
 import 'package:overlay_support/overlay_support.dart';
 //import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
 
@@ -29,7 +29,8 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
 
-  print("Handling a background message: ${message.messageId}");
+ print("Handling a background message: ${message.notification?.title} ${message.notification?.body}");
+ Data.status.value = Status.Email;
 }
 
 class PushNotification {
@@ -46,8 +47,8 @@ class PushNotification {
 */
 class MyHomePage extends StatelessWidget {
  
-  late final FirebaseMessaging _messaging;
-  PushNotification? _notificationInfo;
+  static late final FirebaseMessaging _messaging;
+  static PushNotification? _notificationInfo;
  
  checkForInitialMessage() async {
   await Firebase.initializeApp();
@@ -64,14 +65,33 @@ class MyHomePage extends StatelessWidget {
 }
 
   late int _totalNotifications;
-  void receivedMessage(RemoteMessage remoteMessage){
+  static void receivedMessage(RemoteMessage remoteMessage){
      print('onMessage.listen');
      print(remoteMessage.notification?.title);
      print(remoteMessage.notification?.body);
+   // _totalNotifications++;
+     PushNotification notification = PushNotification(
+        title: remoteMessage.notification?.title,
+        body: remoteMessage.notification?.body,
+      );
+      print('receivedMessage');
+       //_totalNotifications++;
+      _notificationInfo = notification;
+        showSimpleNotification(
+          Text(_notificationInfo!.title!),
+          //leading: NotificationBadge(totalNotifications: _totalNotifications),
+          subtitle: Text(_notificationInfo!.body!),
+          background: Colors.cyan.shade700,
+          duration: Duration(seconds: 2),
+        );     
 }
-  void registerNotification() async {
+  static void registerNotification() async {
 
     print('registerNotification');
+    final token = await PlainNotificationToken().getToken();
+
+    Data.token = 'aaa '+ token.toString();
+    print(Data.token);    
     // 1. Initialize the Firebase app
     await Firebase.initializeApp();
 
@@ -94,38 +114,30 @@ class MyHomePage extends StatelessWidget {
 
     // 3. On iOS, this helps to take the user permissions
     NotificationSettings settings = await _messaging.requestPermission(
-     alert: true,
-  announcement: false,
-  badge: true,
-  carPlay: false,
-  criticalAlert: false,
-  provisional: false,
-  sound: true,
+    alert: true,
+    announcement: false,
+    badge: true,
+    carPlay: false,
+    criticalAlert: false,
+    provisional: false,
+    sound: true,
     );
-
+/*
   await _messaging.setForegroundNotificationPresentationOptions(
     alert: true,
     badge: true,
     sound: true,
   );
+*/
+
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
       // TODO: handle the received notifications
       // For handling the received notifications
   
-      final token = await PlainNotificationToken().getToken();
-     
-      Data.token = token.toString();
-      print(Data.token);
       print('abc');
-    await _messaging
-        .getToken()
-        .then((String? token) {
-          print(token);
-      assert(token != null);
-    });
-    
+  
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
      FirebaseMessaging.onMessage.listen(receivedMessage);
      FirebaseMessaging.onMessageOpenedApp.listen((message) {
@@ -177,12 +189,16 @@ class MyHomePage extends StatelessWidget {
   MyHomePage()
   {
     //loop();
-    _totalNotifications = 0;
-    registerNotification();
-    //checkForInitialMessage();
+
      
   }
 
+  static init()
+  {
+    //_totalNotifications = 0;
+    registerNotification();
+    //checkForInitialMessage();
+  }
   void loop() async{
     while(true){
 
@@ -350,13 +366,56 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
-     
+    
+    var remeberRet = Service.getRemeber();
+    remeberRet.then((value) => Data.remeber.value = value);
+
+    var usernameRet = Service.getUsername();
+    usernameRet.then((value) => Data.username = value);
+
+    var passwdRet = Service.getPasswd();
+    passwdRet.then((value) => Data.passwd = value);
+
     check_dark_mode(context);
 
     final appBar = MyAppBar();
    
     // 建立App的操作畫面
-  
+      final drawer = Drawer(
+      child: ListView(
+        children: <Widget> [
+          const DrawerHeader(
+            child: Text('Drawer標題', style: TextStyle(fontSize: 20),),
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+          ),
+          ListTile(
+            title:  Text(Data.token, style: TextStyle(fontSize: 20),),
+            onTap: () {
+              //_msg.value = '選項一';
+              //Navigator.pop(context);
+            }
+          ),
+          ListTile(
+            title: const Text('選項二', style: TextStyle(fontSize: 20),),
+            onTap: () {
+              //_msg.value = '選項二';
+              //Navigator.pop(context);
+            }
+          ),
+          ListTile(
+            title: const Text('選項三', style: TextStyle(fontSize: 20),),
+            onTap: () {
+              //_msg.value = '選項三';
+              //Navigator.pop(context);
+            }
+          ),
+        ],
+      ),
+    );
+
+
       ValueListenableBuilder<Status> bottomNavigationBar = ValueListenableBuilder<Status>(
         builder: _bottomNavigationBarBuilder,
         valueListenable: Data.status,
@@ -374,7 +433,7 @@ class MyHomePage extends StatelessWidget {
         appBar: appBar,
         body: tabview,
         bottomNavigationBar: bottomNavigationBar,
-        
+        //drawer:Data.drawer_config? drawer : null,
       ),
     );
     return Consumer<ThemeModel>(
@@ -425,7 +484,6 @@ class MyHomePage extends StatelessWidget {
 
     var currentIndex;
     var selectedItemColor;
-    
     
     if((select_item.value >= MENU_START) && (select_item.value < (MENU_START+4)))
     {

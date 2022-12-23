@@ -8,6 +8,7 @@ import 'custom/custom_button.dart';
 import 'custom/custom_button_options.dart';
 import 'service.dart';
 import 'dart:convert';
+import 'package:overlay_support/overlay_support.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
@@ -174,6 +175,17 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     await pressReturn(context);
   }
 
+  _showInfoDialog()
+  {
+    showSimpleNotification(
+
+      Text(Data.token),
+          //leading: NotificationBadge(totalNotifications: _totalNotifications),
+          //subtitle: Text(_notificationInfo!.body!),
+          background: Colors.cyan.shade700,
+          duration: Duration(seconds: 20),
+        );     
+  }
   _showAlarmDialog(BuildContext context,String str) async {
 
     print('_showAlarmDialog');
@@ -485,7 +497,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     centerTitle:false,
     leading: InkWell(
       child: logo,
-      onTap: () => {},//_msg.value = '你按下選單按鈕',
+      onTap: () => {_showInfoDialog()},//_msg.value = '你按下選單按鈕',
     ),
     automaticallyImplyLeading: false,
     //actions: <Widget>[intro],

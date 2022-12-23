@@ -16,8 +16,6 @@ import 'service.dart';
 
 class Login extends StatelessWidget {
 
-  final ValueNotifier<bool> _remeber = ValueNotifier(Service.getRemeber());
-
   void sendEmail(BuildContext context,String email) async {
 
     var map = <String, String>{
@@ -78,14 +76,13 @@ class Login extends StatelessWidget {
 
     }
 
-    if(_remeber.value != false)
-    [
+    if(Data.remeber.value != false)
+    {
       Service.setRemeberInfo(name, passwd);
-    ]
+    }
     
     Data.username = name;
     Data.passwd = passwd;
-    Data.remeber.value = _remeber.value;
 
     var map = <String, String>{
      
@@ -423,11 +420,11 @@ class Login extends StatelessWidget {
   Widget _remeberSelectionBuilder(BuildContext context, bool remeber,Widget? child)
   {
     Widget widget =  Checkbox(
-        value: _remeber.value,
+        value: Data.remeber.value,
         onChanged: (newValue) async {
         //print('_remeberSelectionBuilder');                             
-        _remeber.value = newValue as bool;
-        Service.setRemeber(_remeber.value);
+        Data.remeber.value = newValue as bool;
+        Service.setRemeber(Data.remeber.value);
                                             
         },
         activeColor:
@@ -460,16 +457,15 @@ class Login extends StatelessWidget {
     //print('build');
     //print(MediaQuery.of(context).size.width);
     //print(MediaQuery.of(context).size.height);
+  
     String _input_name = '';
   
     String _input_passwd = '';
 
-     _remeber.value =  Service.getRemeber();
-
-    if(_remeber.value == true)
+    if(Data.remeber.value == true)
     {
-      _input_name = Service.getUsername();
-      _input_passwd = Service.getPasswd();
+      _input_name = Data.username;
+      _input_passwd = Data.passwd;
 
     }
     final TextEditingController textController1 = TextEditingController(text:_input_name);
@@ -844,7 +840,7 @@ class Login extends StatelessWidget {
                                       ),
                                       child:ValueListenableBuilder<bool>(
                                           builder:_remeberSelectionBuilder,
-                                          valueListenable:_remeber,
+                                          valueListenable:Data.remeber,
                                       ), 
 
                                     ),

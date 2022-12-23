@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 enum Status{
     Login(value: 0, label: "登入"),
     Introduce(value: 1, label: "簡介"),
@@ -61,7 +62,7 @@ class Data {
     const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
     const String passwd_env = String.fromEnvironment('passwd',defaultValue: 'unknown');
     const String dark_config = String.fromEnvironment('dark_config',defaultValue: 'false');
-
+   
     if(dark_config.compareTo('false') != 0)
       dark_setting = true;
 
@@ -126,4 +127,8 @@ class Data {
   }
 
   static String token = '';
+
+   static const drawer_config = true;//String.fromEnvironment('drawer_config',defaultValue: 'false');
+
+  
 }

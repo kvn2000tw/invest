@@ -16,22 +16,14 @@ class Service {
     await _preferences.setRemeberInfo(user,passwd);    
   }
 
-  static getRemeber() async {
-    bool remeber = await _preferences.getRemeber();
-
-    return remeber;
-    
+  static Future<bool> getRemeber() {
+    return _preferences.getRemeber();
   }
-  static getUsername() async {
-    bool remeber = await _preferences.getUsername();
-
-    return remeber;
-    
+  static Future<String> getUsername()  {
+    return _preferences.getUsername();
   }
-  static getPasswd() async {
-    bool remeber = await _preferences.getPasswd();
-
-    return remeber;
+  static Future<String> getPasswd() {
+    return _preferences.getPasswd();
     
   }
 

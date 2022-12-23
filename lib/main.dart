@@ -48,6 +48,8 @@ class Loading extends StatelessWidget {
   void gotonext(BuildContext context) async{
     await Future.delayed(const Duration(seconds:3));
     
+    MyHomePage.init();
+    
     Navigator.pushNamed(context,"/");
 
   }

@@ -33,7 +33,8 @@ class MyApp extends StatelessWidget {
 }
 
 Future _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-  print("Handling a background message: ${message.messageId}");
+  print("Handling a background message: ${message.notification?.title}");
+  
 }
 
 class HomePage extends StatefulWidget {
@@ -49,9 +50,10 @@ class _HomePageState extends State {
 
   @override
   void initState() {
+    print('initstate');
     _totalNotifications = 0;
     registerNotification();
-    //checkForInitialMessage();
+    checkForInitialMessage();
     super.initState();
   }
 // For handling notification when the app is in terminated state
@@ -61,6 +63,7 @@ checkForInitialMessage() async {
       await FirebaseMessaging.instance.getInitialMessage();
 
   if (initialMessage != null) {
+    print('checkForInitialMessage');
     PushNotification notification = PushNotification(
       title: initialMessage.notification?.title,
       body: initialMessage.notification?.body,
@@ -99,23 +102,21 @@ void registerNotification() async {
 
   if (settings.authorizationStatus == AuthorizationStatus.authorized) {
     print('User granted permission');
-    FirebaseMessaging.onMessage.handleError((error) {
-      print("Erorrrrrr : ${error.toString()}");
-    }).listen((event) {
-      print('event');
-      /*
-      _showNotification({
-        "title": event.notification?.title ?? "",
-        "body": event.notification?.body ?? "",
-      });
-      */
-    });
-/*
+  
+
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       print('aaaa');
+      PushNotification notification = PushNotification(
+        title: message.notification?.title,
+        body: message.notification?.body,
+      );
+      print('receivedMessage');
+       _totalNotifications++;
+      _notificationInfo = notification;     
       // ...
       if (_notificationInfo != null) {
         // For displaying the notification as an overlay
+        print('showSimpleNotification');
         showSimpleNotification(
           Text(_notificationInfo!.title!),
           leading: NotificationBadge(totalNotifications: _totalNotifications),
@@ -125,7 +126,7 @@ void registerNotification() async {
         );
       }
     });
-    */
+    
   } else {
     print('User declined or has not accepted permission');
   }

@@ -24,16 +24,16 @@ class ThemePreferences {
     sharedPreferences.setString(PASSWD_KEY, passwd);
   }
 
-  getUsername() async {
+  Future<String> getUsername() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString(USERNAME_KEY) ?? "";
   }
-  getPasswd() async {
+  Future<String> getPasswd() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getString(PASSWD_KEY) ?? "";
   }
 
-  getRemeber() async {
+  Future<bool> getRemeber() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     return sharedPreferences.getBool(REMEBER_KEY) ?? false;
   }
