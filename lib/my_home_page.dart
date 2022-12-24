@@ -2,12 +2,9 @@ import 'package:flutter/material.dart';
 import 'my_app_bar.dart';
 import 'login.dart';
 import 'dart:async';
-//import 'dart:convert';
 import 'data.dart';
 
 import 'package:webview_flutter/webview_flutter.dart';
-
-//import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'theme/theme_model.dart';
 import 'custom/custom_theme.dart';
@@ -15,12 +12,7 @@ import 'service.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:flutter/foundation.dart';
 import 'package:overlay_support/overlay_support.dart';
-//import 'package:webview_flutter_platform_interface/webview_flutter_platform_interface.dart';
-
-//import 'web_view.dart';
-import 'notification_badge.dart';
 
 import 'package:plain_notification_token/plain_notification_token.dart';
 
@@ -47,9 +39,10 @@ class PushNotification {
 */
 class MyHomePage extends StatelessWidget {
  
-  static late final FirebaseMessaging _messaging;
-  static PushNotification? _notificationInfo;
- 
+  late final FirebaseMessaging _messaging;
+  PushNotification? _notificationInfo;
+
+
  checkForInitialMessage() async {
   await Firebase.initializeApp();
   RemoteMessage? initialMessage =
@@ -65,7 +58,7 @@ class MyHomePage extends StatelessWidget {
 }
 
   late int _totalNotifications;
-  static void receivedMessage(RemoteMessage remoteMessage){
+  void receivedMessage(RemoteMessage remoteMessage){
      print('onMessage.listen');
      print(remoteMessage.notification?.title);
      print(remoteMessage.notification?.body);
@@ -85,12 +78,12 @@ class MyHomePage extends StatelessWidget {
           duration: Duration(seconds: 2),
         );     
 }
-  static void registerNotification() async {
+    void registerNotification() async {
 
     print('registerNotification');
     final token = await PlainNotificationToken().getToken();
 
-    Data.token = 'aaa '+ token.toString();
+    Data.token = token.toString();
     print(Data.token);    
     // 1. Initialize the Firebase app
     await Firebase.initializeApp();
@@ -189,15 +182,13 @@ class MyHomePage extends StatelessWidget {
   MyHomePage()
   {
     //loop();
-
+    print('MyHomePage');
+    registerNotification();
      
   }
 
   static init()
   {
-    //_totalNotifications = 0;
-    registerNotification();
-    //checkForInitialMessage();
   }
   void loop() async{
     while(true){
