@@ -13,6 +13,7 @@ enum Status{
     Price(value: 8, label: "commodity_price"),
     User(value: 9, label: "user"),
     Notify(value: 10, label: "notify"),
+    Member(value: 11, label: "member"),
 
     Logout(value: -1, label: "登出");
     
@@ -74,7 +75,7 @@ class Data {
   static final ValueNotifier<bool> remeber = ValueNotifier(false);
 
   static final ValueNotifier<bool> headbar_event = ValueNotifier(false);
-  static final ValueNotifier<Status> status = ValueNotifier(Status.Introduce);
+  static final ValueNotifier<Status> status = ValueNotifier(Status.Member);
   static final ValueNotifier<int> view_change = ValueNotifier(0);
   static final intro_page = 'https://investanchors.com/home/about?view_source_from=app';
   static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';

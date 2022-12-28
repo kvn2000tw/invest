@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'data.dart';
+import '../data.dart';
 import 'package:provider/provider.dart';
-import 'theme/theme_model.dart';
-import 'custom/custom_theme.dart';
+import '../theme/theme_model.dart';
+import '../custom/custom_theme.dart';
 
-import 'custom/custom_button.dart';
-import 'custom/custom_button_options.dart';
-import 'service.dart';
+import '../custom/custom_button.dart';
+import '../custom/custom_button_options.dart';
+import '../service.dart';
 import 'dart:convert';
 import 'package:overlay_support/overlay_support.dart';
 

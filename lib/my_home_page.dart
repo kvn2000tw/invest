@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'my_app_bar.dart';
-import 'login.dart';
+import 'components/my_app_bar.dart';
+import 'components/login.dart';
+import 'components/mail_box.dart';
+import 'components/member.dart';
 import 'dart:async';
 import 'data.dart';
 
@@ -22,7 +24,7 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
 
  print("Handling a background message: ${message.notification?.title} ${message.notification?.body}");
- Data.status.value = Status.Email;
+ //Data.status.value = Status.Email;
 }
 
 class PushNotification {
@@ -573,10 +575,21 @@ class MyHomePage extends StatelessWidget {
   // 這個方法負責建立BottomNavigationBar
   Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
 
-    if(Data.status.value == Status.Login)
+    if(Data.status.value == Status.Login || Data.status.value == Status.Email ||
+      Data.status.value == Status.Member)
     {
       _controller = Completer<WebViewController>();
-      return Login();
+      if(Data.status.value == Status.Login)
+        return Login();
+      else if(Data.status.value == Status.Email)
+      {
+       
+        return MailBox();
+      }
+      else 
+      {
+        return Member();
+      }
       
     }
    

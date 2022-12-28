@@ -8,6 +8,7 @@ class CustomThemeState {
   CustomThemeState(){
     bodyText1 = CustomTextStyle();
     bodyText2 = TextStyle();
+    title3 = TextStyle();
     subtitle2 = CustomTextStyle();
 
     init();
@@ -59,9 +60,13 @@ class CustomThemeState {
   Color customColor6 = Colors.black;
   Color secondaryColor = Colors.blue;
 
-  
+  Color tertiaryColor = Colors.yellow;
+  Color primaryBackground = Colors.blue;
+
   late CustomTextStyle bodyText1;
   late TextStyle bodyText2;
   late CustomTextStyle subtitle2;
+
+  late TextStyle title3;
   
 }

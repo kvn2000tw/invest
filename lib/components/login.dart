@@ -5,14 +5,14 @@ import 'package:flutter/material.dart';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'custom/custom_theme.dart';
-import 'custom/custom_button.dart';
-import 'custom/custom_button_options.dart';
+import '../custom/custom_theme.dart';
+import '../custom/custom_button.dart';
+import '../custom/custom_button_options.dart';
 
-import 'data.dart';
+import '../data.dart';
 
 import 'package:url_launcher/url_launcher.dart';
-import 'service.dart';
+import '../service.dart';
 
 class Login extends StatelessWidget {
 
