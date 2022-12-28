@@ -42,6 +42,8 @@ class Data {
       email = 'email_light.png';
       key = 'key_light.png';
       
+      borderColor = Color(0xFF89CAD5);
+      yellow = Color(0xFFE3B205);
       blue = Color(0xFF0074c3);
       orange = Color(0xFFecaf00);
         
@@ -53,6 +55,8 @@ class Data {
       email = 'email_dark.png';
       key = 'key_dark.png';
 
+      borderColor = Color(0xFF89CAD5);
+      yellow = Color(0xFFFAC508);
       blue = Color(0xFF009cff);
       orange = Color(0xFFffc300);
       
@@ -94,6 +98,9 @@ class Data {
   static String email = 'email_light.png';
   static String key = 'email_dart.png';
 
+
+  static Color borderColor = Color(0xFF89CAD5);
+  static Color yellow = Colors.yellow;
   static Color blue = Colors.blue;
   static Color orange = Colors.orange;
   static Color white = Colors.white;

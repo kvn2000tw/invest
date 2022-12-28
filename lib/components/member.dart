@@ -381,6 +381,7 @@ class Member extends StatelessWidget {
           style: FlutterFlowTheme.of(context).bodyText1.override(
                 fontFamily: 'Poppins',
                 fontSize: 25,
+                fontWeight: FontWeight.w600,
               ),
         ),
         Container(
@@ -426,6 +427,7 @@ class Member extends StatelessWidget {
                                   .override(
                                     fontFamily: 'Poppins',
                                     fontSize: 21,
+                                    fontWeight: FontWeight.w600,
                                   ),
                             ),
                           ),
@@ -439,6 +441,7 @@ class Member extends StatelessWidget {
                                   .override(
                                     fontFamily: 'Poppins',
                                     fontSize: 22,
+                                    fontWeight: FontWeight.w600,
                                   ),
                             ),
                           ),
@@ -481,7 +484,7 @@ class Member extends StatelessWidget {
               width: 350,
               height: 49,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).tertiaryColor,
+                color: Data.yellow,
                 borderRadius: BorderRadius.circular(15),
               ),
               child: Align(
@@ -490,7 +493,9 @@ class Member extends StatelessWidget {
                   '取消訂閱',
                   style: FlutterFlowTheme.of(context).bodyText1.override(
                         fontFamily: 'Poppins',
-                        color: FlutterFlowTheme.of(context).primaryBackground,
+                        color: Data.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w600,
                       ),
                 ),
               ),
@@ -502,29 +507,41 @@ class Member extends StatelessWidget {
   ),
 );
 
-    final title3 =Padding(
-  padding: EdgeInsetsDirectional.fromSTEB(0, 30, 0, 40),
-  child: Container(
-    width: double.infinity,
-    height: 35,
-    decoration: BoxDecoration(
-      color: FlutterFlowTheme.of(context).secondaryBackground,
-    ),
-    child: Align(
-      alignment: AlignmentDirectional(-0.05, 0),
-      child: Text(
-        '檢視付款紀錄',
-        style: FlutterFlowTheme.of(context).bodyText1.override(
-              fontFamily: 'Poppins',
-              fontSize: 25,
-            ),
+    final title3 = Container(
+  width: 350,
+  height: 100,
+  decoration: BoxDecoration(
+    color: FlutterFlowTheme.of(context).secondaryBackground,
+    //borderRadius: BorderRadius.circular(0),
+   
+  ),
+  child: Align(
+    alignment: AlignmentDirectional(0, 0),
+    child: Container(
+      width: 350,
+      height: 100,
+      decoration: BoxDecoration(
+        color: FlutterFlowTheme.of(context).secondaryBackground,
+          border: Border(
+           
+            bottom: BorderSide(width: 1.0, color: Data.borderColor),
+          ),
+      ),
+      child: Align(
+        alignment: AlignmentDirectional(-0.05, 0),
+        child: Text(
+          '檢視付款紀錄',
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                fontSize: 25,
+                fontWeight: FontWeight.w600,
+              ),
+        ),
       ),
     ),
   ),
 );
 
-
-  
     var items = <Widget>[title1,title2,title3,
     LogInfo(), LogInfo(), LogInfo(), LogInfo(), LogInfo(),
     LogInfo(), LogInfo(), LogInfo(), LogInfo(), LogInfo(),
