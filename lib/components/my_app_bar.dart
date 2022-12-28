@@ -4,8 +4,6 @@ import 'package:provider/provider.dart';
 import '../theme/theme_model.dart';
 import '../custom/custom_theme.dart';
 
-import '../custom/custom_button.dart';
-import '../custom/custom_button_options.dart';
 import '../service.dart';
 import 'dart:convert';
 import 'package:overlay_support/overlay_support.dart';
@@ -436,6 +434,96 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       alignment: Alignment.center,
     ));
 
+    final menu = PopupMenuButton(
+      constraints: BoxConstraints(
+    minWidth: 56.0,
+    maxWidth: 56.0,
+  ),
+      elevation: 0,
+              shape: RoundedRectangleBorder(
+                  //side: BorderSide(color: F.uiConfig.subColorA),
+                  //borderRadius: BorderRadius.circular(10.w)
+                  ),
+              color: Data.member_blue,
+              
+      padding : const EdgeInsets.all(0.0),
+      child: Image.asset('assets/group_1.png',
+      width:62,
+      height:43,),
+      offset: Offset(0, 56),
+      itemBuilder: (context) {
+        return <PopupMenuEntry>[
+           PopupMenuItem(
+             padding : const EdgeInsets.only(bottom:0.0),
+        
+            child:Container(
+  width: 62,
+  height: 43,
+  decoration: BoxDecoration(
+    color:  FlutterFlowTheme.of(context).secondaryBackground,
+    borderRadius: BorderRadius.circular(30),
+    border: Border.all(
+      color: FlutterFlowTheme.of(context).primaryColor,
+    ),
+  ),
+  child: Align(
+    alignment: AlignmentDirectional(0, 0),
+    child: Text(
+      '會員',
+      style: FlutterFlowTheme.of(context).bodyText1.override(
+            fontFamily: 'Poppins',
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color:Data.blue,
+          ),
+    ),
+  ),
+),
+
+            value: 1,
+          ),
+          //const PopupMenuDivider(),
+           PopupMenuItem(
+             padding : const EdgeInsets.only(bottom:0.0),
+            child: Container(
+  width: 62,
+  height: 43,
+  decoration: BoxDecoration(
+    color: FlutterFlowTheme.of(context).secondaryBackground,
+    borderRadius: BorderRadius.circular(30),
+    border: Border.all(
+      color: FlutterFlowTheme.of(context).primaryColor,
+    ),
+  ),
+  child: Align(
+    alignment: AlignmentDirectional(0, 0),
+    child: Text(
+      '登出',
+      style: FlutterFlowTheme.of(context).bodyText1.override(
+            fontFamily: 'Poppins',
+            fontSize: 15,
+            fontWeight: FontWeight.w500,
+            color:Data.blue,
+          ),
+    ),
+  ),
+),
+
+            value: 2,
+          ),
+        ];
+      },
+      onSelected: (value) {
+        switch (value) {
+          case 1:
+            //_msg.value = '第一項';
+            break;
+          case 2:
+            //_msg.value = '第二項';
+            break;
+        }
+      }
+    );
 
     right.add(dark);
     if(Data.status.value == Status.Login)
@@ -482,7 +570,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       right.add(login);
     }
 
-    //right.add(menu);
+    right.add(menu);
 
     final widget = AppBar(
       

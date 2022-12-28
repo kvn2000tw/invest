@@ -34,7 +34,7 @@ class CustomThemeState {
     {
       checkColor = Colors.black;
       primaryColor = Color(0xFF009cff);//Colors.blue;
-      secondaryBackground = Colors.black;
+      secondaryBackground = Color(0xFF4D4D4D);//Colors.black;
       customColor1 = Colors.black;//Color(0x303030);
       customColor2 = Colors.black;
       customColor3 = Colors.white;

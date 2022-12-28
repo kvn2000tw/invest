@@ -45,8 +45,9 @@ class Data {
       borderColor = Color(0xFF89CAD5);
       yellow = Color(0xFFE3B205);
       blue = Color(0xFF0074c3);
+      member_blue = Color(0xFF0472BD);
       orange = Color(0xFFecaf00);
-        
+      grey = Color(0xFFC4C4C4);
       white = Colors.white;
       black = Colors.black;
     }
@@ -59,9 +60,11 @@ class Data {
       yellow = Color(0xFFFAC508);
       blue = Color(0xFF009cff);
       orange = Color(0xFFffc300);
-      
+      member_blue = Color(0xFF0099FF);
       white = Colors.black;
       black = Colors.white;
+      grey = Colors.white;
+      
     }
 
     const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
@@ -105,7 +108,9 @@ class Data {
   static Color orange = Colors.orange;
   static Color white = Colors.white;
   static Color black = Colors.black;
-
+  static late Color grey;
+  static late Color member_blue;
+  //static Color member_white = Color();
   static bool is_dark = true;
   static String url = intro_page;
   static final dark_image = 'dark_mode.png';

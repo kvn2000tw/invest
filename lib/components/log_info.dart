@@ -7,7 +7,8 @@ class LogInfo extends StatelessWidget {
   Widget build(BuildContext context) {
    
    return 
- Padding(
+ Container(
+  color:FlutterFlowTheme.of(context).secondaryBackground,
   padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
   child: Container(
     width: 290,
