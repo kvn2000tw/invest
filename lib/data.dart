@@ -50,6 +50,10 @@ class Data {
       grey = Color(0xFFC4C4C4);
       white = Colors.white;
       black = Colors.black;
+
+      mail_white = white;
+      mail_grey = grey;
+      infoBorderColor = Color(0xFFC4C4C4);
     }
     else 
     {
@@ -61,10 +65,14 @@ class Data {
       blue = Color(0xFF009cff);
       orange = Color(0xFFffc300);
       member_blue = Color(0xFF0099FF);
-      white = Colors.black;
+      white = Color(0xFF161616);//Colors.black;
       black = Colors.white;
       grey = Colors.white;
       
+      mail_white = Color(0xFF4D4D4D);
+      mail_grey = Color(0xFFA1A1A1);
+
+      infoBorderColor = Color(0xFFA1A1A1);
     }
 
     const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
@@ -82,7 +90,7 @@ class Data {
   static final ValueNotifier<bool> remeber = ValueNotifier(false);
 
   static final ValueNotifier<bool> headbar_event = ValueNotifier(false);
-  static final ValueNotifier<Status> status = ValueNotifier(Status.Member);
+  static final ValueNotifier<Status> status = ValueNotifier(Status.Introduce);
   static final ValueNotifier<int> view_change = ValueNotifier(0);
   static final intro_page = 'https://investanchors.com/home/about?view_source_from=app';
   static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';
@@ -101,8 +109,9 @@ class Data {
   static String email = 'email_light.png';
   static String key = 'email_dart.png';
 
-
+  static Color bar_icon_color = Color(0xFF0472bd);
   static Color borderColor = Color(0xFF89CAD5);
+  static Color infoBorderColor = Color(0xFFC4C4C4);
   static Color yellow = Colors.yellow;
   static Color blue = Colors.blue;
   static Color orange = Colors.orange;
@@ -110,6 +119,9 @@ class Data {
   static Color black = Colors.black;
   static late Color grey;
   static late Color member_blue;
+  static late Color  mail_white;
+  static late Color  mail_grey;
+
   //static Color member_white = Color();
   static bool is_dark = true;
   static String url = intro_page;

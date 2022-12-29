@@ -63,6 +63,7 @@ class CustomThemeState {
   Color tertiaryColor = Colors.yellow;
   Color primaryBackground = Colors.blue;
 
+  Color lineColor = Colors.white;
   late CustomTextStyle bodyText1;
   late TextStyle bodyText2;
   late CustomTextStyle subtitle2;

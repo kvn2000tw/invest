@@ -514,7 +514,7 @@ class MyHomePage extends StatelessWidget {
     if(value == 0)
     {
       Data.update_status(Status.Email);
-     
+      Data.update_view_change();
     }
 
     else if(value == 1)

@@ -6,7 +6,7 @@ class Member extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
+    print('Member');
     final title1 =  Align(
                 alignment: AlignmentDirectional(0, 0),
                 child: Container(

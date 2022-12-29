@@ -542,10 +542,11 @@ class Login extends StatelessWidget {
               width: double.infinity,
               height: 434,
               decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
+                color: Data.white,
+                
               ),
               child:Container(
-                 color:FlutterFlowTheme.of(context).customColor2,
+                 color:FlutterFlowTheme.of(context).secondaryBackground,
               child:Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
