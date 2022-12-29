@@ -607,6 +607,10 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       right.addAll([notify,person]);
      
     }
+    else if(Data.status.value == Status.Member)
+    {
+      right.addAll([notify,person]);
+    } 
     else 
     {
       right.add(login);

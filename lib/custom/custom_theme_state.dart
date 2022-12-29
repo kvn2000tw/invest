@@ -28,6 +28,7 @@ class CustomThemeState {
       customColor5 = Colors.black;
       customColor6 = Colors.black;
       secondaryColor = Colors.blue;
+      memberBackgrondColor = Colors.white;
 
     }
     else 
@@ -42,6 +43,7 @@ class CustomThemeState {
       customColor5 = Colors.blue;
       customColor6 = Colors.white;    
       secondaryColor = Color(0xFF009cff);
+      memberBackgrondColor = Color(0xFF424141);
 
     }
 
@@ -59,6 +61,7 @@ class CustomThemeState {
   Color customColor5 = Colors.black;
   Color customColor6 = Colors.black;
   Color secondaryColor = Colors.blue;
+  Color memberBackgrondColor = Colors.white;
 
   Color tertiaryColor = Colors.yellow;
   Color primaryBackground = Colors.blue;
