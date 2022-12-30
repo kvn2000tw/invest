@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'mail_list.dart';
 import 'pagination.dart';
 import 'mail_head.dart';
-
+import '../data.dart';
 class MailBox extends StatelessWidget {
 
   @override
@@ -12,8 +12,16 @@ class MailBox extends StatelessWidget {
   final head = MailHead();
   final tail = Pagination();
 
-    var items = <Widget>[head,
-      MailList(star:true,text:'文章標題在這邊',date:'2022-11-04'),tail];
+  List<Widget> list = <Widget>[];
+  Data.mail_list.forEach((map)
+  {
+    list.add(MailList(text:map['name'],date:map['date']));
+  }
+  );
+  final list_wrap = Column(
+    children:list
+  );
+  var items = <Widget>[head,list_wrap,tail];
     final listView = ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,

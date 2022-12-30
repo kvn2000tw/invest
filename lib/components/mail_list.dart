@@ -20,16 +20,15 @@ class MailList extends StatelessWidget {
   Widget build(BuildContext context) {
 
     String star_image = 'assets/images/star.png';
+
+    Color bg = Data.mail_grey;
+
     if(this.star == false)
     {
       star_image = 'assets/images/star-e.png';
+      bg = Data.mail_white;
     }
 
-    Color bg = Data.mail_white;
-    if(this.is_bg_white == false)
-    {
-      bg = Data.mail_grey;
-    }
     return Container(
   width: 390,
   height: 41,
@@ -76,6 +75,7 @@ class MailList extends StatelessWidget {
                       ),
                     child: Text(
                       text,
+                      maxLines:2,
                       style: FlutterFlowTheme.of(context).bodyText1.override(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w500,

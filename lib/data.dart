@@ -92,11 +92,15 @@ class Data {
   static final ValueNotifier<bool> headbar_event = ValueNotifier(false);
   static final ValueNotifier<Status> status = ValueNotifier(Status.Introduce);
   static final ValueNotifier<int> view_change = ValueNotifier(0);
+  static final home_page = 'https://investanchors.com/';
   static final intro_page = 'https://investanchors.com/home/about?view_source_from=app';
   static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';
   static final register_page = "https://investanchors.com/user/register/new";
   static final forgot_page = "https://investanchors.com/api/users/forget_pass";
   static final login_page = "https://investanchors.com/api/users/login";
+  static final articles_page = "https://investanchors.com/api/articles?";
+  static final users_page = "https://investanchors.com/api/users?";
+    
   static String user_token =  "";
   static String bell_notice_page = "https://investanchors.com/api/articles/bell_notice?";
   static String playplus = '54178192';
@@ -125,6 +129,7 @@ class Data {
   //static Color member_white = Color();
   static bool is_dark = true;
   static String url = intro_page;
+  static String home = home_page;
   static final dark_image = 'dark_mode.png';
   static final light_image = 'light_mode.png';
 
@@ -153,7 +158,8 @@ class Data {
 
   static String token = '';
 
-   static const drawer_config = true;//String.fromEnvironment('drawer_config',defaultValue: 'false');
-
-  
+  static const drawer_config = true;//String.fromEnvironment('drawer_config',defaultValue: 'false');
+  static late List<Map<String,dynamic>> mail_list;
+  static late List<Map<String,dynamic>> user_payments;
+  static String userInfo = '';
 }

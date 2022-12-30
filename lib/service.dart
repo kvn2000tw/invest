@@ -1,8 +1,6 @@
-//import 'dart:async';
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'data.dart';
 import 'theme/theme_preference.dart';
 class Service {
@@ -54,5 +52,76 @@ class Service {
 
     return '';
   }
+    static Future<String> getArticles() async {
 
+    final String url_str = '${Data.articles_page}user_token=${Data.user_token}&playplus=${Data.playplus}';
+    
+    final url = Uri.parse(url_str);
+
+    final responseOfFuture = await http.get(
+      url
+    );
+    print('getArticles');
+    print(url_str);
+    if (responseOfFuture.statusCode == 200) {
+      print(responseOfFuture.body);
+      //{"status":"success","user_token":"166745463414164","error":""}
+      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
+      //print(fromJsonMap["status"]);
+      String json = '';
+      if(fromJsonMap["status"].compareTo('success') == 0)
+      {
+        json = responseOfFuture.body;
+      }
+      return json;
+   
+    }
+
+    return '';
+  }
+
+    static Future<String> getUsers() async {
+
+    final String url_str = '${Data.users_page}user_token=${Data.user_token}&playplus=${Data.playplus}';
+    
+    final url = Uri.parse(url_str);
+
+    final responseOfFuture = await http.get(
+      url
+    );
+    print('getUsers');
+    print(url_str);
+    if (responseOfFuture.statusCode == 200) {
+      print(responseOfFuture.body);
+      //{"status":"success","user_token":"166745463414164","error":""}
+      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
+      //print(fromJsonMap["status"]);
+      String json = '';
+      if(fromJsonMap["status"].compareTo('success') == 0)
+      {
+        json = responseOfFuture.body;
+      }
+      return json;
+   
+    }
+
+    return '';
+  }  
+
+  static updateUser(String json)
+  {
+    print('updateUser');
+    print(json);
+    Data.userInfo = json;
+
+    Data.update_status(Status.Member);
+    Data.update_view_change();
+
+  }
+
+  static  updateUsers() async {
+    var  ret = getUsers();
+
+    ret.then((value)=>updateUser(value));
+  }
 }

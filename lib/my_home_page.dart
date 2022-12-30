@@ -17,6 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'package:plain_notification_token/plain_notification_token.dart';
+import 'dart:convert';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -252,6 +253,22 @@ class MyHomePage extends StatelessWidget {
     '量化篩選',
     '產業資料庫'
   ];
+  doLogout() async
+  {
+    print('dologout');
+    final WebViewController controller = await _controller.future;
+    
+    String script =
+        """ 
+         location.href = "/user/session";
+       
+       //var els = document.querySelectorAll("a[href='/user/session']");
+        //els[0].click();
+        """;
+    final String result  = await controller.runJavascriptReturningResult(script); 
+    print(result);   
+    Data.status.value = Status.Introduce;
+  }
   void process_url(String url) async
   {
     /*
@@ -292,6 +309,29 @@ class MyHomePage extends StatelessWidget {
       //MyAppBar.selectedNaviItem.value = 'login';
     }
 */
+    if(Data.status.value == Status.Logout)
+    {
+      print('logout');
+     final WebViewController controller = await _controller.future;
+    
+      final String result = await controller.runJavascriptReturningResult(
+        """
+        var msg = window.document.body.outerHTML; 
+        var ret = 'logout'; 
+        if(msg.indexOf('會員登出') !== -1) 
+          ret = 'login'; 
+        ret;
+        """
+      );
+       
+      print('status '+result);
+     
+      if(Data.status.value == Status.Logout)
+      {
+        await doLogout();
+      }
+     
+    }
     if (url.compareTo('https://investanchors.com/') == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       final WebViewController controller = await _controller.future;
@@ -306,7 +346,7 @@ class MyHomePage extends StatelessWidget {
         """
       );
        
-      print(result);
+      print('status '+result);
       if(result.compareTo('login') == 0)
       {
          _selectedNaviItem.value = 4;
@@ -443,14 +483,15 @@ class MyHomePage extends StatelessWidget {
   }
  
   // 這個方法負責建立BottomNavigationBar
-  Widget _bottomNavigationBarBuilder(BuildContext context, Status selectedButton, Widget? child) {
+  Widget _bottomNavigationBarBuilder(BuildContext context, Status selectedButton, Widget? child){
     final bottomNaviBarItems = <BottomNavigationBarItem>[];
 
     final select_item = Data.status.value;
     print('_bottomNavigationBarBuilder');
     //print(selectedButton);
     //select_item = 0;
-    if(select_item == Status.Login || select_item == Status.Introduce)
+
+    if(select_item == Status.Login || select_item == Status.Introduce || select_item == Status.Logout)
     {
     return SizedBox(
       //color:Colors.white,
@@ -507,14 +548,42 @@ class MyHomePage extends StatelessWidget {
     return widget;
     
   }
+  updateArticles(String json)
+  {
+    Data.update_status(Status.Email);
+    Data.update_view_change();
+
+    if(json.isEmpty)
+    {
+      Data.mail_list = [];
+      return;
+    }
+    List<Map<String,dynamic>> list = [];
+    print('updateArticles');
+    Map<String,dynamic> fromJsonMap = jsonDecode(json);
+    print(fromJsonMap['article'].length);
+    //print(fromJsonMap['article']);
+    fromJsonMap['article'].forEach((value)
+      {
+        final date = value['posted_at'].split("T"); 
+        //print('${value['name']} ${date[0]}');
+        Map<String,dynamic> map = {"id":value['id'],"name":value['name'],"date":date[0]};
+        list.add(map);
+      }
+    );
+
+    print(list);
+    Data.mail_list = list;
+  }
   gotoItem(int value) async
   {
     print(value);
 
     if(value == 0)
     {
-      Data.update_status(Status.Email);
-      Data.update_view_change();
+      var ret =  Service.getArticles();
+           
+      ret.then((value)=>updateArticles(value));
     }
 
     else if(value == 1)
@@ -564,7 +633,7 @@ class MyHomePage extends StatelessWidget {
         print('Page started loading: $url');
       },
       onPageFinished: (String url) {
-        print('Page finished loading: $url');
+        print('Page finished loading: $url ${Data.status.value}');
          process_url(url);
           
         // In the final result page we check the url to make sure  it is the last page.

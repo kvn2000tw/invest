@@ -557,11 +557,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
         switch (value) {
           case 1:
             print('select');
-            Data.status.value = Status.Member;
-            Data.update_view_change();
+            Service.updateUsers();
             break;
           case 2:
-            //_msg.value = '第二項';
+
+            Data.url = Data.home;
+            Data.status.value = Status.Logout;
+            Data.update_view_change();
+            
             break;
         }
       }

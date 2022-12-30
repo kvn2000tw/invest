@@ -3,7 +3,14 @@ import '../custom/custom_theme.dart';
 import '../data.dart';
 class MemberHead extends StatelessWidget {
 
-
+  late Map<String,dynamic> user;
+  late String pay_title;
+  MemberHead(Map<String,dynamic> user,String pay_title)
+  {
+    this.user = user;
+    this.pay_title = pay_title;
+    
+  }
   @override
   Widget build(BuildContext context) {
     final title1 =  Align(
@@ -62,7 +69,7 @@ class MemberHead extends StatelessWidget {
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             8, 0, 0, 0),
                                         child: Text(
-                                          '加值版會員',
+                                          user['plan']??'加值版會員',
                                           style: FlutterFlowTheme.of(context)
                                               .bodyText1
                                               .override(
@@ -119,7 +126,7 @@ class MemberHead extends StatelessWidget {
                                               alignment:
                                                   AlignmentDirectional(-1, 0),
                                               child: Text(
-                                                '普魯士',
+                                                user['name'],
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyText1
@@ -164,7 +171,7 @@ class MemberHead extends StatelessWidget {
                                               alignment:
                                                   AlignmentDirectional(-1, 0),
                                               child: Text(
-                                                '玩樂普魯士',
+                                                user['nick_name'],
                                                 style:
                                                     FlutterFlowTheme.of(context)
                                                         .bodyText1
@@ -468,7 +475,7 @@ class MemberHead extends StatelessWidget {
                         child: Align(
                           alignment: AlignmentDirectional(-1, 0),
                           child: Text(
-                            '下一期付款日：2022-12-22',
+                            pay_title,
                             style: FlutterFlowTheme.of(context)
                                 .bodyText1
                                 .override(
