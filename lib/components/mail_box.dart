@@ -15,7 +15,10 @@ class MailBox extends StatelessWidget {
   List<Widget> list = <Widget>[];
   Data.mail_list.forEach((map)
   {
+    
     list.add(MailList(text:map['name'],date:map['date']));
+    //list.add(MailList(text:"1234567890123456789012345678901234567890",
+    //date:map['date']));
   }
   );
   final list_wrap = Column(

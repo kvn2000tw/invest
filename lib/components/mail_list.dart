@@ -30,84 +30,46 @@ class MailList extends StatelessWidget {
     }
 
     return Container(
-  width: 390,
-  height: 41,
+      
   decoration: BoxDecoration(
-    color: bg,
-    border: Border.all(
-      color: bg,
-    ),
+    color:bg,
   ),
   child: Row(
     mainAxisSize: MainAxisSize.max,
     children: [
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+        child: Image.asset(
+          star_image,
+          width: 18,
+          height: 17,
+          fit: BoxFit.contain,
+        ),
+      ),
       Expanded(
         child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
-          child: Container(
-            width: 122,
-            height: 21,
-            decoration: BoxDecoration(
-              color:bg,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  width: 21,
-                  height: 21,
-                  decoration: BoxDecoration(
-                    color: bg,
-                  ),
-                  child: Image.asset(
-                    star_image,
-                    width: 100,
-                    height: 100,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-                Expanded(
-                  child: Container(
-                    width: 98,
-                    height: 20,
-                      decoration: BoxDecoration(
-                        color:bg,
-                      ),
-                    child: Text(
-                      text,
-                      maxLines:2,
-                      style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
+          padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+          child: Text(
+            text,
+            maxLines: 3,
+            style: FlutterFlowTheme.of(context).bodyText1,
           ),
         ),
       ),
-      Align(
-        alignment: AlignmentDirectional(0.8, 0),
-        child: Container(
-          width: 79,
-          height: 20,
-          decoration: BoxDecoration(
-            color: bg,
-          ),
-          child: Text(
-            date,
-            style: FlutterFlowTheme.of(context).bodyText1.override(
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.normal,
-                ),
-          ),
+      Padding(
+        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+        child: Text(
+          date,
+          style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                fontWeight: FontWeight.normal,
+              ),
         ),
       ),
     ],
   ),
 );
+
 
   }
 }
