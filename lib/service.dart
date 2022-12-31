@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'data.dart';
 import 'theme/theme_preference.dart';
+import 'package:webview_cookie_manager/webview_cookie_manager.dart';
 class Service {
 
   static ThemePreferences _preferences = ThemePreferences();
@@ -123,5 +124,20 @@ class Service {
     var  ret = getUsers();
 
     ret.then((value)=>updateUser(value));
+  }
+
+  static goLogout() async
+  {
+    final cookieManager = WebviewCookieManager();
+
+    final gotCookies = await cookieManager.getCookies(Data.home_page);
+      for (var item in gotCookies) {
+        print(item);
+      }
+
+    await cookieManager.clearCookies(); 
+    
+    //Data.goLogout();
+   
   }
 }

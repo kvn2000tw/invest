@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-
-
+import 'package:webview_flutter/webview_flutter.dart';
+import 'dart:async';
 enum Status{
     Login(value: 0, label: "登入"),
     Introduce(value: 1, label: "簡介"),
@@ -162,4 +162,10 @@ class Data {
   static late List<Map<String,dynamic>> mail_list;
   static late List<Map<String,dynamic>> user_payments;
   static String userInfo = '';
+
+  static update_alarm(bool alarm)
+  {
+    is_alarm = alarm;
+    update_headbar_event();
+  }
 }

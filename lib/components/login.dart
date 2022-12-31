@@ -60,10 +60,8 @@ class Login extends StatelessWidget {
     print(fromJsonMap);
     if( fromJsonMap["no_see"].length > 0) 
     {
-      Data.is_alarm = true;
-    
-      Data.update_status(Status.Alarm);
-          
+      Data.update_alarm(true);
+
     }
 
   }
@@ -111,7 +109,7 @@ class Login extends StatelessWidget {
         Data.update_status(Status.Browser);
         Data.update_view_change();
 
-        var ret = Service.getNotify();
+        final ret = Service.getNotify();
 
         ret.then((value)=>serviceReturn(value));
       }

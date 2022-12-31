@@ -217,9 +217,6 @@ class MyHomePage extends StatelessWidget {
   }  
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
-   Completer<WebViewController> _controller =
-    Completer<WebViewController>();
-
   static  final _naviItemIcon = [
     Image.asset(
       'assets/email_b.png',
@@ -253,87 +250,32 @@ class MyHomePage extends StatelessWidget {
     '量化篩選',
     '產業資料庫'
   ];
-  doLogout() async
+  run_login()async
   {
-    print('dologout');
+  
+    if(Data.status.value != Status.Browser )    return;
+
     final WebViewController controller = await _controller.future;
-    
+
     String script =
         """ 
-         location.href = "/user/session";
-       
-       //var els = document.querySelectorAll("a[href='/user/session']");
-        //els[0].click();
+          var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
+          document.getElementsByName("user[email]")[0].value = '${Data.username}';
+          document.getElementsByName("user[password]")[0].value = '${Data.passwd}';
+          var form = document.querySelector("form[action='/user/register']");
+          btn.click();
         """;
-    final String result  = await controller.runJavascriptReturningResult(script); 
-    print(result);   
-    Data.status.value = Status.Introduce;
+
+    //print(script);
+    await controller.runJavascript(script);
+      
   }
+  
   void process_url(String url) async
   {
-    /*
-    if(url.contains('user/vip_contents/investanchors_index'))
-    {
-      MyAppBar.selectedNaviItem.value = 'email';
-      _selectedNaviItem.value = 0;
-    }
-    
-    else if(url.contains('quantitative_analysis?coid'))
-    {
-      MyAppBar.selectedNaviItem.value = 'quantitative_analysis';
-      _selectedNaviItem.value = 1;
-    }
-    else if(url.contains('quantitative_analysis'))
-    {
-      MyAppBar.selectedNaviItem.value = 'quantitative_analysis';
-      _selectedNaviItem.value = 4;
-    }
-    else if(url.contains('screener'))
-    {
-      MyAppBar.selectedNaviItem.value = 'screener';
-      _selectedNaviItem.value = 2;
-    }
-    else if(url.contains('commodity_price'))
-    {
-      MyAppBar.selectedNaviItem.value = 'commodity_price';
-      _selectedNaviItem.value = 3;
-    }
-    else if(url.compareTo('https://investanchors.com/user') == 0)
-    {
-      //Data.status.value = Status.Browser;
-      //_selectedNaviItem.value = 4;
-    }
-    
-    else 
-    {
-      //MyAppBar.selectedNaviItem.value = 'login';
-    }
-*/
-    if(Data.status.value == Status.Logout)
-    {
-      print('logout');
-     final WebViewController controller = await _controller.future;
-    
-      final String result = await controller.runJavascriptReturningResult(
-        """
-        var msg = window.document.body.outerHTML; 
-        var ret = 'logout'; 
-        if(msg.indexOf('會員登出') !== -1) 
-          ret = 'login'; 
-        ret;
-        """
-      );
-       
-      print('status '+result);
-     
-      if(Data.status.value == Status.Logout)
-      {
-        await doLogout();
-      }
-     
-    }
     if (url.compareTo('https://investanchors.com/') == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
+
       final WebViewController controller = await _controller.future;
     
       final String result = await controller.runJavascriptReturningResult(
@@ -359,26 +301,10 @@ class MyHomePage extends StatelessWidget {
     }
     else if (url.compareTo(Data.register_page) == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
-      print(url);
-      if(Data.status.value != Status.Browser && Data.status.value != Status.Alarm )    return;
+      print('${url} ${Data.status.value}');
+      await run_login();
 
-      final WebViewController controller = await _controller.future;
-    
-        String name = Data.username;
-        String passwd = Data.passwd;
-
-        String script =
-         """ 
-          var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
-          document.getElementsByName("user[email]")[0].value = '${name}';
-          document.getElementsByName("user[password]")[0].value = '${passwd}';
-          var form = document.querySelector("form[action='/user/register']");
-          btn.click();
-          """;
-
-        print(script);
-        await controller.runJavascript(script);
-      }
+    }
 
   }
  
@@ -399,7 +325,6 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     // 建立AppBar
-    
     var remeberRet = Service.getRemeber();
     remeberRet.then((value) => Data.remeber.value = value);
 
@@ -411,7 +336,7 @@ class MyHomePage extends StatelessWidget {
 
     check_dark_mode(context);
 
-    final appBar = MyAppBar();
+    final appBar = MyAppBar(this);
    
     // 建立App的操作畫面
       final drawer = Drawer(
@@ -493,6 +418,7 @@ class MyHomePage extends StatelessWidget {
 
     if(select_item == Status.Login || select_item == Status.Introduce || select_item == Status.Logout)
     {
+
     return SizedBox(
       //color:Colors.white,
       height: 0.0,//_bottomNavBarHeight,
@@ -575,6 +501,7 @@ class MyHomePage extends StatelessWidget {
     print(list);
     Data.mail_list = list;
   }
+
   gotoItem(int value) async
   {
     print(value);
@@ -609,36 +536,73 @@ class MyHomePage extends StatelessWidget {
       Data.url = '${Data.Price_page}${Data.user_token}'; 
 
     }
-     final WebViewController controller = await _controller.future;
-
-     controller.loadUrl(Data.url);    
-     Data.update_view_change();
+    loadUrl();
+   
+    Data.update_view_change();
   }
-
-  late WebView webview;
-
-  void init_webvieww()
+  init_controll()
   {
-    webview = WebView(
-      //initialUrl :'https://investanchors.com/',
-      initialUrl : Data.url,
-      onWebViewCreated: (WebViewController controller) {
+    _controller = Completer<WebViewController>();
+  }
+  late WebView webView;
+  Completer<WebViewController> _controller =
+    Completer<WebViewController>();
+  init_webview()
+  {
+    webView = WebView(
+    //initialUrl :'https://investanchors.com/',
+    initialUrl : Data.url,
+    onWebViewCreated: (WebViewController controller) {
       
-        _controller.complete(controller);
+      _controller.complete(controller);
      
-      },
-      javascriptMode:JavascriptMode.unrestricted,    
+    },
+    javascriptMode:JavascriptMode.unrestricted,    
      
-      onPageStarted: (String url) {
-        print('Page started loading: $url');
-      },
-      onPageFinished: (String url) {
-        print('Page finished loading: $url ${Data.status.value}');
-         process_url(url);
+    onPageStarted: (String url) {
+      print('Page started loading: $url');
+    },
+    onPageFinished: (String url) {
+      print('Page finished loading: $url ${Data.status.value}');
+      process_url(url);
           
-        // In the final result page we check the url to make sure  it is the last page.
-      },        
-    );
+      // In the final result page we check the url to make sure  it is the last page.
+    },        
+  );
+
+  }
+  loadUrl() async
+  {
+     print('load url 1 ${Data.url}');
+    if(_controller.isCompleted == false)  
+    {
+      return;
+    }
+    final WebViewController controller = await _controller.future;
+
+    print('load url ${Data.url}');
+    controller.loadUrl(Data.url);   
+ 
+  }
+   
+  goLogout() async
+  {
+     print('goLogout url 1 ${Data.url}');
+    Data.url  = Data.home;
+    if(_controller.isCompleted == false)  
+    {
+      Data.update_status(Status.Introduce);
+      Data.update_view_change();
+ 
+      return;
+    }
+    final WebViewController controller = await _controller.future;
+
+    print('goLogout url ${Data.url}');
+    controller.loadUrl(Data.url);   
+    // await  controller.reload(); 
+    Data.update_status(Status.Introduce);
+    Data.update_view_change();
  
   }
   // 這個方法負責建立BottomNavigationBar
@@ -647,7 +611,7 @@ class MyHomePage extends StatelessWidget {
     if(Data.status.value == Status.Login || Data.status.value == Status.Email ||
       Data.status.value == Status.Member)
     {
-      _controller = Completer<WebViewController>();
+      init_controll();
       if(Data.status.value == Status.Login)
         return Login();
       else if(Data.status.value == Status.Email)
@@ -667,12 +631,12 @@ class MyHomePage extends StatelessWidget {
     print(Data.view_change.value);
     timer = 0;
 
-    init_webvieww();
-
+    init_webview();
+    
     // 結合AppBar和App操作畫面
     final tabBarView = TabBarView(
         children: [
-          webview
+          webView
         ],
     );
 

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../custom/custom_theme.dart';
 import '../data.dart';
+import '../service.dart';
+
 class MemberHead extends StatelessWidget {
 
   late Map<String,dynamic> user;
@@ -299,7 +301,9 @@ class MemberHead extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 0, 0),
-                                  child: Container(
+                                  child: 
+                                   InkWell(
+                                  child:Container(
                                     width: 87,
                                     height: 24,
                                     decoration: BoxDecoration(
@@ -351,7 +355,8 @@ class MemberHead extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                ),
+                                 onTap: () => {Service.goLogout()},//_msg.value = '你按下選單按鈕',
+                                  ),),
                               ],
                             ),
                           ),

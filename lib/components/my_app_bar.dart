@@ -7,13 +7,16 @@ import '../custom/custom_theme.dart';
 import '../service.dart';
 import 'dart:convert';
 import 'package:overlay_support/overlay_support.dart';
-
+import '../my_home_page.dart';
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   late ThemeModel themeNotifier;
   static final ValueNotifier<String> selectedNaviItem = ValueNotifier('login');
-
-  MyAppBar() : super();
+  late MyHomePage home_page;
+  MyAppBar(MyHomePage home_page) : super()
+  {
+    this.home_page = home_page;
+  }
 
   @override
   Size get preferredSize => const Size.fromHeight(56);
@@ -64,34 +67,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     ),
 
   );
-
-  final login =   InkWell(
-    onTap: (){
-      print("login clicked"); 
-      Data.update_view_change();
-      
-      Data.update_status(Status.Login);
-
-    },
-    child: Container(
-    alignment: Alignment.center,
-    height: 25.0,
-    width:70,
-        
-    margin: EdgeInsets.all(5.0),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(30)),
-      color: Data.white,
-      border: Border.all(width: 5, color: Data.blue),
-          
-    ),
-    child: Text(
-      '登入',
-      style: TextStyle(fontSize: 15.0,color:Data.blue),
-    ),
-
-  ));
-
  
   var navigate_before = Image.asset(
     'assets/navigate_before.png',
@@ -386,6 +361,31 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     if(Data.is_alarm)
       notify_str = 'assets/images/${Data.notify_alarm_image}';
 
+  final login =   InkWell(
+    onTap: (){
+      print("login clicked");
+      goLogin(); 
+
+    },
+    child: Container(
+    alignment: Alignment.center,
+    height: 25.0,
+    width:70,
+        
+    margin: EdgeInsets.all(5.0),
+    decoration: BoxDecoration(
+      borderRadius: BorderRadius.all(Radius.circular(30)),
+      color: Data.white,
+      border: Border.all(width: 5, color: Data.blue),
+          
+    ),
+    child: Text(
+      '登入',
+      style: TextStyle(fontSize: 15.0,color:Data.blue),
+    ),
+
+  ));
+
     final  notify = InkWell(
               onTap: (){
           print("alarm clicked");
@@ -556,15 +556,11 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       onSelected: (value) {
         switch (value) {
           case 1:
-            print('select');
             Service.updateUsers();
             break;
           case 2:
-
-            Data.url = Data.home;
-            Data.status.value = Status.Logout;
-            Data.update_view_change();
-            
+            goLogout();
+         
             break;
         }
       }
@@ -579,7 +575,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     {
       right.add(login);
     }
-    else if(Data.status.value == Status.Browser || Data.status.value == Status.Alarm)
+    else if(Data.status.value == Status.Browser || Data.is_alarm)
     {
       right.addAll([notify,person]);
     }
@@ -645,6 +641,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     );
     return widget;
   }
-
+  goLogout() async
+  {
+    await Service.goLogout();
+    home_page.goLogout();
+  }
+  goLogin()async
+  {
+    home_page.init_controll();
+    Data.update_status(Status.Login);
+    Data.update_view_change();
+  }
 }
 
