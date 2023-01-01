@@ -30,15 +30,16 @@ class MailList extends StatelessWidget {
     }
 
   return Container(
-      
+    
     decoration: BoxDecoration(
       color:bg,
+      border: Border.all(color: Colors.black)
     ),
     child: Row(
       mainAxisSize: MainAxisSize.max,
       children: [
       Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 10),
         child: Image.asset(
           star_image,
           width: 18,
@@ -47,14 +48,8 @@ class MailList extends StatelessWidget {
         ),
       ),
       Expanded(
-        child: Padding(
-          padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-         
-          child: Padding(
-            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-  
             child: Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+              padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 10),
                 child: Text(
                   text,
                   maxLines: 3,
@@ -66,10 +61,9 @@ class MailList extends StatelessWidget {
               ),
             ),
           ),
-        ),
-      ),
+      
       Padding(
-        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+        padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 10),
         child: Text(
           date,
           style: FlutterFlowTheme.of(context).bodyText1.override(
