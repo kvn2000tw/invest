@@ -588,7 +588,7 @@ class MyHomePage extends StatelessWidget {
   goLogout() async
   {
      print('goLogout url 1 ${Data.url}');
-    Data.url  = Data.home;
+    
     if(_controller.isCompleted == false)  
     {
       Data.update_status(Status.Introduce);

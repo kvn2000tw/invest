@@ -2,16 +2,23 @@ import 'package:flutter/material.dart';
 import '../custom/custom_theme.dart';
 import '../data.dart';
 import '../service.dart';
-
+import '../my_home_page.dart';
 class MemberHead extends StatelessWidget {
 
   late Map<String,dynamic> user;
   late String pay_title;
+
   MemberHead(Map<String,dynamic> user,String pay_title)
   {
     this.user = user;
     this.pay_title = pay_title;
     
+  }
+  goLogout()async
+  {
+    await Service.goLogout();
+    Data.update_status(Status.Introduce);
+    Data.update_view_change();
   }
   @override
   Widget build(BuildContext context) {
@@ -355,7 +362,7 @@ class MemberHead extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                 onTap: () => {Service.goLogout()},//_msg.value = '你按下選單按鈕',
+                                 onTap: () => {goLogout()},//_msg.value = '你按下選單按鈕',
                                   ),),
                               ],
                             ),

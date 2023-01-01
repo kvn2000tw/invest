@@ -166,7 +166,7 @@ class Service {
       }
 
     await cookieManager.clearCookies(); 
-    
+    Data.url = Data.home;
     //Data.goLogout();
    
   }
