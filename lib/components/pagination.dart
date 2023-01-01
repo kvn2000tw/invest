@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../custom/custom_theme.dart';
 import '../data.dart';
+
 class Pagination extends StatelessWidget {
 
 
@@ -9,7 +10,7 @@ class Pagination extends StatelessWidget {
     return  Align(
   alignment: AlignmentDirectional(0, 0),
   child: Container(
-    width: 390,
+    //width: 390,
     height: 80,
     decoration: BoxDecoration(
       color: FlutterFlowTheme.of(context).secondaryBackground,
