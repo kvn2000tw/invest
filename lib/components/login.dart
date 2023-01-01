@@ -256,12 +256,12 @@ class Login extends StatelessWidget {
                 children: [
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(10, 10, 10, 0),
-  child: Container(
+                    child: Container(
                       width: 279,
                       height: 208,
-    decoration: BoxDecoration(
-      color: FlutterFlowTheme.of(context).secondaryBackground,
-    ),
+                      decoration: BoxDecoration(
+                        color: FlutterFlowTheme.of(context).secondaryBackground,
+                      ),
                       child: Column(
                         mainAxisSize: MainAxisSize.max,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -278,54 +278,54 @@ class Login extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Container(
-                                  width: 131,
+                                  width: 200,
                                   height: 30,
                                   decoration: BoxDecoration(
                                     color: FlutterFlowTheme.of(context)
                                         .secondaryBackground,
                                   ),
-    child: Row(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Container(
-          width: 30,
-          height: 30,
-          decoration: BoxDecoration(
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.max,
+                                    children: [
+                                      Container(
+                                        width: 30,
+                                        height: 30,
+                                        decoration: BoxDecoration(
                                           color: FlutterFlowTheme.of(context)
                                               .secondaryBackground,
-          ),
-          child: Image.asset(
+                                        ),
+                                        child: Image.asset(
                                           'assets/images/${Data.email}',
                                           width: 25,
                                           height: 20,
                                           fit: BoxFit.contain,
-          ),
-        ),
+                                        ),
+                                      ),
                                       Padding(
                                         padding: EdgeInsetsDirectional.fromSTEB(
                                             10, 0, 0, 0),
-              child: Container(
-                                          width: 91,
-                height: 28,
-                decoration: BoxDecoration(
+                                        child: Container(
+                                          width: 150,
+                                          height: 28,
+                                          decoration: BoxDecoration(
                                             color: FlutterFlowTheme.of(context)
                                                 .secondaryBackground,
-                ),
-                child: Text(
-                  '電子郵件*',
-                                            style: FlutterFlowTheme.of(context)
+                                            ),
+                                            child: Text(
+                                              '電子郵件*',
+                                              style: FlutterFlowTheme.of(context)
                                                 .bodyText1
                                                 .override(
-                        fontFamily: 'Poppins',
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                ),
-              ),
-            ),
-      ],
-    ),
-  ),
+                                              fontFamily: 'Poppins',
+                                              fontSize: 20,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       0, 10, 0, 0),
@@ -397,7 +397,7 @@ class Login extends StatelessWidget {
                             ),
                           ),
                           Container(
-                            width: 131,
+                            width: 200,
                             height: 30,
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context)
@@ -424,7 +424,7 @@ class Login extends StatelessWidget {
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       10, 0, 0, 0),
                                   child: Container(
-                                    width: 40,
+                                    width: 100,
                                     height: 28,
                                     decoration: BoxDecoration(
                                       color: FlutterFlowTheme.of(context)
@@ -554,8 +554,8 @@ class Login extends StatelessWidget {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         16, 0, 0, 0),
                                     child: Container(
-                                      width: 48,
-                                      height: 22,
+                                      width: 80,
+                                      height: 24,
                                       decoration: BoxDecoration(
                                         color: FlutterFlowTheme.of(context)
                                             .secondaryBackground,
@@ -571,32 +571,25 @@ class Login extends StatelessWidget {
                                       ),
                                     ),
                                   ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        107, 0, 0, 0),
-                                    child: Container(
-                                      width: 80,
-                                      height: 22,
-                                      decoration: BoxDecoration(
-                                        color: FlutterFlowTheme.of(context)
-                                            .secondaryBackground,
-                                        //border: Border.all(color: Colors.blueAccent),
-                                      ),
-                                      child:TextButton( 
-                                        
-                                      style: TextButton.styleFrom(
-                                         padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 0, 0, 0),
-                                            textStyle: TextStyle(fontSize: 16,color:Colors.blue),
-                                          ),
-                                        child: Text(
-                                        '忘記密碼？',
-                                        style:TextStyle(fontSize: 16,color:Data.blue),
+                                  Expanded(
+                                    child: Align(
+                                      alignment: AlignmentDirectional(1, 0),
+                                      child: Container(
+                                        width: 100,
+                                        height: 24,
+                                        decoration: BoxDecoration(
+                                          color: FlutterFlowTheme.of(context).secondaryBackground,
                                         ),
-                                        onPressed: () => _showForgotDialog(context),
+                                        child: Text(
+                                          '忘記密碼？',
+                                          style: FlutterFlowTheme.of(context).bodyText1.override(
+                                            fontFamily: 'Poppins',
+                                            color: FlutterFlowTheme.of(context).primaryColor,
+                                        ),
                                       ),
                                     ),
                                   ),
+                                ),
                                 ],
                               ),
                             ),
@@ -628,8 +621,8 @@ class Login extends StatelessWidget {
                   Padding(
                     padding: EdgeInsetsDirectional.fromSTEB(0, 40, 0, 0),
                     child: Container(
-                      width: 96,
-                      height: 50,
+                
+                      height: 60,
                       decoration: BoxDecoration(
                         color: FlutterFlowTheme.of(context).secondaryBackground,
                       ),
@@ -668,48 +661,53 @@ class Login extends StatelessWidget {
           ),
           Padding(
             padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+ 
             child: Container(
-              width: 262,
-              height: 86,
-              decoration: BoxDecoration(
-                //color: FlutterFlowTheme.of(context).secondaryBackground,
+            width: 300,
+            //height: 100,
+            decoration: BoxDecoration(
+              color: Data.white,
+            ),
+    
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+              Text(
+                '為何要成為定錨產業筆記的會員？',
+                textAlign: TextAlign.start,
+                style: FlutterFlowTheme.of(context).bodyText1.override(
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '為何要成為定錨產業筆記的會員？',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontWeight: FontWeight.bold,
-                        ),
-                  ),
-                  Text(
-                    '‧ 產業深度分析：讓您的投資更前瞻！',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                        ),
-                  ),
-                  Text(
-                    '‧ 即時法說會簡評：讓您快速掌握公司經營動態！',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                        ),
-                  ),
-                  Text(
-                    '‧ 內容含金量No.1：有效提升投資成績！',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          fontSize: 12,
-                        ),
-                  ),
-                ],
+              Text(
+                '‧ 產業深度分析：讓您的投資更前瞻！',
+                style: FlutterFlowTheme.of(context).bodyText1.override(
+                  fontFamily: 'Poppins',
+                  fontSize: 12,
+                ),
+              ),
+              Text(
+                '‧ 即時法說會簡評：讓您快速掌握公司經營動態！',
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                fontSize: 12,
+              ),
+              maxLines:2    
+            ),
+            Text(
+              '‧ 內容含金量No.1：有效提升投資成績！',
+              style: FlutterFlowTheme.of(context).bodyText1.override(
+                fontFamily: 'Poppins',
+                fontSize: 12,
               ),
             ),
-          ),
+          ],
+        ),
+      ),
+    ),
+
         ],
       ))));
   }
