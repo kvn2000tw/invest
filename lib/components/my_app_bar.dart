@@ -6,8 +6,9 @@ import '../custom/custom_theme.dart';
 
 import '../service.dart';
 import 'dart:convert';
-import 'package:overlay_support/overlay_support.dart';
 import '../my_home_page.dart';
+import 'alarm_msg.dart';
+
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   late ThemeModel themeNotifier;
@@ -49,25 +50,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   ));
 
-  final read_all = Container(
-    alignment: Alignment.center,
-    height: 25.0,
-    width:120,
-        
-    margin: EdgeInsets.all(5.0),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.all(Radius.circular(30)),
-      color: Data.white,
-      border: Border.all(width: 5, color: Data.blue),
-          
-    ),
-    child: Text(
-      '全部已讀',
-      style: TextStyle(fontSize: 15.0,color:Data.blue),
-    ),
-
-  );
- 
   var navigate_before = Image.asset(
     'assets/navigate_before.png',
     fit: BoxFit.cover,
@@ -122,36 +104,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   }
     pressReturn(BuildContext context)
   {
-    print('return');
+
     Navigator.pop(context, '');
-  }
-
-  _nonews(BuildContext context) async
-  {
-    print('no news');
-
-    Data.is_alarm = false;
-    Data.update_headbar_event();
-    await pressReturn(context);
-  }
-  _readAll(BuildContext context) async
-  {
-    print('read all');
-    Data.update_status(Status.Email);
-    await pressReturn(context);
   }
 
   _showInfoDialog()
   {
     return;
-    showSimpleNotification(
-
-      Text(Data.token),
-          //leading: NotificationBadge(totalNotifications: _totalNotifications),
-          //subtitle: Text(_notificationInfo!.body!),
-          background: Colors.cyan.shade700,
-          duration: Duration(seconds: 20),
-        );     
+  
   }
   _showAlarmDialog(BuildContext context,String str) async {
 
@@ -164,178 +124,24 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     if( fromJsonMap["no_see"].length == 0) return;
        
     print(fromJsonMap);
-    var items = [];
-    var sub_items = [];
-    
+   
     final lists = fromJsonMap["no_see"];
+    List<String> items = [];
+    List<String> sub_items = [];
+    
     for(final list in lists)
     {
-      final arr = list["name"].split(' ');
-      items.add(arr[0]);
-      sub_items.add(arr[1]);
+      final arr = list["name"];
+      items.add(arr);
+      final arr1 = list["posted_at"];
+      sub_items.add(arr1);
+      
     }
     String len_str = lists.length.toString();
     String  no_see = '${len_str}封未讀信件';
      // 建立App的操作畫面
-    const msg_icon = 'assets/images/msg.png';
-
-    var listView = ListView.separated(
-      itemCount: lists.length,
-      itemBuilder: (context, index) =>
-          ListTile(
-            title: Text(items[index], style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-            subtitle:Text(sub_items[index], style: const TextStyle(fontSize: 16),),
-            onTap: () => {},//_selectedItem.value = '點選' + items[index],
-            leading: Container(
-              width:25,
-              height:25,
-              child: CircleAvatar(backgroundImage: AssetImage(msg_icon,),backgroundColor:Data.white),
-              padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 1),
-              ),
-            //trailing: const Icon(Icons.keyboard_arrow_right,),
-           
-          ),
-      separatorBuilder: (context, index) => const Divider(),
-  );
-
-    final dlg = Dialog(
-      
-      child:ColoredBox(
-        color:Data.white,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Expanded(
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional(0, 0),
-                          child: Text(
-                            no_see,
-                            style:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      fontSize: 20,
-                                      color:Data.blue,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Align(
-                      alignment: AlignmentDirectional(0, 0),
-                      child: Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(0, 0, 20, 0),
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: FlutterFlowTheme.of(context)
-                                .secondaryBackground,
-                          ),
-                        child: TextButton(
-                          child: Text(
-                            'X',
-                            style: TextStyle(fontSize: 20, color: FlutterFlowTheme.of(context).customColor6),
-                          ),
-                          style: ElevatedButton.styleFrom(
-                          
-                          padding: const EdgeInsets.symmetric(vertical: 0, horizontal: 0),
-                        
-                          ),
-                          onPressed: () => pressReturn(context),
-                        ),    
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                width: double.infinity,
-                height: 400,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: listView,
-              ),
-              Container(
-                width: double.infinity,
-                height: 50,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Container(
-                      width: 100,
-                      height: 50,
-                      decoration: BoxDecoration(
-                        color: FlutterFlowTheme.of(context).secondaryBackground,
-                      ),
-                      child: Align(
-                        alignment: AlignmentDirectional(0.15, 0),
-                          child:TextButton(                    
-                            style: TextButton.styleFrom(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0, 0, 0, 0),
-                                textStyle: TextStyle(fontSize: 16,color:Colors.blue),
-                            ),
-                            child: Text(
-                              '全部已讀',
-                              style:TextStyle(fontSize: 20,color:Data.blue),
-                              ),
-                              onPressed: () => {_nonews(context)},
-                          ),
-                      ),
-                    ),
-                    Expanded(
-                      child: Container(
-                        width: 100,
-                        height: 100,
-                        decoration: BoxDecoration(
-                          color:
-                              FlutterFlowTheme.of(context).secondaryBackground,
-                        ),
-                        child: Align(
-                          alignment: AlignmentDirectional(0.7, 0),
-                          child:TextButton(                    
-                            style: TextButton.styleFrom(
-                            padding: EdgeInsetsDirectional.fromSTEB(
-                                0, 0, 0, 0),
-                                textStyle: TextStyle(fontSize: 16,color:Colors.blue),
-                            ),
-                            child: Text(
-                              '查看全部',
-                              style:TextStyle(fontSize: 20,color:Data.blue),
-                              ),
-                              onPressed: () => {_readAll(context)},
-                          ),                        
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-    ));
+   
+  final dlg = AlarmMsg(no_see,items,sub_items);
 
     var willPopScope = WillPopScope(
       onWillPop: () async => false,
@@ -631,9 +437,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       onTap: () => {_showInfoDialog()},//_msg.value = '你按下選單按鈕',
     ),
     automaticallyImplyLeading: false,
-    //actions: <Widget>[intro],
-    //actions: <Widget>[notify],
-    //actions: <Widget>[read_all],
+  
     actions: right,
 
     backgroundColor:Data.white,

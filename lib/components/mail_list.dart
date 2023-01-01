@@ -29,14 +29,14 @@ class MailList extends StatelessWidget {
       bg = Data.mail_white;
     }
 
-    return Container(
+  return Container(
       
-  decoration: BoxDecoration(
-    color:bg,
-  ),
-  child: Row(
-    mainAxisSize: MainAxisSize.max,
-    children: [
+    decoration: BoxDecoration(
+      color:bg,
+    ),
+    child: Row(
+      mainAxisSize: MainAxisSize.max,
+      children: [
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
         child: Image.asset(
@@ -49,27 +49,23 @@ class MailList extends StatelessWidget {
       Expanded(
         child: Padding(
           padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-          child: Expanded(
-  child: Padding(
-    padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-    child: Expanded(
-  child: Padding(
-    padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
-    child: Text(
-     text,
-      maxLines: 3,
-      style: FlutterFlowTheme.of(context).bodyText1.override(
-            fontFamily: 'Poppins',
-            fontSize: 14,
-            fontWeight: FontWeight.normal,
+         
+          child: Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+  
+            child: Padding(
+              padding: EdgeInsetsDirectional.fromSTEB(10, 10, 0, 0),
+                child: Text(
+                  text,
+                  maxLines: 3,
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                    fontFamily: 'Poppins',
+                    fontSize: 14,
+                    fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
           ),
-    ),
-  ),
-)
-,
-  ),
-)
-,
         ),
       ),
       Padding(
@@ -77,15 +73,13 @@ class MailList extends StatelessWidget {
         child: Text(
           date,
           style: FlutterFlowTheme.of(context).bodyText1.override(
-                fontFamily: 'Poppins',
-                fontWeight: FontWeight.normal,
-              ),
+            fontFamily: 'Poppins',
+            fontWeight: FontWeight.normal,
         ),
       ),
+      ),
     ],
-  ),
-);
-
-
+    ),
+    );
   }
 }

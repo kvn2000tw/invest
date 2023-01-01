@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter/webview_flutter.dart';
-import 'dart:async';
+
 enum Status{
     Login(value: 0, label: "登入"),
     Introduce(value: 1, label: "簡介"),
@@ -100,7 +99,8 @@ class Data {
   static final login_page = "https://investanchors.com/api/users/login";
   static final articles_page = "https://investanchors.com/api/articles?";
   static final users_page = "https://investanchors.com/api/users?";
-    
+  static final see_all_cmd =  "https://investanchors.com/api/articles/see_all?";  
+  
   static String user_token =  "";
   static String bell_notice_page = "https://investanchors.com/api/articles/bell_notice?";
   static String playplus = '54178192';
@@ -159,8 +159,8 @@ class Data {
   static String token = '';
 
   static const drawer_config = true;//String.fromEnvironment('drawer_config',defaultValue: 'false');
-  static late List<Map<String,dynamic>> mail_list;
-  static late List<Map<String,dynamic>> user_payments;
+  static List<Map<String,dynamic>> mail_list = [];
+  static List<Map<String,dynamic>> user_payments = [];
   static String userInfo = '';
 
   static update_alarm(bool alarm)

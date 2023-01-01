@@ -8,23 +8,24 @@ class MailBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
+    print('MailBox build');
+    final head = MailHead();
+    final tail = Pagination();
 
-  final head = MailHead();
-  final tail = Pagination();
-
-  List<Widget> list = <Widget>[];
-  Data.mail_list.forEach((map)
-  {
+    List<Widget> list = <Widget>[];
+    Data.mail_list.forEach((map)
+    {
     
-    list.add(MailList(text:map['name'],date:map['date']));
-    //list.add(MailList(text:"1234567890123456789012345678901234567890",
-    //date:map['date']));
-  }
-  );
-  final list_wrap = Column(
-    children:list
-  );
-  var items = <Widget>[head,list_wrap,tail];
+      list.add(MailList(text:map['name'],date:map['date']));
+   
+    }
+    );
+
+    final list_wrap = Column(
+      children:list
+    );
+
+    final items = <Widget>[head,list_wrap,tail];
     final listView = ListView.builder(
       scrollDirection: Axis.vertical,
       shrinkWrap: true,
@@ -37,8 +38,9 @@ class MailBox extends StatelessWidget {
        
     );
 
-    return 
-      Column(
+    //return Text('test');
+
+    return  Column(
         mainAxisSize: MainAxisSize.max,
         children:[
           Expanded(child:

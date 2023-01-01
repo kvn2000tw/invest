@@ -53,6 +53,36 @@ class Service {
 
     return '';
   }
+
+  static Future<String> seeAll() async {
+
+    final String url_str = '${Data.see_all_cmd}user_token=${Data.user_token}&playplus=${Data.playplus}';
+    
+    final url = Uri.parse(url_str);
+
+    final responseOfFuture = await http.get(
+      url
+    );
+    print('see all');
+    print(url_str);
+    if (responseOfFuture.statusCode == 200) {
+      print(responseOfFuture.body);
+      //{"status":"success","user_token":"166745463414164","error":""}
+      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
+      //print(fromJsonMap["status"]);
+      String json = '';
+      if(fromJsonMap["status"].compareTo('success') == 0)
+      {
+        Data.is_alarm = false;
+        Data.update_headbar_event();
+      }
+      
+   
+    }
+
+    return '';
+  }
+
     static Future<String> getArticles() async {
 
     final String url_str = '${Data.articles_page}user_token=${Data.user_token}&playplus=${Data.playplus}';

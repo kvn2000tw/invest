@@ -508,7 +508,7 @@ class MyHomePage extends StatelessWidget {
 
     if(value == 0)
     {
-      var ret =  Service.getArticles();
+      final ret =  Service.getArticles();
            
       ret.then((value)=>updateArticles(value));
     }
