@@ -16,6 +16,9 @@ class MailHead extends StatelessWidget {
     final title1 =Padding(
       padding: EdgeInsetsDirectional.fromSTEB(0, 5, 0, 0),
       child: Container(
+        width: double.infinity,
+
+      child: Container(
         width: 390,
         height: 51,
         decoration: BoxDecoration(
@@ -120,10 +123,13 @@ class MailHead extends StatelessWidget {
         ],
       ),
     ),
-  );
+  ));
 
 
-  final title2 =Container(
+  final title2 =
+  Container(
+     width: double.infinity,
+  child:Container(
     width: 390,
     height: 50,
     decoration: BoxDecoration(
@@ -277,7 +283,7 @@ class MailHead extends StatelessWidget {
       ),
     ],
   ),
-);
+));
 
   return Column(
     children:[title1,title2]
