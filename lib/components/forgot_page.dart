@@ -281,14 +281,12 @@ class ForgotPage extends StatelessWidget {
                         print('Button pressed ...');
                         sendEmail(context,textController.text);
                       },
-                        style: ButtonStyle(
-                          backgroundColor: MaterialStatePropertyAll<Color>(Data.blue),
-                        ),
-                      child: Text('確認送出'),
+                       
+                      text: '確認送出',
                       options: FFButtonOptions(
                         width: 130,
                         height: 40,
-                        color: FlutterFlowTheme.of(context).primaryColor,
+                        color: Data.blue,
                         textStyle:
                             FlutterFlowTheme.of(context).subtitle2.override(
                                   fontFamily: 'Poppins',

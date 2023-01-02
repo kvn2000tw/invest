@@ -63,6 +63,8 @@ class CustomThemeState {
   Color secondaryColor = Colors.blue;
   Color memberBackgrondColor = Colors.white;
 
+
+  Color alternate = Colors.red;
   Color tertiaryColor = Colors.yellow;
   Color primaryBackground = Colors.blue;
 

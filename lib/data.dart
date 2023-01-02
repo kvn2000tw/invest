@@ -100,7 +100,8 @@ class Data {
   static final articles_page = "https://investanchors.com/api/articles?";
   static final users_page = "https://investanchors.com/api/users?";
   static final see_all_cmd =  "https://investanchors.com/api/articles/see_all?";  
-  
+  static final to_return =  "https://investanchors.com/api/users/to_return";
+
   static String user_token =  "";
   static String bell_notice_page = "https://investanchors.com/api/articles/bell_notice?";
   static String playplus = '54178192';
@@ -168,4 +169,5 @@ class Data {
     is_alarm = alarm;
     update_headbar_event();
   }
+ 
 }

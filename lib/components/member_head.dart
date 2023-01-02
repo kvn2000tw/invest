@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import '../custom/custom_button_options.dart';
 import '../custom/custom_theme.dart';
 import '../data.dart';
 import '../service.dart';
-import '../my_home_page.dart';
+import '../custom/custom_button.dart';
+import 'show_dialog_wrap.dart';
+import 'to_return_page.dart';
 class MemberHead extends StatelessWidget {
 
   late Map<String,dynamic> user;
@@ -13,6 +16,30 @@ class MemberHead extends StatelessWidget {
     this.user = user;
     this.pay_title = pay_title;
     
+  }
+  _showDialog(BuildContext context,String title,String msg) async {
+    
+    return showDialog(
+      context: context,
+      builder: (context) => ShowDialogWrap(title:title,msg:msg),
+    );
+  }
+
+  _runToReturn(BuildContext context)async
+  {
+  
+    var willPopScope = WillPopScope(
+      onWillPop: () async => false,
+      child: ToReturnPage(),
+    );
+
+    var ans = showDialog(
+      context: context,
+      builder: (context) => willPopScope,
+    );
+
+    return ans;  
+
   }
   goLogout()async
   {
@@ -515,17 +542,29 @@ class MemberHead extends StatelessWidget {
                   color: Data.yellow,
                   borderRadius: BorderRadius.circular(15),
                 ),
-                child: Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Text(
-                    '取消訂閱',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                          fontFamily: 'Poppins',
-                          color:
-                              Colors.white,
-                        ),
-                  ),
+                child: FFButtonWidget(
+                  onPressed: () {
+                    _runToReturn(context);
+                    print('Button pressed ...');
+                  },
+                text: '取消訂閱',
+                options: FFButtonOptions(
+                width: 130,
+                height: 40,
+                color: Data.yellow,
+                  textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                  fontFamily: 'Poppins',
+                  color: Colors.white,
+                  fontSize: 18,
                 ),
+                borderSide: BorderSide(
+                  color: Colors.transparent,
+                  width: 1,
+                ),
+                borderRadius: BorderRadius.circular(15),
+              ),
+            ),
+
               ),
             ),
           ),

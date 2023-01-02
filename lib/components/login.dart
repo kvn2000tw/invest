@@ -6,8 +6,6 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import '../custom/custom_theme.dart';
-import '../custom/custom_button.dart';
-import '../custom/custom_button_options.dart';
 
 import 'forgot_page.dart';
 import '../data.dart';
@@ -51,7 +49,7 @@ class Login extends StatelessWidget {
     Data.username = name;
     Data.passwd = passwd;
 
-    var map = <String, String>{
+    final map = <String, String>{
      
       'email': name,
       'password': passwd,
@@ -572,22 +570,17 @@ class Login extends StatelessWidget {
                                     ),
                                   ),
                                   Expanded(
-                                    child: Align(
-                                      alignment: AlignmentDirectional(1, 0),
-                                      child: Container(
-                                        width: 100,
-                                        height: 24,
-                                        decoration: BoxDecoration(
-                                          color: FlutterFlowTheme.of(context).secondaryBackground,
-                                        ),
-                                        child: Text(
-                                          '忘記密碼？',
-                                          style: FlutterFlowTheme.of(context).bodyText1.override(
-                                            fontFamily: 'Poppins',
-                                            color: FlutterFlowTheme.of(context).primaryColor,
-                                        ),
-                                      ),
+                                    child: TextButton( 
+                                      style: TextButton.styleFrom(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                        0, 0, 0, 0),
+                                      textStyle: TextStyle(fontSize: 16,color:FlutterFlowTheme.of(context).primaryColor),
                                     ),
+                                    child: Text(
+                                      '忘記密碼？',
+                                      style:TextStyle(fontSize: 16,color:Data.blue),
+                                    ),
+                                    onPressed: () => _showForgotDialog(context),
                                   ),
                                 ),
                                 ],

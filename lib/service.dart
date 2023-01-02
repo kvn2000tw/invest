@@ -151,7 +151,7 @@ class Service {
   }
 
   static  updateUsers() async {
-    var  ret = getUsers();
+    final  ret = getUsers();
 
     ret.then((value)=>updateUser(value));
   }
@@ -169,5 +169,42 @@ class Service {
     Data.url = Data.home;
     //Data.goLogout();
    
+  }
+
+  static toReturn({required String return_reason,String other_reason=''})async
+  {
+      final map = <String, String>{
+     
+      'user_token': Data.user_token,
+      'playplus': Data.playplus,
+      'return_reason':return_reason,
+      'other_reason':other_reason,
+    };
+  
+    final url = Uri.parse(Data.to_return);
+    final responseOfFuture = await http.post(
+      url,
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(map),
+    );
+    print(responseOfFuture.statusCode);
+    if (responseOfFuture.statusCode == 200) {
+      print(responseOfFuture.body);
+      //{"status":"success","user_token":"166745463414164","error":""}
+      Map<String,dynamic> fromJsonMap = jsonDecode(responseOfFuture.body);
+      //print(fromJsonMap["status"]);
+      String json = '';
+      if(fromJsonMap["status"].compareTo('success') == 0)
+      {
+        json = fromJsonMap['message'];
+        
+      }
+      return json;
+    }
+
+    return '';
+
   }
 }
