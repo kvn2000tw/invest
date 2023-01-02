@@ -4,7 +4,32 @@ import '../data.dart';
 
 class MailHead extends StatelessWidget {
 
-  var trans = ['TAG','全文'];
+  final ValueNotifier<int> tag_index = ValueNotifier(0);
+
+  final  tags = ['TAG','全文'];
+  Widget _dropdownBuilder(BuildContext context, int selectedItem, Widget? child) {
+   return Container( 
+      decoration: BoxDecoration(
+    
+      border: Border.all(color:Data.grey),
+    ),
+   child:DropdownButton(
+      items: <DropdownMenuItem> [
+        DropdownMenuItem(
+          child: Text(tags[0], style: const TextStyle(fontSize: 14),),
+          value: 0,
+        ),
+      DropdownMenuItem(
+          child: Text(tags[1], style: const TextStyle(fontSize: 14),),
+          value: 1,
+        ),
+      ],
+      onChanged: (dynamic value) => {tag_index.value = value},
+      hint: const Text('TAG', style: TextStyle(fontSize: 14),),
+      value: tag_index.value,//selectedItem < 0 ? null : selectedItem,
+    ));
+
+  }
   @override
   Widget build(BuildContext context) {
 
@@ -249,21 +274,14 @@ class MailHead extends StatelessWidget {
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
           ),
-          child: DropdownButton(
-      items: <DropdownMenuItem> [
-        DropdownMenuItem(
-          child: Text(trans[0], style: const TextStyle(fontSize: 14),),
-          value: 0,
-        ),
-     
-      ],
-      onChanged: (dynamic value) => {},
-      hint: const Text('TAG', style: TextStyle(fontSize: 14),),
-      value: 0,//selectedItem < 0 ? null : selectedItem,
-    ),
+          child:ValueListenableBuilder<int>(
+            builder: _dropdownBuilder,
+            valueListenable: tag_index,
+          ) 
         ),
       ),
       Container(
+        margin: const EdgeInsets.all(10.0),
         width: 20,
         height: 20,
         decoration: BoxDecoration(

@@ -33,7 +33,7 @@ class MailList extends StatelessWidget {
     
     decoration: BoxDecoration(
       color:bg,
-      border: Border.all(color: Colors.black)
+      border: Border(top:BorderSide(color: Data.grey),bottom:BorderSide(color: Data.grey))
     ),
     child: Row(
       mainAxisSize: MainAxisSize.max,
