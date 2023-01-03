@@ -25,7 +25,6 @@ class Member extends StatelessWidget {
     print(fromJsonMap["user"]);
     user = fromJsonMap["user"];
   
-
     user_payments = user["user_payments"] ?? [];
 
     //print(fromJsonMap["user_payments"]);

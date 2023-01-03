@@ -79,6 +79,8 @@ class Login extends StatelessWidget {
         final ret = Service.getNotify();
 
         ret.then((value)=>serviceReturn(value));
+
+        Service.updateUsers();     
       }
 
       if(fromJsonMap["status"].compareTo('error') == 0)   

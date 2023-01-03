@@ -172,12 +172,14 @@ class Service {
     print(json);
     Data.userInfo = json;
 
-    Data.update_status(Status.Member);
+    //Data.update_status(Status.Member);
+    Data.update_headbar_event();
     Data.update_view_change();
 
   }
 
   static  updateUsers() async {
+    
     final  ret = getUsers();
 
     ret.then((value)=>updateUser(value));
@@ -185,6 +187,7 @@ class Service {
 
   static goLogout() async
   {
+    Data.userInfo = '';
     final cookieManager = WebviewCookieManager();
 
     final gotCookies = await cookieManager.getCookies(Data.home_page);

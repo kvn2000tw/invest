@@ -1,14 +1,31 @@
 import 'package:flutter/material.dart';
 import '../custom/custom_theme.dart';
+import 'dart:convert';
 import '../data.dart';
 import '../service.dart';
 import '../my_home_page.dart';
 class PersonItem extends StatelessWidget {
 
   late MyHomePage home_page;
+  late Map<String,dynamic> user;
+
   PersonItem(MyHomePage home_page)
   {
     this.home_page = home_page;
+  }
+  decodeInfo(String json)
+  {
+    if(json.isEmpty)    
+    { 
+      user = {};
+      return;
+    }
+    Map<String,dynamic> fromJsonMap = jsonDecode(json);
+    print(json);
+  
+    print(fromJsonMap["user"]);
+    user = fromJsonMap["user"];
+
   }
   goLogout() async
   {
@@ -17,6 +34,25 @@ class PersonItem extends StatelessWidget {
   }
   @override
   Widget build(BuildContext context) {
+
+    decodeInfo(Data.userInfo);
+    var person = Image.asset(
+      'assets/images/head.png',
+      width: 33,
+      height: 33,
+      fit: BoxFit.contain,
+    );
+
+    if(user != null && user['avator'] != null  && 
+      user['avator']['url'] != null)
+    {
+      person = Image.network(
+      '${Data.home}${user['avator']['url']}',
+      width: 33,
+      height: 33,
+      fit: BoxFit.contain,
+    );
+    }
     return PopupMenuButton(
       constraints: BoxConstraints(
     minWidth: 56.0,
@@ -59,12 +95,7 @@ class PersonItem extends StatelessWidget {
           alignment: AlignmentDirectional(0, 0),
           child: Padding(
             padding: EdgeInsetsDirectional.fromSTEB(5, 0, 0, 0),
-            child: Image.asset(
-              'assets/images/head.png',
-              width: 33,
-              height: 33,
-              fit: BoxFit.contain,
-            ),
+            child: person,
           ),
         ),
         Padding(
@@ -145,7 +176,9 @@ class PersonItem extends StatelessWidget {
       onSelected: (value) {
         switch (value) {
           case 1:
-            Service.updateUsers();
+            //Service.updateUsers();
+            Data.update_status(Status.Member);
+            Data.update_view_change();
             break;
           case 2:
             goLogout();
