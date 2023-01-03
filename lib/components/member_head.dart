@@ -93,8 +93,8 @@ class MemberHead extends StatelessWidget {
                                           decoration: BoxDecoration(
                                             color: Data.member_blue,
                                           ),
-                                          child: Image.asset(
-                                            'assets/images/Vector.png',
+                                          child: Image.network(
+                                            '${Data.home}${user['avator']['url']}',
                                             width: 100,
                                             height: 100,
                                             fit: BoxFit.contain,

@@ -113,16 +113,43 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     return;
   
   }
+  _showNoMsgDialog(BuildContext context)async
+  {
+    var dlg = AlertDialog(
+      title:const Text('訊息'),
+      content: const Text('無新訊息'),
+      actions: <Widget>[
+        TextButton(
+          child: const Text(
+            "OK",
+          ),
+          onPressed: () => Navigator.pop(context),
+        ),
+      ],
+    );
+
+    var ans = showDialog(
+      context: context,
+      builder: (context) => dlg,
+    );
+
+  }
   _showAlarmDialog(BuildContext context,String str) async {
 
     print('_showAlarmDialog');
 
-    if(str.isEmpty)    return;
-
+    if(str.isEmpty) 
+    {
+      _showNoMsgDialog(context);
+      return;
+    }
     Map<String,dynamic>  fromJsonMap = jsonDecode(str);
 
-    if( fromJsonMap["no_see"].length == 0) return;
-       
+    if( fromJsonMap["no_see"].length == 0) 
+    {
+       _showNoMsgDialog(context);
+      return;
+    }  
     print(fromJsonMap);
    
     final lists = fromJsonMap["no_see"];

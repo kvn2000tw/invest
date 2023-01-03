@@ -11,6 +11,7 @@ class Member extends StatelessWidget {
   late Map<String,dynamic> user;
   List<dynamic> user_payments = [];
   String pay_title = '';
+  
   decodeInfo(String json)
   {
     if(json.isEmpty)    
@@ -23,6 +24,7 @@ class Member extends StatelessWidget {
     pay_title = fromJsonMap['pay_title']+'：'+fromJsonMap['next_action_date'];
     print(fromJsonMap["user"]);
     user = fromJsonMap["user"];
+  
 
     user_payments = user["user_payments"] ?? [];
 
