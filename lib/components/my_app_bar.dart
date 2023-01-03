@@ -36,7 +36,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     height: 25.0,
     width:70,
         
-    margin: EdgeInsets.all(5.0),
+    margin: EdgeInsets.fromLTRB(15,5,5,5),//
     decoration: BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(30)),
     color: Data.white,
@@ -49,14 +49,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     ),
 
   ));
-
-  var navigate_before = Image.asset(
-    'assets/navigate_before.png',
-    fit: BoxFit.cover,
-    height: double.infinity,
-    width: double.infinity,
-    alignment: Alignment.center,
-  );
 
   var logo = Container(
     child:Image.asset(
@@ -205,7 +197,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     height: 25.0,
     width:70,
         
-    margin: EdgeInsets.all(5.0),
+    margin: EdgeInsets.fromLTRB(15,5,5,5),
     decoration: BoxDecoration(
       borderRadius: BorderRadius.all(Radius.circular(30)),
       color: Data.white,
@@ -225,13 +217,16 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
           getNotify(context);
           
         },
+      
+      child:Container(
+      margin:EdgeInsets.fromLTRB(15,5,5,5),
       child:Image.asset(
       notify_str,
       fit: BoxFit.contain,
       height: 40,
       width: 40,
       alignment: Alignment.center,
-    ));
+    )));
 
     var image;
 
@@ -253,16 +248,21 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
           themeNotifier.setThemeMode(ThemeModel.constConvertToEnum(val));
 
         },
+   child:Container(
+    margin:EdgeInsets.fromLTRB(15,5,5,5),
    child:Image.asset(
       'assets/images/${image}',
       fit: BoxFit.contain,
       height: 40,
       width: 40,
       alignment: Alignment.center,
-    ));
+    )));
 
 
-    final person = PersonItem(home_page);
+    final person = Container(
+      margin:EdgeInsets.only(left:15,right:5),
+      child:PersonItem(home_page),
+    );
 
     right.add(dark);
     if(Data.status.value == Status.Login)

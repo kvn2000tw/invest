@@ -36,7 +36,7 @@ class PersonItem extends StatelessWidget {
   Widget build(BuildContext context) {
 
     decodeInfo(Data.userInfo);
-    var person = Image.asset(
+    Widget person = Image.asset(
       'assets/images/head.png',
       width: 33,
       height: 33,
@@ -46,12 +46,14 @@ class PersonItem extends StatelessWidget {
     if(user != null && user['avator'] != null  && 
       user['avator']['url'] != null)
     {
-      person = Image.network(
-      '${Data.home}${user['avator']['url']}',
-      width: 33,
-      height: 33,
-      fit: BoxFit.contain,
-    );
+   
+      person = CircleAvatar(
+          radius: 15,
+          backgroundImage: NetworkImage(
+            '${Data.home}${user['avator']['url']}'
+        ),
+      );
+
     }
     return PopupMenuButton(
       constraints: BoxConstraints(
