@@ -138,7 +138,34 @@ class Service {
 
     return '';
   }  
+  static updateArticles(String json)
+  {
+    Data.update_status(Status.Email);
+    Data.update_view_change();
 
+    if(json.isEmpty)
+    {
+      Data.mail_list = [];
+      return;
+    }
+    List<Map<String,dynamic>> list = [];
+    print('updateArticles');
+    Map<String,dynamic> fromJsonMap = jsonDecode(json);
+    print(fromJsonMap['article'].length);
+    //print(fromJsonMap['article']);
+    fromJsonMap['article'].forEach((value)
+      {
+        final date = value['posted_at'].split("T"); 
+        //print('${value['name']} ${date[0]}');
+        Map<String,dynamic> map = {"id":value['id'],"name":value['name'],"date":date[0],"no":value['no']};
+        list.add(map);
+      }
+    );
+
+    print(list);
+    Data.mail_list = list;
+  }
+   
   static updateUser(String json)
   {
     print('updateUser');

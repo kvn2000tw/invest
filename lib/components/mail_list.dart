@@ -8,13 +8,12 @@ class MailList extends StatelessWidget {
   late bool is_bg_white;
   late String text;
   late String date;
+  late String no;
 
-  MailList({bool star=false,bool is_bg_white=false,required String text,required String date})
+  MailList({bool star=false,bool is_bg_white=false,required this.text,required this.date,required this.no})
   {
     this.star = star;
     this.is_bg_white = is_bg_white;
-    this.text = text;
-    this.date = date;
   }
   @override
   Widget build(BuildContext context) {
@@ -29,7 +28,15 @@ class MailList extends StatelessWidget {
       bg = Data.mail_white;
     }
 
-  return Container(
+  return InkWell(
+    onTap: (){
+      print("list clicked"); 
+     
+      Data.url = '${Data.home}user/vip_contents/${no}';
+    
+      Data.update_status(Status.Browser);
+      Data.update_view_change();
+    },child:Container(
     
     decoration: BoxDecoration(
       color:bg,
@@ -74,6 +81,6 @@ class MailList extends StatelessWidget {
       ),
     ],
     ),
-    );
+    ));
   }
 }
