@@ -6,13 +6,19 @@ import '../service.dart';
 class AlarmMsg extends StatelessWidget {
   late String no_see;
   late List<String> items;
-  late List<String> sub_items;
+  List<String> sub_items = [];
   
   AlarmMsg(String no_see,List<String> items,List<String> sub_items)
   {
     this.no_see = no_see;
     this.items = items;
-    this.sub_items = sub_items;
+
+    for(var i=0;i<sub_items.length;i++)
+    {
+      var ele = sub_items[i].split("T");
+      var time = ele[1].split(":");
+      this.sub_items.add(ele[0]+' '+time[0]+":"+time[1]);
+    }
    
   }
   _nonews(BuildContext context) async
@@ -45,8 +51,10 @@ class AlarmMsg extends StatelessWidget {
    
    const msg_icon = 'assets/images/msg.png';
 
+    final length = items.length  > 5 ? 5:items.length;
+
     final listView = ListView.separated(
-      itemCount: items.length,
+      itemCount: length,
       itemBuilder: (context, index) =>
           ListTile(
             title: Text(items[index], style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),

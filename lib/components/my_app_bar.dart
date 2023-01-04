@@ -142,7 +142,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
        _showNoMsgDialog(context);
       return;
     }  
-    print(fromJsonMap);
+    //print(fromJsonMap);
    
     final lists = fromJsonMap["no_see"];
     List<String> items = [];
