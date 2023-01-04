@@ -99,8 +99,7 @@ class MailHead extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(41, 0, 0, 0),
-          child: 
-          InkWell(
+          child: InkWell(
             onTap:(){_myFavorite();},
             child:Container(
             width: 54,
@@ -139,10 +138,10 @@ class MailHead extends StatelessWidget {
                     ),
                   ),
                 ),
-            )],
+            ],
             ),
           ),
-        ),
+        )),
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
           child: Container(
