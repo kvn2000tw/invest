@@ -13,12 +13,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   late ThemeModel themeNotifier;
   static final ValueNotifier<String> selectedNaviItem = ValueNotifier('login');
-  late MyHomePage home_page;
-  MyAppBar(MyHomePage home_page) : super()
-  {
-    this.home_page = home_page;
-  }
-
+  
+  late GestureTapCallback init;
+  late GestureTapCallback logout;
+  MyAppBar({
+  required this.init,
+  required this.logout,
+  }) : super();
+  
   @override
   Size get preferredSize => const Size.fromHeight(56);
 
@@ -261,7 +263,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
     final person = Container(
       margin:EdgeInsets.only(left:15,right:5),
-      child:PersonItem(home_page),
+      child:PersonItem(logout:logout),
     );
 
     right.add(dark);
@@ -340,7 +342,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   
   goLogin()async
   {
-    home_page.init_controll();
+    init();
     Data.update_status(Status.Login);
     Data.update_view_change();
   }

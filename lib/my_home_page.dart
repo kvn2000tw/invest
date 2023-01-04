@@ -336,7 +336,10 @@ class MyHomePage extends StatelessWidget {
 
     check_dark_mode(context);
 
-    final appBar = MyAppBar(this);
+    final appBar = MyAppBar(
+      init:(){init_controll();},
+      logout:(){goLogout();}
+    );
    
     // 建立App的操作畫面
       final drawer = Drawer(
@@ -481,8 +484,9 @@ class MyHomePage extends StatelessWidget {
 
     if(value == 0)
     {
+      Data.selectHead = 0;
       final ret =  Service.getArticles();
-           
+          
       ret.then((value)=>Service.updateArticles(value));
     }
 

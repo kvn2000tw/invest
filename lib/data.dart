@@ -169,5 +169,5 @@ class Data {
     is_alarm = alarm;
     update_headbar_event();
   }
- 
+  static int selectHead = 0;
 }

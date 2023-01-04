@@ -8,11 +8,9 @@ class PersonItem extends StatelessWidget {
 
   late MyHomePage home_page;
   late Map<String,dynamic> user;
+  late GestureTapCallback logout;
 
-  PersonItem(MyHomePage home_page)
-  {
-    this.home_page = home_page;
-  }
+  PersonItem({required this.logout});
   decodeInfo(String json)
   {
     if(json.isEmpty)    
@@ -27,10 +25,10 @@ class PersonItem extends StatelessWidget {
     user = fromJsonMap["user"];
 
   }
-  goLogout() async
+  _goLogout() async
   {
     await Service.goLogout();
-    home_page.goLogout();
+    logout();
   }
   @override
   Widget build(BuildContext context) {
@@ -183,7 +181,7 @@ class PersonItem extends StatelessWidget {
             Data.update_view_change();
             break;
           case 2:
-            goLogout();
+            _goLogout();
          
             break;
         }

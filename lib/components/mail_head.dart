@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
 import '../custom/custom_theme.dart';
 import '../data.dart';
-
+import 'head_ele.dart';
 class MailHead extends StatelessWidget {
 
   final ValueNotifier<int> tag_index = ValueNotifier(0);
+  List<bool> enable_arr = [false,false,false,false,];
 
   final  tags = ['TAG','全文'];
+  MailHead()
+  {
+    enable_arr[Data.selectHead] = true;
+  }
   Widget _dropdownBuilder(BuildContext context, int selectedItem, Widget? child) {
    return Container( 
       decoration: BoxDecoration(
@@ -30,6 +35,19 @@ class MailHead extends StatelessWidget {
     ));
 
   }
+  void _headChange(int value)
+  {
+    Data.selectHead = value;
+    Data.update_view_change();
+  }
+  _searchHead()
+  {
+    print('_searchHead');
+  }
+  _myFavorite()
+  {
+    print('_myFavorite');
+  }  
   @override
   Widget build(BuildContext context) {
 
@@ -51,96 +69,17 @@ class MailHead extends StatelessWidget {
           children: [
           Align(
             alignment: AlignmentDirectional(0, 0),
-            child: Container(
-              width: 60,
-              height: 41,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-              ),
-              child: Container(
-                width: 30,
-                height: 21,
-                decoration: BoxDecoration(
-                  color: FlutterFlowTheme.of(context).secondaryBackground,
-                  border: Border(
-           
-                    bottom: BorderSide(width: 3.0, color: Data.borderColor),
-                  ),
-                ),
-                child: Align(
-                  alignment: AlignmentDirectional(0, 0),
-                  child: Text(
-                    '總覽',
-                    style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                        color:Data.blue,
-                    ),
-                  ),
-                ),
-              ),
+            child: HeadEle(text:'總覧',enable:enable_arr[0],
+            onTag:(){_headChange(0);},
             ),
           ),
-          Container(
-            width: 60,
-            height: 41,
-            decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
-            ),
-            child: Container(
-              width: 30,
-              height: 21,
-              decoration: BoxDecoration(
-                color: FlutterFlowTheme.of(context).secondaryBackground,
-              ),
-              child: Align(
-                alignment: AlignmentDirectional(0, 0),
-                child: Text(
-                  '週報',
-                  style: FlutterFlowTheme.of(context).bodyText1.override(
-                        fontFamily: 'Poppins',
-                        fontSize: 15,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: 90,
-            height: 41,
-            decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
-            ),
-            child: Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Text(
-                '產業報告',
-                style: FlutterFlowTheme.of(context).bodyText1.override(
-                    fontFamily: 'Poppins',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
-          Container(
-            width: 90,
-            height: 41,
-            decoration: BoxDecoration(
-              color: FlutterFlowTheme.of(context).secondaryBackground,
-            ),
-            child: Align(
-              alignment: AlignmentDirectional(0, 0),
-              child: Text(
-                '個股報告',
-                style: FlutterFlowTheme.of(context).bodyText1.override(
-                    fontFamily: 'Poppins',
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          ),
+          HeadEle(text:'週報',enable:enable_arr[1],
+          onTag:(){_headChange(1);},),
+          HeadEle(text:'產業報告',width:90,enable:enable_arr[2],
+          onTag:(){_headChange(2);},),
+          HeadEle(text:'個股報告',width:90,enable:enable_arr[3],
+          onTag:(){_headChange(3);},),
+         
         ],
       ),
     ),
@@ -160,7 +99,10 @@ class MailHead extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsetsDirectional.fromSTEB(41, 0, 0, 0),
-          child: Container(
+          child: 
+          InkWell(
+            onTap:(){_myFavorite();},
+            child:Container(
             width: 54,
             height: 21,
             decoration: BoxDecoration(
@@ -169,7 +111,7 @@ class MailHead extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.max,
               children: [
-                Container(
+                 Container(
                   width: 21,
                   height: 21,
                   decoration: BoxDecoration(
@@ -197,7 +139,7 @@ class MailHead extends StatelessWidget {
                     ),
                   ),
                 ),
-              ],
+            )],
             ),
           ),
         ),
@@ -280,8 +222,10 @@ class MailHead extends StatelessWidget {
           ) 
         ),
       ),
-      Container(
-        margin: const EdgeInsets.all(10.0),
+      InkWell(
+    onTap:(){_searchHead();},
+      child:Container(
+        margin: const EdgeInsets.fromLTRB(20.0,10,10,10),
         width: 20,
         height: 20,
         decoration: BoxDecoration(
@@ -294,7 +238,7 @@ class MailHead extends StatelessWidget {
           fit: BoxFit.contain,
         ),
       ),
-    ],
+    )],
   ),
 );
 
