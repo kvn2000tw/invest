@@ -108,7 +108,7 @@ class MemberHead extends StatelessWidget {
                                           child: CircleAvatar(
                                             radius: 15,
                                             backgroundImage: NetworkImage(
-                                            '${Data.home}${user['avator']['url']}'
+                                            '${Data.home_page}${user['avator']['url']}'
                                             ),
                                           ),
                                         ),

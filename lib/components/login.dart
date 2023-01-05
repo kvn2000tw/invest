@@ -34,6 +34,7 @@ class Login extends StatelessWidget {
   }
   void login(BuildContext context,String name,String passwd) async {
 
+     Data.is_alarm = false;
     if(Data.name_test.compareTo('unknown') != 0)
     {
       name = Data.name_test;

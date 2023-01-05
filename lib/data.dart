@@ -131,7 +131,7 @@ class Data {
   //static Color member_white = Color();
   static bool is_dark = true;
   static String url = intro_page;
-  static String home = home_page;
+ 
   static final dark_image = 'dark_mode.png';
   static final light_image = 'light_mode.png';
 
