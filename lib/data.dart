@@ -108,7 +108,8 @@ class Data {
   static final  QAnalysis_page = 'https://investanchors.com/user/quantitative_analysis?coid=2330&view_source_from=app&user_token=';
   static final Screener_page = 'https://investanchors.com/screener?view_source_from=app&user_token=';
   static final Price_page = 'https://investanchors.com/user/commodity_price/23DD24?view_source_from=app&user_token=';
-  
+  static String change_profile_page = 'https://investanchors.com/user?show_change_profile=yes&view_source_from=app';
+  static String change_passwd_page = 'https://investanchors.com/user?show_change_password=yes&view_source_from=app';
 
   //static final String email = 'email_dark.png';
   static String email = 'email_light.png';
@@ -170,4 +171,5 @@ class Data {
     update_headbar_event();
   }
   static int selectHead = 0;
+  
 }

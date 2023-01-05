@@ -47,6 +47,18 @@ class MemberHead extends StatelessWidget {
     Data.update_status(Status.Introduce);
     Data.update_view_change();
   }
+  _member_profile()
+  {
+    Data.url = Data.change_profile_page;
+    Data.update_status(Status.Browser);
+    Data.update_view_change();
+  }
+  _change_passwd()
+  {
+    Data.url = Data.change_passwd_page;
+    Data.update_status(Status.Browser);
+    Data.update_view_change();
+  }
   @override
   Widget build(BuildContext context) {
     final title1 =  Align(
@@ -245,7 +257,9 @@ class MemberHead extends StatelessWidget {
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 0, 0),
-                                  child: Container(
+                                      child:InkWell(
+                                    onTap: ()=>_change_passwd(),
+                                    child:Container(
                                     width: 87,
                                     height: 24,
                                     decoration: BoxDecoration(
@@ -285,12 +299,14 @@ class MemberHead extends StatelessWidget {
                                         ),
                                       ],
                                     ),
-                                  ),
+                                  )),
                                 ),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 0, 0),
-                                  child: Container(
+                                   child:InkWell(
+                                    onTap: ()=>_member_profile(),
+                                    child:Container(
                                     width: 87,
                                     height: 24,
                                     decoration: BoxDecoration(
@@ -331,7 +347,7 @@ class MemberHead extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                ),
+                                )),
                                 Padding(
                                   padding: EdgeInsetsDirectional.fromSTEB(
                                       20, 0, 0, 0),
