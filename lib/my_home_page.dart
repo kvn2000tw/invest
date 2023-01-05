@@ -268,6 +268,10 @@ class MyHomePage extends StatelessWidget {
 
     //print(script);
     await controller.runJavascript(script);
+    Data.selectHead = 0;
+    final ret =  Service.getArticles();
+          
+    ret.then((value)=>Service.updateArticles(value));
       
   }
   
