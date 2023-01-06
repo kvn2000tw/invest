@@ -4,16 +4,27 @@ import '../data.dart';
 
 class MailList extends StatelessWidget {
 
-  late bool star;
-  late bool is_bg_white;
+  bool star = false;
+  bool has_open = false;
+  
   late String text;
   late String date;
   late String no;
+  Map<String,dynamic> map;
 
-  MailList({bool star=false,bool is_bg_white=false,required this.text,required this.date,required this.no})
+  MailList({required this.map})
   {
-    this.star = star;
-    this.is_bg_white = is_bg_white;
+    text = map['name'];
+    date = map['date'];
+    no = map['no'];
+    if(map['favorite'] == 1)
+        star = true;
+
+    if(map['has_open'] == 1)
+    {
+      has_open = true;
+    }
+  
   }
   @override
   Widget build(BuildContext context) {
@@ -25,9 +36,17 @@ class MailList extends StatelessWidget {
     if(this.star == false)
     {
       star_image = 'assets/images/star-e.png';
-      bg = Data.mail_white;
+      
     }
 
+  var weight = FontWeight.bold;
+
+  if(has_open)
+  {
+    weight = FontWeight.normal;
+    bg = Data.mail_white;
+
+  }
   return InkWell(
     onTap: (){
       print("list clicked"); 
@@ -63,7 +82,7 @@ class MailList extends StatelessWidget {
             style: FlutterFlowTheme.of(context).bodyText1.override(
               fontFamily: 'Poppins',
               fontSize: 14,
-              fontWeight: FontWeight.normal,
+              fontWeight: weight,
             ),
           ),
         ),

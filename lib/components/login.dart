@@ -16,7 +16,18 @@ import 'show_dialog_wrap.dart';
 
 class Login extends StatelessWidget {
 
+  final TextEditingController textController2 = TextEditingController(text:'');
+   String _input_passwd = '';
 
+  Login()
+  {
+    print('Login');
+    if(Data.remeber.value == true)
+    {
+      _input_passwd = Data.passwd;
+
+    }
+  }
   void serviceReturn(String ret)
   {
     print('serviceReturn');
@@ -42,18 +53,18 @@ class Login extends StatelessWidget {
 
     }
 
-    if(Data.remeber.value != false)
-    {
-      Service.setRemeberInfo(name, passwd);
-    }
-    
     Data.username = name;
     Data.passwd = passwd;
 
+    if(Data.remeber.value != false)
+    {
+      Service.setRemeberInfo(Data.username, Data.passwd);
+    }
+
     final map = <String, String>{
      
-      'email': name,
-      'password': passwd,
+      'email': Data.username,
+      'password': Data.passwd,
     };
   
     final url = Uri.parse(Data.login_page);
@@ -120,7 +131,103 @@ class Login extends StatelessWidget {
 
     return ans;  
   }
- 
+  _eye_action()
+  {
+    _input_passwd = textController2.text;
+    is_open.value = !is_open.value;
+    
+  }
+  final ValueNotifier<bool> is_open = ValueNotifier(false);
+  Widget _inputPasswdBuilder(BuildContext context, bool selectedButton, Widget? child){
+       
+       var eye_image = Data.eye_close;
+
+       if(is_open.value)
+       {
+          eye_image = Data.eye_open;
+       }
+       final eye =  
+          InkWell(
+            onTap:(){_eye_action();},
+            child:Container(
+            width: 15,
+            height: 15,
+            decoration: BoxDecoration(
+              //color: FlutterFlowTheme.of(context).secondaryBackground,
+            ),
+            child:Image.asset(
+            'assets/images/${eye_image}',
+            width: 10,
+            height: 10,
+            fit: BoxFit.contain,
+          )
+        ));
+
+   
+
+    textController2.value = TextEditingValue(
+      text:_input_passwd,
+      selection:TextSelection.collapsed(offset:_input_passwd.length),
+    );
+    return 
+    TextFormField(
+      controller: textController2,
+      autofocus: false,
+      obscureText: !is_open.value,
+      decoration: InputDecoration(
+      suffixIcon:eye,
+      suffixIconColor:Colors.blue,
+      hintStyle:
+      FlutterFlowTheme.of(context).bodyText2,
+      enabledBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+      color: FlutterFlowTheme.of(context)
+        .customColor4,
+        width: 1,
+      ),
+      borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(4.0),
+      topRight: Radius.circular(4.0),
+    ),
+    ),
+    focusedBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+    color: FlutterFlowTheme.of(context)
+      .customColor4,
+      width: 1,
+    ),
+    borderRadius: const BorderRadius.only(
+    topLeft: Radius.circular(4.0),
+    topRight: Radius.circular(4.0),
+    ),
+    ),
+    errorBorder: OutlineInputBorder(
+    borderSide: BorderSide(
+    color: FlutterFlowTheme.of(context)
+      .customColor3,
+    width: 1,
+    ),
+    borderRadius: const BorderRadius.only(
+      topLeft: Radius.circular(4.0),
+      topRight: Radius.circular(4.0),
+    ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderSide: BorderSide(
+      color: FlutterFlowTheme.of(context)
+        .customColor3,
+      width: 1,
+    ),
+    borderRadius: const BorderRadius.only(
+    topLeft: Radius.circular(4.0),
+    topRight: Radius.circular(4.0),
+    ),
+    ),
+    ),
+    style: FlutterFlowTheme.of(context).bodyText1,
+  );
+  }
+
 
   Widget _remeberSelectionBuilder(BuildContext context, bool remeber,Widget? child)
   {
@@ -165,26 +272,24 @@ class Login extends StatelessWidget {
   
     String _input_name = '';
   
-    String _input_passwd = '';
-
     if(Data.remeber.value == true)
     {
       _input_name = Data.username;
-      _input_passwd = Data.passwd;
-
+    
     }
     final TextEditingController textController1 = TextEditingController(text:_input_name);
-    final TextEditingController textController2 = TextEditingController(text:_input_passwd);
     
     textController1.value = TextEditingValue(
       text:_input_name,
       selection:TextSelection.collapsed(offset:_input_name.length),
     );
 
-    textController2.value = TextEditingValue(
-      text:_input_passwd,
-      selection:TextSelection.collapsed(offset:_input_passwd.length),
-    );
+
+  ValueListenableBuilder<bool> inputPasswd = ValueListenableBuilder<bool>(
+        builder: _inputPasswdBuilder,
+        valueListenable: is_open,
+  );
+
 
     return 
     Container(
@@ -337,61 +442,60 @@ class Login extends StatelessWidget {
                                       color: FlutterFlowTheme.of(context)
                                           .secondaryBackground,
                                     ),
-                                    child: TextFormField(
-                                      controller: textController1,
-                                      autofocus: false,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText2,
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .customColor4,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
-                                                .customColor4,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
+                                    child:TextFormField(
+                              controller: textController1,
+                              autofocus: false,
+                              obscureText: false,
+                              decoration: InputDecoration(
+                                hintStyle:
+                                    FlutterFlowTheme.of(context).bodyText2,
+                                enabledBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context)
+                                        .customColor4,
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context)
+                                        .customColor4,
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                errorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context)
                                                 .customColor3,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: FlutterFlowTheme.of(context)
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                                focusedErrorBorder: OutlineInputBorder(
+                                  borderSide: BorderSide(
+                                    color: FlutterFlowTheme.of(context)
                                                 .customColor3,
-                                            width: 1,
-                                          ),
-                                          borderRadius: const BorderRadius.only(
-                                            topLeft: Radius.circular(4.0),
-                                            topRight: Radius.circular(4.0),
-                                          ),
-                                        ),
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1,
-                                    ),
+                                    width: 1,
+                                  ),
+                                  borderRadius: const BorderRadius.only(
+                                    topLeft: Radius.circular(4.0),
+                                    topRight: Radius.circular(4.0),
+                                  ),
+                                ),
+                              ),
+                              style: FlutterFlowTheme.of(context).bodyText1,
+                            ),
                                   ),
                                 ),
                               ],
@@ -400,6 +504,8 @@ class Login extends StatelessWidget {
                           Container(
                             width: 200,
                             height: 30,
+                            margin: EdgeInsetsDirectional.fromSTEB(
+                                      0, 10, 0, 0),
                             decoration: BoxDecoration(
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
@@ -455,60 +561,8 @@ class Login extends StatelessWidget {
                               color: FlutterFlowTheme.of(context)
                                   .secondaryBackground,
                             ),
-                            child: TextFormField(
-                              controller: textController2,
-                              autofocus: false,
-                              obscureText: false,
-                              decoration: InputDecoration(
-                                hintStyle:
-                                    FlutterFlowTheme.of(context).bodyText2,
-                                enabledBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .customColor4,
-                                    width: 1,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(4.0),
-                                    topRight: Radius.circular(4.0),
-                                  ),
-                                ),
-                                focusedBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                        .customColor4,
-                                    width: 1,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(4.0),
-                                    topRight: Radius.circular(4.0),
-                                  ),
-                                ),
-                                errorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                                .customColor3,
-                                    width: 1,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(4.0),
-                                    topRight: Radius.circular(4.0),
-                                  ),
-                                ),
-                                focusedErrorBorder: OutlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: FlutterFlowTheme.of(context)
-                                                .customColor3,
-                                    width: 1,
-                                  ),
-                                  borderRadius: const BorderRadius.only(
-                                    topLeft: Radius.circular(4.0),
-                                    topRight: Radius.circular(4.0),
-                                  ),
-                                ),
-                              ),
-                              style: FlutterFlowTheme.of(context).bodyText1,
-                            ),
+                            child: 
+                            inputPasswd,
                           ),
                           Padding(
                             padding:
@@ -605,7 +659,7 @@ class Login extends StatelessWidget {
                       child: ElevatedButton(
                         onPressed: () {
                           print('Button pressed ...');
-                          login(context,textController1.text,textController2.text);
+                          login(context,textController1.text.trim(),textController2.text.trim());
                         },
                         child: Text('登入'),
                         style: ButtonStyle(
@@ -662,7 +716,7 @@ class Login extends StatelessWidget {
             width: 300,
             //height: 100,
             decoration: BoxDecoration(
-              color: Data.white,
+              //color: Data.white,
             ),
     
             child: Column(

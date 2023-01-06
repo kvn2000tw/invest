@@ -4,9 +4,8 @@ import 'data.dart';
 import 'package:provider/provider.dart';
 import 'theme/theme_model.dart';
 import 'package:overlay_support/overlay_support.dart';
-//import 'package:firebase_core/firebase_core.dart';
-//import 'package:firebase_messaging/firebase_messaging.dart';
-//import 'package:flutter/foundation.dart';
+import 'service.dart';
+
 void main() {
   Data.init();
   
@@ -48,6 +47,7 @@ class Loading extends StatelessWidget {
   void gotonext(BuildContext context) async{
     await Future.delayed(const Duration(seconds:2));
     
+    Service.goLogout();
     MyHomePage.init();
     
     Navigator.pushNamed(context,"/");

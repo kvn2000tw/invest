@@ -30,15 +30,13 @@ class AlarmMsg extends StatelessWidget {
     
   }
 
-
     _readAll(BuildContext context) async
   {
     print('read all');
     
     await pressReturn(context);
-    final ret =  Service.getArticles();
-           
-    ret.then((value)=>Service.updateArticles(value));
+
+    Service.process_articles();
   }
   pressReturn(BuildContext context)
   {

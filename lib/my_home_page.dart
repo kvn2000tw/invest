@@ -17,7 +17,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 import 'package:plain_notification_token/plain_notification_token.dart';
-import 'dart:convert';
+
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
@@ -268,13 +268,16 @@ class MyHomePage extends StatelessWidget {
 
     //print(script);
     await controller.runJavascript(script);
-    Data.selectHead = 0;
-    final ret =  Service.getArticles();
-          
-    ret.then((value)=>Service.updateArticles(value));
-      
+    _getArticles();
   }
   
+  _getArticles()
+  {
+    Data.selectHead = 0;
+    Data.tag_index.value = 0;
+    Service.process_articles();
+  }
+ 
   void process_url(String url) async
   {
     if (url.compareTo('https://investanchors.com/') == 0) {
@@ -488,10 +491,8 @@ class MyHomePage extends StatelessWidget {
 
     if(value == 0)
     {
-      Data.selectHead = 0;
-      final ret =  Service.getArticles();
-          
-      ret.then((value)=>Service.updateArticles(value));
+      _getArticles();
+    
     }
 
     else if(value == 1)

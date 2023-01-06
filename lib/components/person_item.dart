@@ -19,9 +19,9 @@ class PersonItem extends StatelessWidget {
       return;
     }
     Map<String,dynamic> fromJsonMap = jsonDecode(json);
-    print(json);
+    //print(json);
   
-    print(fromJsonMap["user"]);
+    //print(fromJsonMap["user"]);
     user = fromJsonMap["user"];
 
   }

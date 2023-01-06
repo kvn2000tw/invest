@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import '../custom/custom_theme.dart';
+
 import 'log_info.dart';
-import 'pagination.dart';
 import 'member_head.dart';
 import '../data.dart';
 import 'dart:convert';
 
 class Member extends StatelessWidget {
 
-  late Map<String,dynamic> user;
+  Map<String,dynamic> user = {};
   List<dynamic> user_payments = [];
   String pay_title = '';
   
@@ -20,9 +19,9 @@ class Member extends StatelessWidget {
       return;
     }
     Map<String,dynamic> fromJsonMap = jsonDecode(json);
-    print(json);
+    //print(json);
     pay_title = fromJsonMap['pay_title']+'：'+fromJsonMap['next_action_date'];
-    print(fromJsonMap["user"]);
+    //print(fromJsonMap["user"]);
     user = fromJsonMap["user"];
   
     user_payments = user["user_payments"] ?? [];

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 import '../custom/custom_theme.dart';
 import '../data.dart';
 import 'head_ele.dart';
+import '../service.dart';
 class MailHead extends StatelessWidget {
 
-  final ValueNotifier<int> tag_index = ValueNotifier(0);
   List<bool> enable_arr = [false,false,false,false,];
 
   final  tags = ['TAG','全文'];
   MailHead()
   {
-    enable_arr[Data.selectHead] = true;
+    if(Data.selectHead < 4)
+      enable_arr[Data.selectHead] = true;
   }
   Widget _dropdownBuilder(BuildContext context, int selectedItem, Widget? child) {
    return Container( 
@@ -21,7 +22,13 @@ class MailHead extends StatelessWidget {
    child:DropdownButton(
       items: <DropdownMenuItem> [
         DropdownMenuItem(
-          child: Text(tags[0], style: const TextStyle(fontSize: 14),),
+          child:Container(
+        alignment: Alignment.center,
+       
+        width: 40,
+        child: Text(tags[0], textAlign: TextAlign.center)
+      ),
+          //child: Text(tags[0], style: const TextStyle(fontSize: 14),),
           value: 0,
         ),
       DropdownMenuItem(
@@ -29,29 +36,41 @@ class MailHead extends StatelessWidget {
           value: 1,
         ),
       ],
-      onChanged: (dynamic value) => {tag_index.value = value},
-      hint: const Text('TAG', style: TextStyle(fontSize: 14),),
-      value: tag_index.value,//selectedItem < 0 ? null : selectedItem,
+      onChanged: (dynamic value) => {Data.tag_index.value = value},
+      hint:Container(
+        alignment: Alignment.center,
+       
+        width: 40,
+        child: Text("TAG", textAlign: TextAlign.center)
+      ),
+      //hint: const Text('TAG', style: TextStyle(fontSize: 14),),
+      value: Data.tag_index.value,//selectedItem < 0 ? null : selectedItem,
     ));
 
   }
   void _headChange(int value)
   {
     Data.selectHead = value;
-    Data.update_view_change();
+
+    Service.process_articles();
+
   }
-  _searchHead()
+  _searchHead(String search)
   {
     print('_searchHead');
+    Data.search_string = search;
+    Service.process_articles();
+
   }
   _myFavorite()
   {
     print('_myFavorite');
+    _headChange(4);
   }  
   @override
   Widget build(BuildContext context) {
 
-    final TextEditingController textController = TextEditingController(text:'');
+    final TextEditingController textController = TextEditingController(text:Data.search_string);
     bool? checkboxListTileValue;
 
     final title1 =Padding(
@@ -210,19 +229,19 @@ class MailHead extends StatelessWidget {
       Padding(
         padding: EdgeInsetsDirectional.fromSTEB(10, 0, 0, 0),
         child: Container(
-          width: 64,
+          width: 70,
           height: 30,
           decoration: BoxDecoration(
             color: FlutterFlowTheme.of(context).secondaryBackground,
           ),
           child:ValueListenableBuilder<int>(
             builder: _dropdownBuilder,
-            valueListenable: tag_index,
+            valueListenable: Data.tag_index,
           ) 
         ),
       ),
       InkWell(
-    onTap:(){_searchHead();},
+    onTap:(){_searchHead(textController.text.trim());},
       child:Container(
         margin: const EdgeInsets.fromLTRB(20.0,10,10,10),
         width: 20,

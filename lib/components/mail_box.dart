@@ -17,7 +17,8 @@ class MailBox extends StatelessWidget {
     {
     
       print(map);
-      list.add(MailList(text:map['name'],date:map['date'],no:map['no']));
+      //list.add(MailList(text:map['name'],date:map['date'],no:map['no']));
+      list.add(MailList(map:map));
    
     }
     );

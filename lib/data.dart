@@ -53,6 +53,8 @@ class Data {
       mail_white = white;
       mail_grey = grey;
       infoBorderColor = Color(0xFFC4C4C4);
+      eye_open = 'eye-open.png';
+      eye_close = 'eye-close.png';
     }
     else 
     {
@@ -72,6 +74,10 @@ class Data {
       mail_grey = Color(0xFFA1A1A1);
 
       infoBorderColor = Color(0xFFA1A1A1);
+
+      eye_open = 'eye-open-dark.png';
+      eye_close = 'eye-close-dark.png';
+
     }
 
     const String name_env = String.fromEnvironment('name',defaultValue: 'unknown');
@@ -171,5 +177,13 @@ class Data {
     update_headbar_event();
   }
   static int selectHead = 0;
+  static final List<String> selectHeadList = ['','general','vip','super_vip','favorite'];
+
+  static final ValueNotifier<int> tag_index = ValueNotifier(0);
+  static final List<String> search_type = ['tag','content'];
+  static String search_string = '';
+  static String eye_open = '';
+  static String eye_close = '';
   
+
 }

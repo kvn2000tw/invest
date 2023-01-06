@@ -85,7 +85,12 @@ class Service {
 
     static Future<String> getArticles() async {
 
-    final String url_str = '${Data.articles_page}user_token=${Data.user_token}&playplus=${Data.playplus}';
+    final String search_type = 'search_type = ${Data.search_type[Data.tag_index.value]}';
+    final String lv = 'lv=${Data.selectHeadList[Data.selectHead]}';
+    final String user_token = 'user_token=${Data.user_token}';
+    final String playplus = 'playplus=${Data.playplus}';
+    final String key = 'key=${Data.search_string}';
+    final String url_str = '${Data.articles_page}${user_token}&${playplus}&${lv}&${search_type}&${key}';
     
     final url = Uri.parse(url_str);
 
@@ -94,6 +99,7 @@ class Service {
     );
     print('getArticles');
     print(url_str);
+   
     if (responseOfFuture.statusCode == 200) {
       print(responseOfFuture.body);
       //{"status":"success","user_token":"166745463414164","error":""}
@@ -110,7 +116,12 @@ class Service {
 
     return '';
   }
-
+  static process_articles()
+  {
+    final ret =  getArticles();
+          
+    ret.then((value)=>updateArticles(value));
+  }
     static Future<String> getUsers() async {
 
     final String url_str = '${Data.users_page}user_token=${Data.user_token}&playplus=${Data.playplus}';
@@ -157,7 +168,12 @@ class Service {
       {
         final date = value['posted_at'].split("T"); 
         //print('${value['name']} ${date[0]}');
-        Map<String,dynamic> map = {"id":value['id'],"name":value['name'],"date":date[0],"no":value['no']};
+        Map<String,dynamic> map = {"id":value['id'],
+        "name":value['name'],
+        "date":date[0],
+        "no":value['no'],
+        "favorite":value['favorite'],
+        "has_open":value['has_open'],};
         list.add(map);
       }
     );
@@ -192,7 +208,7 @@ class Service {
 
     final gotCookies = await cookieManager.getCookies(Data.home_page);
       for (var item in gotCookies) {
-        print(item);
+        //print(item);
       }
 
     await cookieManager.clearCookies(); 
