@@ -185,5 +185,8 @@ class Data {
   static String eye_open = '';
   static String eye_close = '';
   
-
+  static int start_page = 0;
+  static int cur_page = 0;
+  static int end_page = 0;
+  static int total_page = 0;
 }

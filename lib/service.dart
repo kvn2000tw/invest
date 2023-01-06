@@ -90,7 +90,8 @@ class Service {
     final String user_token = 'user_token=${Data.user_token}';
     final String playplus = 'playplus=${Data.playplus}';
     final String key = 'key=${Data.search_string}';
-    final String url_str = '${Data.articles_page}${user_token}&${playplus}&${lv}&${search_type}&${key}';
+    final String page = 'page=${Data.cur_page}';
+    final String url_str = '${Data.articles_page}${user_token}&${playplus}&${lv}&${search_type}&${key}&${page}';
     
     final url = Uri.parse(url_str);
 
@@ -173,11 +174,15 @@ class Service {
         "date":date[0],
         "no":value['no'],
         "favorite":value['favorite'],
-        "has_open":value['has_open'],};
+        "has_open":value['has_open'],
+        };
         list.add(map);
       }
     );
 
+    print(fromJsonMap['page']['total_page']);
+    Data.cur_page =  int.parse(fromJsonMap['page']['page']);
+    Data.total_page = fromJsonMap['page']['total_page'];
     print(list);
     Data.mail_list = list;
   }
