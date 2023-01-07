@@ -208,6 +208,7 @@ class Service {
 
   static goLogout() async
   {
+    print('gologout');
     Data.userInfo = '';
     final cookieManager = WebviewCookieManager();
 

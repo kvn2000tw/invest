@@ -43,7 +43,7 @@ class PaginationHead extends StatelessWidget {
     onTap: onTap,
     child:Container(
         margin: const EdgeInsets.only(left:10.0),
-        width: 80,
+        width: 30,
         height: 40,
         decoration: BoxDecoration(
           color: FlutterFlowTheme.of(context).secondaryBackground,

@@ -51,7 +51,8 @@ class MailHead extends StatelessWidget {
   void _headChange(int value)
   {
     Data.selectHead = value;
-
+    Data.cur_page = 1;
+    Data.start_page = 1;
     Service.process_articles();
 
   }
