@@ -29,6 +29,7 @@ class PaginationItem extends StatelessWidget {
       height: 38,
       decoration: BoxDecoration(
         color: select?Data.blue : Data.mail_white,
+        //border: Border.all(color: Colors.blueAccent)
       ),
       child: Align(
         alignment: AlignmentDirectional(0, 0),
@@ -37,7 +38,7 @@ class PaginationItem extends StatelessWidget {
             textAlign: TextAlign.center,
             style: FlutterFlowTheme.of(context).bodyText1.override(
             fontFamily: 'Poppins',
-            color: Colors.white,
+            color: select?Colors.white:Data.black,
             fontSize: 13,
             fontWeight: FontWeight.normal,
           ),

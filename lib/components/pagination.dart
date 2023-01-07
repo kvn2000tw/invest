@@ -51,15 +51,9 @@ class Pagination extends StatelessWidget {
 
     List<Widget> list = [];
 
-    print('qwers1234');
-    print(Data.start_page);
-    print(Data.cur_page);
-    //print(end_page);
-    print(Data.total_page);
-
     if((Data.start_page+8) < Data.cur_page)
     {
-      print('ccc');
+     
       Data.start_page = Data.cur_page-8;
       if(Data.start_page < 1)
         Data.start_page = 1;
@@ -69,15 +63,14 @@ class Pagination extends StatelessWidget {
 
     if((Data.start_page+8) < Data.total_page)
     {
-      print('aaaaa');
+      
       end_page = Data.start_page+8;
       if(end_page > Data.total_page)
         end_page = Data.total_page;
     }
     else 
     {
-      print('bbb');
-      print(Data.start_page);
+     
       Data.start_page = Data.total_page-8;
       if(Data.start_page <= 0)
         Data.start_page = 1;
@@ -87,18 +80,14 @@ class Pagination extends StatelessWidget {
         end_page = Data.total_page;
     }
    
-    print('abcd');
-    print(Data.start_page);
-    print(Data.cur_page);
-    print(end_page);
-    print(Data.total_page);
+  
     if(Data.start_page > 1)
     {
       list.add( PaginationHead(text:'',next:false,onTap:()=>_prev_page()),);
     }
     for(int i=Data.start_page;i<=end_page;i++)
     {
-      list.add(PaginationItem(text:i.toString(),width:35,select:i==Data.cur_page?true:false,onTap:()=>_select_page(i)),);
+      list.add(PaginationItem(text:i.toString(),width:32,select:i==Data.cur_page?true:false,onTap:()=>_select_page(i)),);
     }
 
     if(end_page < Data.total_page)

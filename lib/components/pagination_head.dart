@@ -42,7 +42,7 @@ class PaginationHead extends StatelessWidget {
     InkWell(
     onTap: onTap,
     child:Container(
-        margin: const EdgeInsets.only(left:10.0),
+        margin: const EdgeInsets.only(left:5.0),
         width: 30,
         height: 40,
         decoration: BoxDecoration(
