@@ -274,7 +274,7 @@ class MyHomePage extends StatelessWidget {
   _getArticles()
   {
     Data.cur_page = 1;
-    Data.start_page = 1;
+ 
     Data.selectHead = 0;
     Data.tag_index.value = 0;
     Service.process_articles();
