@@ -146,22 +146,30 @@ class Login extends StatelessWidget {
        {
           eye_image = Data.eye_open;
        }
+       final eye_widget = Image.asset(
+            'assets/images/${eye_image}',
+            width: 25,
+            height: 25,
+            fit: BoxFit.cover);
+
        final eye =  
           InkWell(
             onTap:(){_eye_action();},
             child:Container(
+            alignment:Alignment.center,
             width: 15,
             height: 15,
             decoration: BoxDecoration(
-              //color: FlutterFlowTheme.of(context).secondaryBackground,
+              //color: Colors.red,
             ),
-            child:Image.asset(
-            'assets/images/${eye_image}',
-            width: 10,
-            height: 10,
-            fit: BoxFit.contain,
+            child:Container(
+              width:25,
+              height:25,
+            child:Row(
+              
+            children:[eye_widget]
           )
-        ));
+        )));
 
    
 
