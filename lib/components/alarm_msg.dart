@@ -7,12 +7,14 @@ class AlarmMsg extends StatelessWidget {
   late String no_see;
   late List<String> items;
   List<String> sub_items = [];
-  
-  AlarmMsg(String no_see,List<String> items,List<String> sub_items)
-  {
-    this.no_see = no_see;
-    this.items = items;
+  List<String> nos = [];
 
+  AlarmMsg(this.no_see,
+  this.items,
+  List<String> sub_items,
+  this.nos)
+  {
+    
     for(var i=0;i<sub_items.length;i++)
     {
       var ele = sub_items[i].split("T");
@@ -43,7 +45,14 @@ class AlarmMsg extends StatelessWidget {
   
     Navigator.pop(context, '');
   }
-
+  _read_article(BuildContext context,String no)
+  {
+    Navigator.pop(context, '');
+    Data.url = '${Data.home_page}user/vip_contents/${no}?view_source_from=app';
+    
+    Data.update_status(Status.Browser);
+    Data.update_view_change();
+  }
   @override
   Widget build(BuildContext context) {
    
@@ -57,7 +66,7 @@ class AlarmMsg extends StatelessWidget {
           ListTile(
             title: Text(items[index], style: const TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
             subtitle:Text(sub_items[index], style: const TextStyle(fontSize: 16),),
-            onTap: () => {},//_selectedItem.value = '點選' + items[index],
+            onTap: () => {_read_article(context,nos[index])},//_selectedItem.value = '點選' + items[index],
             leading: Container(
               width:25,
               height:25,

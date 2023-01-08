@@ -6,7 +6,7 @@ import 'person_item.dart';
 
 import '../service.dart';
 import 'dart:convert';
-import '../my_home_page.dart';
+
 import 'alarm_msg.dart';
 
 class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
@@ -148,7 +148,8 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
    
     final lists = fromJsonMap["no_see"];
     List<String> items = [];
-    List<String> sub_items = [];
+    List<String> sub_items = [];   
+    List<String> nos = [];
     
     for(final list in lists)
     {
@@ -156,13 +157,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       items.add(arr);
       final arr1 = list["posted_at"];
       sub_items.add(arr1);
+      nos.add(list["no"]);
       
     }
     String len_str = lists.length.toString();
     String  no_see = '${len_str}封未讀信件';
      // 建立App的操作畫面
    
-  final dlg = AlarmMsg(no_see,items,sub_items);
+  final dlg = AlarmMsg(no_see,items,sub_items,nos);
 
     var willPopScope = WillPopScope(
       onWillPop: () async => false,

@@ -100,7 +100,6 @@ class Data {
   static final home_page = 'https://investanchors.com/';
   static final intro_page = 'https://investanchors.com/home/about?view_source_from=app';
   static final register_app_page = 'https://investanchors.com/user/register/new?view_source_from=app';
-  static final register_page = "https://investanchors.com/user/register/new?view_source_from=app";
   static final forgot_page = "https://investanchors.com/api/users/forget_pass";
   static final login_page = "https://investanchors.com/api/users/login";
   static final articles_page = "https://investanchors.com/api/articles?";

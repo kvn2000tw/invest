@@ -253,7 +253,7 @@ class MyHomePage extends StatelessWidget {
   run_login()async
   {
   
-    if(Data.status.value != Status.Browser )    return;
+    if(Data.status.value != Status.Login )    return;
 
     final WebViewController controller = await _controller.future;
 
@@ -308,7 +308,7 @@ class MyHomePage extends StatelessWidget {
 
       }
     }
-    else if (url.compareTo(Data.register_page) == 0) {
+    else if (url.compareTo(Data.register_app_page) == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       print('${url} ${Data.status.value}');
       await run_login();
@@ -528,6 +528,13 @@ class MyHomePage extends StatelessWidget {
   {
     _controller = Completer<WebViewController>();
   }
+  auto_login() async
+  {
+    final WebViewController controller = await _controller.future;
+
+    print('load url ${Data.url}');
+    controller.loadUrl(Data.register_app_page);   
+  }
   late WebView webView;
   Completer<WebViewController> _controller =
     Completer<WebViewController>();
@@ -537,8 +544,9 @@ class MyHomePage extends StatelessWidget {
     //initialUrl :'https://investanchors.com/',
     initialUrl : Data.url,
     onWebViewCreated: (WebViewController controller) {
-      
-      _controller.complete(controller);
+      print('_controller.complete(controller)');
+      if(!_controller.isCompleted)
+        _controller.complete(controller);
      
     },
     javascriptMode:JavascriptMode.unrestricted,    
@@ -589,15 +597,36 @@ class MyHomePage extends StatelessWidget {
     Data.update_view_change();
  
   }
+  login_widget()
+  {
+    init_webview();
+    final fake_webview = SizedBox(
+      width:0.1,
+      height: 0.1,//_bottomNavBarHeight,
+      child: webView,
+    );
+
+    return Login(widget:fake_webview,auto_login:auto_login);
+   
+  }
   // 這個方法負責建立BottomNavigationBar
   Widget _tabviewBuilder(BuildContext context, int selectedButton, Widget? child) {
+
+    if(Data.status.value == Status.Login)
+    {
+        return login_widget();
+       
+    }  
 
     if(Data.status.value == Status.Login || Data.status.value == Status.Email ||
       Data.status.value == Status.Member)
     {
       init_controll();
       if(Data.status.value == Status.Login)
-        return Login();
+      {
+        return login_widget();
+       
+      }  
       else if(Data.status.value == Status.Email)
       {
        

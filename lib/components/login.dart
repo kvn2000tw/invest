@@ -14,12 +14,18 @@ import 'package:url_launcher/url_launcher.dart';
 import '../service.dart';
 import 'show_dialog_wrap.dart';
 
+
 class Login extends StatelessWidget {
 
   final TextEditingController textController2 = TextEditingController(text:'');
    String _input_passwd = '';
 
-  Login()
+  late Widget widget;
+  late GestureTapCallback auto_login;
+  Login({
+  required this.widget,
+  required this.auto_login,
+  })
   {
     print('Login');
     if(Data.remeber.value == true)
@@ -84,15 +90,14 @@ class Login extends StatelessWidget {
       if(fromJsonMap["status"].compareTo('success') == 0)    
       {
         Data.user_token = fromJsonMap["user_token"];
-        Data.url = Data.register_page;
-        Data.update_status(Status.Browser);
-        Data.update_view_change();
-
+        auto_login();
+     
         final ret = Service.getNotify();
 
         ret.then((value)=>serviceReturn(value));
 
-        Service.updateUsers();     
+        Service.updateUsers();    
+        
       }
 
       if(fromJsonMap["status"].compareTo('error') == 0)   
@@ -761,7 +766,7 @@ class Login extends StatelessWidget {
                 fontSize: 12,
               ),
             ),
-          ],
+          widget],
         ),
       ),
     ),
