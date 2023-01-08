@@ -16,9 +16,12 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
   
   late GestureTapCallback init;
   late GestureTapCallback logout;
+  late GestureTapCallback loadUrl;
+
   MyAppBar({
   required this.init,
   required this.logout,
+  required this.loadUrl,
   }) : super();
   
   @override
@@ -138,18 +141,23 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       return;
     }
     Map<String,dynamic>  fromJsonMap = jsonDecode(str);
+    List<String> items = [];
+    List<String> sub_items = [];   
+    List<String> nos = [];
 
     if( fromJsonMap["no_see"].length == 0) 
     {
        _showNoMsgDialog(context);
       return;
+      /*
+      items.add('abc');
+      sub_items.add('def 1234T1234:1234');
+      nos.add('1672646533958');
+  */
     }  
-    //print(fromJsonMap);
-   
+    else 
+    {
     final lists = fromJsonMap["no_see"];
-    List<String> items = [];
-    List<String> sub_items = [];   
-    List<String> nos = [];
     
     for(final list in lists)
     {
@@ -159,12 +167,14 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
       sub_items.add(arr1);
       nos.add(list["no"]);
       
+    }     
     }
-    String len_str = lists.length.toString();
+ 
+    String len_str = items.length.toString();
     String  no_see = '${len_str}封未讀信件';
      // 建立App的操作畫面
    
-  final dlg = AlarmMsg(no_see,items,sub_items,nos);
+  final dlg = AlarmMsg(no_see,items,sub_items,nos,loadUrl);
 
     var willPopScope = WillPopScope(
       onWillPop: () async => false,

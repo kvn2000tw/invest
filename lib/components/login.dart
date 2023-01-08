@@ -34,21 +34,7 @@ class Login extends StatelessWidget {
 
     }
   }
-  void serviceReturn(String ret)
-  {
-    print('serviceReturn');
-    if(ret.isEmpty)    return;
-
-    Map<String,dynamic>  fromJsonMap = jsonDecode(ret);
-       
-    print(fromJsonMap);
-    if( fromJsonMap["no_see"].length > 0) 
-    {
-      Data.update_alarm(true);
-
-    }
-
-  }
+ 
   void login(BuildContext context,String name,String passwd) async {
 
      Data.is_alarm = false;
@@ -92,9 +78,7 @@ class Login extends StatelessWidget {
         Data.user_token = fromJsonMap["user_token"];
         auto_login();
      
-        final ret = Service.getNotify();
-
-        ret.then((value)=>serviceReturn(value));
+        Service.getNotify();
 
         Service.updateUsers();    
         
@@ -349,7 +333,7 @@ class Login extends StatelessWidget {
                    
                       style: FlutterFlowTheme.of(context).bodyText1.override(
                             fontFamily: 'Poppins',
-                            color: FlutterFlowTheme.of(context).customColor2,
+                            color: Colors.white,
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                           ),

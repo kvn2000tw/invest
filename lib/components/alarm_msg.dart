@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:webview_flutter_platform_interface/v4/webview_flutter_platform_interface.dart';
 import '../custom/custom_theme.dart';
 import 'dart:convert';
 import '../data.dart';
@@ -8,11 +9,13 @@ class AlarmMsg extends StatelessWidget {
   late List<String> items;
   List<String> sub_items = [];
   List<String> nos = [];
+  late GestureTapCallback loadUrl;
 
   AlarmMsg(this.no_see,
   this.items,
   List<String> sub_items,
-  this.nos)
+  this.nos,
+  this.loadUrl)
   {
     
     for(var i=0;i<sub_items.length;i++)
@@ -45,13 +48,14 @@ class AlarmMsg extends StatelessWidget {
   
     Navigator.pop(context, '');
   }
-  _read_article(BuildContext context,String no)
+  _read_article(BuildContext context,String no) async
   {
-    Navigator.pop(context, '');
-    Data.url = '${Data.home_page}user/vip_contents/${no}?view_source_from=app';
     
-    Data.update_status(Status.Browser);
-    Data.update_view_change();
+    await pressReturn(context);
+    Data.url = '${Data.home_page}user/vip_contents/${no}?view_source_from=app';
+    loadUrl();
+    Service.getNotify();
+
   }
   @override
   Widget build(BuildContext context) {

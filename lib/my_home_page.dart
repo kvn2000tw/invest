@@ -347,7 +347,8 @@ class MyHomePage extends StatelessWidget {
 
     final appBar = MyAppBar(
       init:(){init_controll();},
-      logout:(){goLogout();}
+      logout:(){goLogout();},
+      loadUrl:(){loadUrlAlarm();},
     );
    
     // 建立App的操作畫面
@@ -576,6 +577,23 @@ class MyHomePage extends StatelessWidget {
     controller.loadUrl(Data.url);   
  
   }
+  loadUrlAlarm() async
+  {
+     print('loadUrlAlarm url 1 ${Data.url}');
+    if(_controller.isCompleted == false)  
+    {
+      Data.update_status(Status.Browser);
+      Data.update_view_change();
+      return;
+    }
+    final WebViewController controller = await _controller.future;
+
+    print('load url ${Data.url}');
+    controller.loadUrl(Data.url);   
+    Data.update_status(Status.Browser);
+    Data.update_view_change();
+ 
+  }
    
   goLogout() async
   {
@@ -618,18 +636,13 @@ class MyHomePage extends StatelessWidget {
        
     }  
 
-    if(Data.status.value == Status.Login || Data.status.value == Status.Email ||
+    if(Data.status.value == Status.Email ||
       Data.status.value == Status.Member)
     {
       init_controll();
-      if(Data.status.value == Status.Login)
-      {
-        return login_widget();
-       
-      }  
-      else if(Data.status.value == Status.Email)
-      {
-       
+    
+      if(Data.status.value == Status.Email)
+      { 
         return MailBox();
       }
       else 

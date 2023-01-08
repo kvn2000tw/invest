@@ -46,6 +46,9 @@ class Service {
       if(fromJsonMap["status"].compareTo('success') == 0)
       {
         json = responseOfFuture.body;
+         
+         Data.update_alarm(fromJsonMap["no_see"].length > 0?true:false);
+         Data.update_headbar_event();
       }
       return json;
    
