@@ -16,7 +16,6 @@ import 'service.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
 
 
@@ -85,27 +84,10 @@ class MyHomePage extends StatelessWidget {
     void registerNotification() async {
 
     print('registerNotification');
-    //final token = await PlainNotificationToken().getToken();
-
-    //Data.token = token.toString();
-    //print(Data.token);    
+   
     // 1. Initialize the Firebase app
     await Firebase.initializeApp();
 
-    //FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-/*
-     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      PushNotification notification = PushNotification(
-        title: message.notification?.title,
-        body: message.notification?.body,
-      );
-      print('onBackgroundMessage');
-       _totalNotifications++;
-      _notificationInfo = notification;
-     
-   
-    });
-*/
     // 2. Instantiate Firebase Messaging
     _messaging = FirebaseMessaging.instance;
 
@@ -119,23 +101,11 @@ class MyHomePage extends StatelessWidget {
     provisional: false,
     sound: true,
     );
-/*
-  await _messaging.setForegroundNotificationPresentationOptions(
-    alert: true,
-    badge: true,
-    sound: true,
-  );
-*/
 
-    _messaging.getToken().then((token){
-      print(token);
-      Data.token = token!;
-    });
+    String? token = await _messaging.getToken();
 
-    //String? token = await _messaging.getToken();
-
-    //Data.token = token!;
-    //print('tken ${token}');
+    Data.token = token!;
+    print('tken ${token}');
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
@@ -152,35 +122,7 @@ class MyHomePage extends StatelessWidget {
 
       print('routeFromMessage');
     });
-/*
-      FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      // Parse the message received
-      print('onMessage.listen');
-      
-        PushNotification notification = PushNotification(
-          title: message.notification?.title,
-          body: message.notification?.body,
-        );
-        print('onMessage');
-         _totalNotifications++;
-        _notificationInfo = notification;
 
-    if (_notificationInfo != null) {
-        // For displaying the notification as an overlay
-        showSimpleNotification(
-          Text(_notificationInfo!.title!),
-          leading: NotificationBadge(totalNotifications: _totalNotifications),
-          subtitle: Text(_notificationInfo!.body!),
-          background: Colors.cyan.shade700,
-          duration: Duration(seconds: 2),
-        );
-      } 
-              
-      });
-      */
-      /*
- 
-        */
     } else {
       print('User declined or has not accepted permission');
     }
@@ -254,7 +196,7 @@ class MyHomePage extends StatelessWidget {
       'assets/folder_y.png',
     ),        
   ];
-  static const _naviItemText = [
+  final _naviItemText = [
     '電子報',
     '財務指標',
     '量化篩選',
@@ -360,42 +302,6 @@ class MyHomePage extends StatelessWidget {
       logout:(){goLogout();},
       loadUrl:(){loadUrlAlarm();},
     );
-   
-    // 建立App的操作畫面
-      final drawer = Drawer(
-      child: ListView(
-        children: <Widget> [
-          const DrawerHeader(
-            child: Text('Drawer標題', style: TextStyle(fontSize: 20),),
-            decoration: BoxDecoration(
-              color: Colors.blue,
-            ),
-          ),
-          ListTile(
-            title:  Text(Data.token, style: TextStyle(fontSize: 20),),
-            onTap: () {
-              //_msg.value = '選項一';
-              //Navigator.pop(context);
-            }
-          ),
-          ListTile(
-            title: const Text('選項二', style: TextStyle(fontSize: 20),),
-            onTap: () {
-              //_msg.value = '選項二';
-              //Navigator.pop(context);
-            }
-          ),
-          ListTile(
-            title: const Text('選項三', style: TextStyle(fontSize: 20),),
-            onTap: () {
-              //_msg.value = '選項三';
-              //Navigator.pop(context);
-            }
-          ),
-        ],
-      ),
-    );
-
 
       ValueListenableBuilder<Status> bottomNavigationBar = ValueListenableBuilder<Status>(
         builder: _bottomNavigationBarBuilder,
@@ -424,10 +330,6 @@ class MyHomePage extends StatelessWidget {
       }
     );   
   
-  }
-
-  _backToHomePage(BuildContext context) {
-   
   }
  
   // 這個方法負責建立BottomNavigationBar
