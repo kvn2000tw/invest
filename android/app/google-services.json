@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "848529697826-6hrov979bjluudmiuiblr8he7ni0ajfg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.investanchors.investor",
+            "certificate_hash": "7eef6411d6f69bcafa13fbcd5bd8abe156da50ac"
+          }
+        },
+        {
           "client_id": "848529697826-4oo2o9taq6kbcb8g74qg2ac87ncdcidr.apps.googleusercontent.com",
           "client_type": 3
         }

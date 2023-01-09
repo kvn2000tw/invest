@@ -105,8 +105,30 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     Navigator.pop(context, '');
   }
 
-  _showInfoDialog()
+  _showInfoDialog(BuildContext context)
   {
+     var dlg = AlertDialog(
+      content: Text(Data.token),
+      contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+      contentTextStyle: TextStyle(color: Data.black, fontSize: 20),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      actions: <Widget>[
+        TextButton(
+          child: const Text(
+            "ok",
+            style: TextStyle(color: Colors.blue, fontSize: 20),
+          ),
+          onPressed: () => Navigator.pop(context, 1),
+        ),
+      ],
+    );
+
+    var ans = showDialog(
+      context: context,
+      builder: (context) => dlg,
+    );
+
+    return ans;
     return;
   
   }
@@ -340,7 +362,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     centerTitle:false,
     leading: InkWell(
       child: logo,
-      onTap: () => {_showInfoDialog()},//_msg.value = '你按下選單按鈕',
+      onTap: () => {_showInfoDialog(context)},//_msg.value = '你按下選單按鈕',
     ),
     automaticallyImplyLeading: false,
   

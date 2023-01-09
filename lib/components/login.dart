@@ -137,7 +137,7 @@ class Login extends StatelessWidget {
        }
        final eye_widget = Image.asset(
             'assets/images/${eye_image}',
-            width: 25,
+            width: 35,
             height: 25,
             fit: BoxFit.cover);
 
@@ -152,7 +152,7 @@ class Login extends StatelessWidget {
               //color: Colors.red,
             ),
             child:Container(
-              width:25,
+              width:35,
               height:25,
             child:Row(
               

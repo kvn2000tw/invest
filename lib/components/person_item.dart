@@ -3,10 +3,9 @@ import '../custom/custom_theme.dart';
 import 'dart:convert';
 import '../data.dart';
 import '../service.dart';
-import '../my_home_page.dart';
+
 class PersonItem extends StatelessWidget {
 
-  late MyHomePage home_page;
   late Map<String,dynamic> user;
   late GestureTapCallback logout;
 

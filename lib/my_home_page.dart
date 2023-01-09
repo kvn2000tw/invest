@@ -12,11 +12,12 @@ import 'theme/theme_model.dart';
 import 'custom/custom_theme.dart';
 import 'service.dart';
 
+// FlutterFire's Firebase Cloud Messaging plugin
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:overlay_support/overlay_support.dart';
-
-import 'package:plain_notification_token/plain_notification_token.dart';
 
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -84,10 +85,10 @@ class MyHomePage extends StatelessWidget {
     void registerNotification() async {
 
     print('registerNotification');
-    final token = await PlainNotificationToken().getToken();
+    //final token = await PlainNotificationToken().getToken();
 
-    Data.token = token.toString();
-    print(Data.token);    
+    //Data.token = token.toString();
+    //print(Data.token);    
     // 1. Initialize the Firebase app
     await Firebase.initializeApp();
 
@@ -126,6 +127,15 @@ class MyHomePage extends StatelessWidget {
   );
 */
 
+    _messaging.getToken().then((token){
+      print(token);
+      Data.token = token!;
+    });
+
+    //String? token = await _messaging.getToken();
+
+    //Data.token = token!;
+    //print('tken ${token}');
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
