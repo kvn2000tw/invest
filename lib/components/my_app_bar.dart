@@ -107,6 +107,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   _showInfoDialog(BuildContext context)
   {
+    /*
      var dlg = AlertDialog(
       content: Text(Data.btn_str),
       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -130,7 +131,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     );
 
     return ans;
-  
+  */
   
   }
   _showNoMsgDialog(BuildContext context)async
@@ -304,7 +305,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     right.add(dark);
     if(Data.status.value == Status.Login)
     {
-      right.add(intro);
+      //right.add(intro);
     }
     else if(Data.status.value == Status.Introduce)
     {

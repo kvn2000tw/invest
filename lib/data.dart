@@ -95,7 +95,7 @@ class Data {
   static final ValueNotifier<bool> remeber = ValueNotifier(false);
 
   static final ValueNotifier<bool> headbar_event = ValueNotifier(false);
-  static final ValueNotifier<Status> status = ValueNotifier(Status.Introduce);
+  static final ValueNotifier<Status> status = ValueNotifier(Status.Login);
   static final ValueNotifier<int> view_change = ValueNotifier(0);
   static final home_page = 'https://investanchors.com/';
   static final intro_page = 'https://investanchors.com/home/about?view_source_from=app';
@@ -163,6 +163,11 @@ class Data {
     view_change.value = view_change.value+1;
   }
 
+  static update_no_url(String no)
+  {
+    url = '${home_page}user/vip_contents/${no}?view_source_from=app&user_token=${user_token}';
+
+  }
   static String token = '';
 
   static const drawer_config = true;//String.fromEnvironment('drawer_config',defaultValue: 'false');
@@ -175,6 +180,19 @@ class Data {
     is_alarm = alarm;
     update_headbar_event();
   }
+  static member_profile()
+  {
+    url = '${change_profile_page}&user_token=${user_token}';
+    update_status(Status.Browser);
+    update_view_change();    
+  }
+  static change_passwd()
+  {
+    url = '${change_passwd_page}&user_token=${user_token}';
+    update_status(Status.Browser);
+    update_view_change();    
+  }
+
   static int selectHead = 0;
   static final List<String> selectHeadList = ['','general','vip','super_vip','favorite'];
 

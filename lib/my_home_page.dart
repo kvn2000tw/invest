@@ -175,7 +175,6 @@ class MyHomePage extends StatelessWidget {
   ];
   run_login()async
   {
-  
     if(Data.status.value != Status.Login )    return;
 
     final WebViewController controller = await _controller.future;
@@ -235,7 +234,7 @@ class MyHomePage extends StatelessWidget {
 
       }
     }
-    else if (url.compareTo(Data.register_app_page) == 0) {
+    else if (url.indexOf(Data.register_app_page) == 0) {
       //if (url.compareTo('https://tw.yahoo.com/') == 0) {
       print('${url} ${Data.status.value}');
       await run_login();
@@ -421,7 +420,7 @@ class MyHomePage extends StatelessWidget {
   {
     final WebViewController controller = await _controller.future;
 
-    print('load url ${Data.url}');
+    print('auto_login load url ${Data.url}');
     controller.loadUrl(Data.register_app_page);   
   }
   late WebView webView;
@@ -486,25 +485,30 @@ class MyHomePage extends StatelessWidget {
   goLogout() async
   {
      print('goLogout url 1 ${Data.url}');
-    
+    init_controll();
+    Data.update_status(Status.Login);
+    Data.update_view_change();
+    return ;  
     if(_controller.isCompleted == false)  
     {
-      Data.update_status(Status.Introduce);
+      Data.update_status(Status.Login);
       Data.update_view_change();
  
       return;
     }
+
     final WebViewController controller = await _controller.future;
 
     print('goLogout url ${Data.url}');
     controller.loadUrl(Data.url);   
     // await  controller.reload(); 
-    Data.update_status(Status.Introduce);
+    Data.update_status(Status.Login);
     Data.update_view_change();
  
   }
   login_widget()
   {
+    Data.url = Data.intro_page;
     init_webview();
     final fake_webview = SizedBox(
       width:0.1,
@@ -521,7 +525,6 @@ class MyHomePage extends StatelessWidget {
     if(Data.status.value == Status.Login)
     {
         return login_widget();
-       
     }  
 
     if(Data.status.value == Status.Email ||

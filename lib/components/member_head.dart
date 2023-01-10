@@ -44,20 +44,17 @@ class MemberHead extends StatelessWidget {
   goLogout()async
   {
     await Service.goLogout();
-    Data.update_status(Status.Introduce);
+    Data.update_status(Status.Login);
     Data.update_view_change();
   }
   _member_profile()
   {
-    Data.url = Data.change_profile_page;
-    Data.update_status(Status.Browser);
-    Data.update_view_change();
+    Data.member_profile();
+   
   }
   _change_passwd()
   {
-    Data.url = Data.change_passwd_page;
-    Data.update_status(Status.Browser);
-    Data.update_view_change();
+    Data.change_passwd();
   }
   @override
   Widget build(BuildContext context) {

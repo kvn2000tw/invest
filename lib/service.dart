@@ -223,7 +223,7 @@ class Service {
       }
 
     await cookieManager.clearCookies(); 
-    Data.url = Data.intro_page;
+    Data.url = Data.register_app_page;
     //Data.goLogout();
    
   }

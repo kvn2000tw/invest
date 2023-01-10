@@ -51,7 +51,7 @@ class MailList extends StatelessWidget {
     onTap: (){
       print("list clicked"); 
      
-      Data.url = '${Data.home_page}user/vip_contents/${no}?view_source_from=app';
+      Data.update_no_url(no);
     
       Data.update_status(Status.Browser);
       Data.update_view_change();

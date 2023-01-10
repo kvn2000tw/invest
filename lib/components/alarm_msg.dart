@@ -50,7 +50,7 @@ class AlarmMsg extends StatelessWidget {
   _read_article(BuildContext context,String no) async
   {
     await pressReturn(context);
-    Data.url = '${Data.home_page}user/vip_contents/${no}?view_source_from=app';
+    Data.update_no_url(no);
     loadUrl();
 
     if(items.length == 1)
