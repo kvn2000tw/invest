@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'my_home_page.dart';
 import 'data.dart';
@@ -66,23 +68,49 @@ class Loading extends StatelessWidget {
       title: const Text('Invest'),
     );
  
-   var img = Image.asset(
+   final img = Image.asset(
       'assets/images/invest.png',
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
       alignment: Alignment.center,
     );
-    var text = const Text(
+   final logo = Image.asset(
+      'assets/images/logo.png',
+      fit: BoxFit.cover,
+      height: 145,
+      width: 145,
+      alignment: Alignment.center,
+    );
+
+  final text = const Text(
       'v1.0',
       style:TextStyle(
         color:Colors.white,
         fontSize:25),
     );
+  final text1 = const Text(
+      '定錨產業筆記',
+      style:TextStyle(
+        color:Color(0xFFF2BD00),
+        fontSize:35,
+        fontWeight: FontWeight.bold),
+    );
+  final text2 = const Text(
+      '科技產業趨勢領航者',
+      style:TextStyle(
+        color:Color(0xFFF5F5F5),
+        fontSize:22,
+        fontWeight: FontWeight.w500),
+    );
+
     var appBody = Container(
       child:Stack(
         children:<Widget>[img,
-        Positioned(child:text,bottom:60)],
+        Positioned(child:text,bottom:60),
+        Positioned(child:text1,top:406),
+        Positioned(child:text2,top:460),
+        Positioned(child:logo,top:230)],
         alignment:Alignment.center,
       ),
       alignment:Alignment.topCenter,

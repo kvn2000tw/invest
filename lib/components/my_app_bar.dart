@@ -55,9 +55,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   ));
 
-  var logo = Container(
+  final logo = Container(
     child:Image.asset(
-      'assets/logo.png',
+      'assets/images/logo.png',
       fit: BoxFit.cover,
       height: double.infinity,
       width: double.infinity,
@@ -107,7 +107,6 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   _showInfoDialog(BuildContext context)
   {
-    
      var dlg = AlertDialog(
       content: Text(Data.btn_str),
       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:webview_flutter_platform_interface/v4/webview_flutter_platform_interface.dart';
 import '../custom/custom_theme.dart';
-import 'dart:convert';
 import '../data.dart';
 import '../service.dart';
+
 class AlarmMsg extends StatelessWidget {
   late String no_see;
   late List<String> items;
@@ -50,11 +49,15 @@ class AlarmMsg extends StatelessWidget {
   }
   _read_article(BuildContext context,String no) async
   {
-    
     await pressReturn(context);
     Data.url = '${Data.home_page}user/vip_contents/${no}?view_source_from=app';
     loadUrl();
-    Service.getNotify();
+
+    if(items.length == 1)
+    {
+      Data.is_alarm = false;
+      Data.update_headbar_event();
+    }
 
   }
   @override
