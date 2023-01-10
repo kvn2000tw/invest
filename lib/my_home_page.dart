@@ -18,14 +18,14 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:overlay_support/overlay_support.dart';
 
-
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
+  print('_firebaseMessagingBackgroundHandler');
   await Firebase.initializeApp();
 
- print("Handling a background message: ${message.notification?.title} ${message.notification?.body}");
- //Data.status.value = Status.Email;
+  print("Handling a background message: ${message.notification?.title} ${message.notification?.body}");
+  //Data.status.value = Status.Email;
 }
 
 class PushNotification {
@@ -35,11 +35,7 @@ class PushNotification {
   });
   String? title;
   String? body;
-}/*
-  Future _firebaseMessagingBackgroundHandler`(RemoteMessage message) async {
-    print("Handling a background message: ${message.messageId}");
-  }
-*/
+}
 class MyHomePage extends StatelessWidget {
  
   late final FirebaseMessaging _messaging;
@@ -60,22 +56,21 @@ class MyHomePage extends StatelessWidget {
   }
 }
 
-  late int _totalNotifications;
   void receivedMessage(RemoteMessage remoteMessage){
      print('onMessage.listen');
      print(remoteMessage.notification?.title);
      print(remoteMessage.notification?.body);
-   // _totalNotifications++;
+   
      PushNotification notification = PushNotification(
         title: remoteMessage.notification?.title,
         body: remoteMessage.notification?.body,
       );
       print('receivedMessage');
-       //_totalNotifications++;
+      Service.getNotify();
       _notificationInfo = notification;
         showSimpleNotification(
           Text(_notificationInfo!.title!),
-          //leading: NotificationBadge(totalNotifications: _totalNotifications),
+          
           subtitle: Text(_notificationInfo!.body!),
           background: Colors.cyan.shade700,
           duration: Duration(seconds: 2),
@@ -105,22 +100,19 @@ class MyHomePage extends StatelessWidget {
     String? token = await _messaging.getToken();
 
     Data.token = token!;
-    print('tken ${token}');
+    print('token ${token}');
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
       print('User granted permission');
       // TODO: handle the received notifications
       // For handling the received notifications
   
-      print('abc');
-  
-    FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-     FirebaseMessaging.onMessage.listen(receivedMessage);
-     FirebaseMessaging.onMessageOpenedApp.listen((message) {
+      FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+      FirebaseMessaging.onMessage.listen(receivedMessage);
+      FirebaseMessaging.onMessageOpenedApp.listen((message) {
      
-      //final routeFromMessage = message.data['route'];
-
-      print('routeFromMessage');
+        print('routeFromMessage');
+       
     });
 
     } else {
@@ -131,7 +123,7 @@ class MyHomePage extends StatelessWidget {
   late ThemeModel themeNotifier;
 
   final MENU_START = 5;
-  final MAX_TIMER = 12;
+  
   int timer = 0;
   
   MyHomePage()
@@ -145,28 +137,7 @@ class MyHomePage extends StatelessWidget {
   static init()
   {
   }
-  void loop() async{
-    while(true){
-
-      await Future.delayed(const Duration(seconds:5));
-    
-      if(timer == 0)
-      {
-        print('loop');
-        timer = MAX_TIMER;
-        print(Data.status);
-        if(Data.status.value != Status.Login && Data.status.value != Status.Logout)
-        {
-          //getNotify();
-        }
-        
-      }
-      else 
-      {
-        --timer;
-      }
-    }
-  }  
+ 
   final ValueNotifier<int> _selectedNaviItem = ValueNotifier(-1);
 
   static  final _naviItemIcon = [
@@ -283,6 +254,7 @@ class MyHomePage extends StatelessWidget {
     Data.init();
     FlutterFlowTheme.of(context).init();
   }
+  
   @override
   Widget build(BuildContext context) {
     // 建立AppBar

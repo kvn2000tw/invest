@@ -26,8 +26,10 @@ class Service {
     
   }
 
-    static Future<String> getNotify() async {
-
+  static Future<String> getNotify() async {
+    
+    if(Data.user_token.isEmpty)    return '';
+    
     final String url_str = '${Data.bell_notice_page}user_token=${Data.user_token}&playplus=${Data.playplus}';
     
     final url = Uri.parse(url_str);
