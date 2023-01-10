@@ -186,4 +186,6 @@ class Data {
   
   static int cur_page = 1;
   static int total_page = 1;
+
+  static String btn_str = '';
 }

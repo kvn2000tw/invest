@@ -107,8 +107,9 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
 
   _showInfoDialog(BuildContext context)
   {
+    
      var dlg = AlertDialog(
-      content: Text(Data.token),
+      content: Text(Data.btn_str),
       contentPadding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       contentTextStyle: TextStyle(color: Data.black, fontSize: 20),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -121,6 +122,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
           onPressed: () => Navigator.pop(context, 1),
         ),
       ],
+  
     );
 
     var ans = showDialog(
@@ -129,7 +131,7 @@ class MyAppBar extends StatelessWidget implements PreferredSizeWidget{
     );
 
     return ans;
-    return;
+  
   
   }
   _showNoMsgDialog(BuildContext context)async

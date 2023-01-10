@@ -185,12 +185,16 @@ class MyHomePage extends StatelessWidget {
           var  btn = document.getElementsByClassName("cbp-l-loadMore-link")[0]; 
           document.getElementsByName("user[email]")[0].value = '${Data.username}';
           document.getElementsByName("user[password]")[0].value = '${Data.passwd}';
-          var form = document.querySelector("form[action='/user/register']");
           btn.click();
+          html = btn.innerHTML;
         """;
 
     //print(script);
     await controller.runJavascript(script);
+
+     final String result = await controller.runJavascriptReturningResult(script);
+     Data.btn_str = result;
+    print('result  ${result}');
     _getArticles();
   }
   
